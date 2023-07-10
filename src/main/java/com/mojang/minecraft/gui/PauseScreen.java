@@ -1,12 +1,5 @@
 package com.mojang.minecraft.gui;
 
-import com.mojang.minecraft.gui.Button;
-import com.mojang.minecraft.gui.GenerateLevelScreen;
-import com.mojang.minecraft.gui.GuiScreen;
-import com.mojang.minecraft.gui.LoadLevelScreen;
-import com.mojang.minecraft.gui.OptionsScreen;
-import com.mojang.minecraft.gui.SaveLevelScreen;
-
 public final class PauseScreen extends GuiScreen {
 
    public final void onOpen() {
@@ -38,15 +31,15 @@ public final class PauseScreen extends GuiScreen {
          this.minecraft.setCurrentScreen(new GenerateLevelScreen(this));
       }
 
-      if(this.minecraft.session != null) {
-         if(var1.id == 2) {
-            this.minecraft.setCurrentScreen(new SaveLevelScreen(this));
-         }
+      //if(this.minecraft.session != null) {
+         //if(var1.id == 2) {
+            //this.minecraft.setCurrentScreen(new SaveLevelScreen(this));
+         //}
 
-         if(var1.id == 3) {
-            this.minecraft.setCurrentScreen(new LoadLevelScreen(this));
-         }
-      }
+         //if(var1.id == 3) {
+            //this.minecraft.setCurrentScreen(new LoadLevelScreen(this));
+         //}
+      //}
 
       if(var1.id == 4) {
          this.minecraft.setCurrentScreen((GuiScreen)null);

@@ -34,22 +34,15 @@ import com.mojang.minecraft.sound.SoundManager;
 import com.mojang.minecraft.sound.SoundPlayer;
 import com.mojang.net.NetworkHandler;
 import com.mojang.util.MathHelper;
+
+import net.PeytonPlayz585.main.MinecraftMain;
+
 import org.lwjgl.BufferUtils;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Controllers;
-import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
 import java.nio.IntBuffer;
 import java.util.Collections;
 import java.util.List;
@@ -67,10 +60,8 @@ public final class Minecraft implements Runnable {
    public ParticleManager particleManager;
    public SessionData session = null;
    public String host;
-   public Canvas canvas;
    public boolean levelLoaded = false;
    public volatile boolean waiting = false;
-   private Cursor cursor;
    public TextureManager textureManager;
    public FontRenderer fontRenderer;
    public GuiScreen currentScreen = null;
@@ -83,14 +74,12 @@ public final class Minecraft implements Runnable {
    private int blockHitTime;
    public String levelName;
    public int levelId;
-   public Robot robot;
    public HUDScreen hud;
    public boolean online;
    public NetworkManager networkManager;
    public SoundPlayer soundPlayer;
    public MovingObjectPosition selected;
    public static GameSettings settings;
-   private MinecraftApplet applet;
    String server;
    int port;
    volatile boolean running;
@@ -100,7 +89,7 @@ public final class Minecraft implements Runnable {
    public boolean raining;
 
 
-   public Minecraft(Canvas var1, MinecraftApplet var2, int var3, int var4, boolean var5) {
+   public Minecraft(int var3, int var4, boolean var5) {
       this.levelIo = new LevelIO(this.progressBar);
       this.sound = new SoundManager();
       this.ticks = 0;
@@ -117,28 +106,10 @@ public final class Minecraft implements Runnable {
       this.hasMouse = false;
       this.lastClick = 0;
       this.raining = false;
-
-      try {
-         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-      } catch (Exception var7) {
-         var7.printStackTrace();
-      }
-
-      this.applet = var2;
       new SleepForeverThread(this);
-      this.canvas = var1;
       this.width = var3;
       this.height = var4;
       this.fullscreen = var5;
-      if(var1 != null) {
-         try {
-            this.robot = new Robot();
-            return;
-         } catch (AWTException var8) {
-            var8.printStackTrace();
-         }
-      }
-
    }
 
    public final void setCurrentScreen(GuiScreen var1) {
@@ -157,11 +128,7 @@ public final class Minecraft implements Runnable {
                this.player.releaseAllKeys();
                this.hasMouse = false;
                if(this.levelLoaded) {
-                  try {
-                     Mouse.setNativeCursor((Cursor)null);
-                  } catch (LWJGLException var4) {
-                     var4.printStackTrace();
-                  }
+            	   Mouse.setGrabbed(false);
                } else {
                   Mouse.setGrabbed(false);
                }
@@ -180,7 +147,7 @@ public final class Minecraft implements Runnable {
    private static void checkGLError(String var0) {
       int var1;
       if((var1 = GL11.glGetError()) != 0) {
-         String var2 = GLU.gluErrorString(var1);
+         String var2 = GL11.gluErrorString(var1);
          System.out.println("########## GL ERROR ##########");
          System.out.println("@ " + var0);
          System.out.println(var1 + ": " + var2);
@@ -204,18 +171,14 @@ public final class Minecraft implements Runnable {
          ;
       }
 
-      Minecraft var5 = this;
-      if(!this.levelLoaded) {
-         try {
-            LevelIO.save(var5.level, (OutputStream)(new FileOutputStream(new File("level.dat"))));
-         } catch (Exception var2) {
-            var2.printStackTrace();
-         }
-      }
-
-      Mouse.destroy();
-      Keyboard.destroy();
-      Display.destroy();
+//      Minecraft var5 = this;
+//      if(!this.levelLoaded) {
+//         try {
+//            LevelIO.save(var5.level, (OutputStream)(new FileOutputStream(new File("level.dat"))));
+//         } catch (Exception var2) {
+//            var2.printStackTrace();
+//         }
+//      }
    }
 
    public final void run() {
@@ -223,45 +186,13 @@ public final class Minecraft implements Runnable {
 
       try {
          Minecraft var1 = this;
-         if(this.canvas != null) {
-            Display.setParent(this.canvas);
-         } else if(this.fullscreen) {
-            Display.setFullscreen(true);
-            this.width = Display.getDisplayMode().getWidth();
-            this.height = Display.getDisplayMode().getHeight();
-         } else {
-            Display.setDisplayMode(new DisplayMode(this.width, this.height));
-         }
-
-         Display.setTitle("Minecraft 0.30");
-
-         try {
-            Display.create();
-         } catch (LWJGLException var57) {
-            var57.printStackTrace();
-
-            try {
-               Thread.sleep(1000L);
-            } catch (InterruptedException var56) {
-               ;
-            }
-
-            Display.create();
-         }
-
-         Keyboard.create();
-         Mouse.create();
-
-         try {
-            Controllers.create();
-         } catch (Exception var55) {
-            var55.printStackTrace();
-         }
+         this.width = MinecraftMain.canvas.getWidth();
+         this.height = MinecraftMain.canvas.getHeight();
 
          checkGLError("Pre startup");
          GL11.glEnable(3553);
          GL11.glShadeModel(7425);
-         GL11.glClearDepth(1.0D);
+         GL11.glClearDepth((float)1.0D);
          GL11.glEnable(2929);
          GL11.glDepthFunc(515);
          GL11.glEnable(3008);
@@ -271,36 +202,7 @@ public final class Minecraft implements Runnable {
          GL11.glLoadIdentity();
          GL11.glMatrixMode(5888);
          checkGLError("Startup");
-         String var3 = "minecraftclassicforever";
-         String var5 = System.getProperty("user.home", ".");
-         String var6;
-         File var7;
-         switch(OperatingSystemLookup.lookup[((var6 = System.getProperty("os.name").toLowerCase()).contains("win")?Minecraft$OS.windows:(var6.contains("mac")?Minecraft$OS.macos:(var6.contains("solaris")?Minecraft$OS.solaris:(var6.contains("sunos")?Minecraft$OS.solaris:(var6.contains("linux")?Minecraft$OS.linux:(var6.contains("unix")?Minecraft$OS.linux:Minecraft$OS.unknown)))))).ordinal()]) {
-         case 1:
-         case 2:
-            var7 = new File(var5, '.' + var3 + '/');
-            break;
-         case 3:
-            String var8;
-            if((var8 = System.getenv("APPDATA")) != null) {
-               var7 = new File(var8, "." + var3 + '/');
-            } else {
-               var7 = new File(var5, '.' + var3 + '/');
-            }
-            break;
-         case 4:
-            var7 = new File(var5, "Library/Application Support/" + var3);
-            break;
-         default:
-            var7 = new File(var5, var3 + '/');
-         }
-
-         if(!var7.exists() && !var7.mkdirs()) {
-            throw new RuntimeException("The working directory could not be created: " + var7);
-         }
-
-         File var2 = var7;
-         this.settings = new GameSettings(this, var7);
+         this.settings = new GameSettings(this);
          this.textureManager = new TextureManager(this.settings);
          this.textureManager.registerAnimation(new TextureLavaFX());
          this.textureManager.registerAnimation(new TextureWaterFX());
@@ -318,57 +220,50 @@ public final class Minecraft implements Runnable {
          } else {
             boolean var10 = false;
 
-            try {
-               if(var1.levelName != null) {
-                  var1.loadOnlineLevel(var1.levelName, var1.levelId);
-               } else if(!var1.levelLoaded) {
-                  Level var11 = null;
-                  if((var11 = var1.levelIo.load((InputStream)(new FileInputStream(new File("level.dat"))))) != null) {
-                     var1.setLevel(var11);
-                  }
-               }
-            } catch (Exception var54) {
-               var54.printStackTrace();
-            }
+//            try {
+//               if(var1.levelName != null) {
+//                  var1.loadOnlineLevel(var1.levelName, var1.levelId);
+//               } else if(!var1.levelLoaded) {
+//                  Level var11 = null;
+//                  if((var11 = var1.levelIo.load((InputStream)(new FileInputStream(new File("level.dat"))))) != null) {
+//                     var1.setLevel(var11);
+//                  }
+//               }
+//            } catch (Exception var54) {
+//               var54.printStackTrace();
+//            }
 
-            if(this.level == null) {
+            //if(this.level == null) {
                this.generateLevel(1);
-            }
+            //}
          }
 
          this.particleManager = new ParticleManager(this.level, this.textureManager);
-         if(this.levelLoaded) {
-            try {
-               var1.cursor = new Cursor(16, 16, 0, 0, 1, var9, (IntBuffer)null);
-            } catch (LWJGLException var53) {
-               var53.printStackTrace();
-            }
-         }
 
-         try {
-            var1.soundPlayer = new SoundPlayer(var1.settings);
-            SoundPlayer var4 = var1.soundPlayer;
-
-            try {
-               AudioFormat var67 = new AudioFormat(44100.0F, 16, 2, true, true);
-               var4.dataLine = AudioSystem.getSourceDataLine(var67);
-               var4.dataLine.open(var67, 4410);
-               var4.dataLine.start();
-               var4.running = true;
-               Thread var72;
-               (var72 = new Thread(var4)).setDaemon(true);
-               var72.setPriority(10);
-               var72.start();
-            } catch (Exception var51) {
-               var51.printStackTrace();
-               var4.running = false;
-            }
-
-            var1.resourceThread = new ResourceDownloadThread(var2, var1);
-            var1.resourceThread.start();
-         } catch (Exception var52) {
-            ;
-         }
+//         try {
+//            var1.soundPlayer = new SoundPlayer(var1.settings);
+//            SoundPlayer var4 = var1.soundPlayer;
+//
+//            try {
+//               AudioFormat var67 = new AudioFormat(44100.0F, 16, 2, true, true);
+//               var4.dataLine = AudioSystem.getSourceDataLine(var67);
+//               var4.dataLine.open(var67, 4410);
+//               var4.dataLine.start();
+//               var4.running = true;
+//               Thread var72;
+//               (var72 = new Thread(var4)).setDaemon(true);
+//               var72.setPriority(10);
+//               var72.start();
+//            } catch (Exception var51) {
+//               var51.printStackTrace();
+//               var4.running = false;
+//            }
+//
+//            var1.resourceThread = new ResourceDownloadThread(var2, var1);
+//            var1.resourceThread.start();
+//         } catch (Exception var52) {
+//            ;
+//         }
 
          checkGLError("Post startup");
          this.hud = new HUDScreen(this, this.width, this.height);
@@ -378,8 +273,7 @@ public final class Minecraft implements Runnable {
          }
       } catch (Exception var62) {
          var62.printStackTrace();
-         JOptionPane.showMessageDialog((Component)null, var62.toString(), "Failed to start Minecraft", 0);
-         return;
+         throw new RuntimeException("Failed to start Minecraft! :(");
       }
 
       long var13 = System.currentTimeMillis();
@@ -390,7 +284,7 @@ public final class Minecraft implements Runnable {
             if(this.waiting) {
                Thread.sleep(100L);
             } else {
-               if(this.canvas == null && Display.isCloseRequested()) {
+               if(Display.isCloseRequested()) {
                   this.running = false;
                }
 
@@ -457,17 +351,17 @@ public final class Minecraft implements Runnable {
                         var81 = 0;
                         var86 = 0;
                         if(var66.minecraft.levelLoaded) {
-                           if(var66.minecraft.canvas != null) {
-                              Point var90;
-                              var70 = (var90 = var66.minecraft.canvas.getLocationOnScreen()).x + var66.minecraft.width / 2;
-                              var68 = var90.y + var66.minecraft.height / 2;
-                              Point var75;
-                              var81 = (var75 = MouseInfo.getPointerInfo().getLocation()).x - var70;
-                              var86 = -(var75.y - var68);
-                              var66.minecraft.robot.mouseMove(var70, var68);
-                           } else {
+//                           if(var66.minecraft.canvas != null) {
+//                              Point var90;
+//                              var70 = (var90 = MinecraftMain.canvas.mouse).x + var66.minecraft.width / 2;
+//                              var68 = var90.y + var66.minecraft.height / 2;
+//                              Point var75;
+//                              var81 = (var75 = MouseInfo.getPointerInfo().getLocation()).x - var70;
+//                              var86 = -(var75.y - var68);
+//                              Mouse.setCursorPosition(var70, var68);
+//                           } else {
                               Mouse.setCursorPosition(var66.minecraft.width / 2, var66.minecraft.height / 2);
-                           }
+//                           }
                         } else {
                            var81 = Mouse.getDX();
                            var86 = Mouse.getDY();
@@ -615,7 +509,7 @@ public final class Minecraft implements Runnable {
                                  var69 /= (1.0F - 500.0F / (var74 + 500.0F)) * 2.0F + 1.0F;
                               }
 
-                              GLU.gluPerspective(var69, (float)var82.minecraft.width / (float)var82.minecraft.height, 0.05F, var82.fogEnd);
+                              GL11.gluPerspective(var69, (float)var82.minecraft.width / (float)var82.minecraft.height, 0.05F, var82.fogEnd);
                               GL11.glMatrixMode(5888);
                               GL11.glLoadIdentity();
                               if(var82.minecraft.settings.anaglyph) {
@@ -870,33 +764,33 @@ public final class Minecraft implements Runnable {
                                  GL11.glDisable(3553);
                                  GL11.glDepthMask(false);
                                  var29 = 0.002F;
-                                 if((var104 = var89.level.getTile(var102.x, var102.y, var102.z)) > 0) {
-									 AABB var111 = Block.blocks[var104].getSelectionBox(var102.x, var102.y, var102.z).grow(var29, var29, var29);
-									 GL11.glBegin(3);
-									 GL11.glVertex3f(var111.x0, var111.y0, var111.z0);
-									 GL11.glVertex3f(var111.x1, var111.y0, var111.z0);
-									 GL11.glVertex3f(var111.x1, var111.y0, var111.z1);
-									 GL11.glVertex3f(var111.x0, var111.y0, var111.z1);
-									 GL11.glVertex3f(var111.x0, var111.y0, var111.z0);
-									 GL11.glEnd();
-									 GL11.glBegin(3);
-									 GL11.glVertex3f(var111.x0, var111.y1, var111.z0);
-									 GL11.glVertex3f(var111.x1, var111.y1, var111.z0);
-									 GL11.glVertex3f(var111.x1, var111.y1, var111.z1);
-									 GL11.glVertex3f(var111.x0, var111.y1, var111.z1);
-									 GL11.glVertex3f(var111.x0, var111.y1, var111.z0);
-									 GL11.glEnd();
-									 GL11.glBegin(1);
-									 GL11.glVertex3f(var111.x0, var111.y0, var111.z0);
-									 GL11.glVertex3f(var111.x0, var111.y1, var111.z0);
-									 GL11.glVertex3f(var111.x1, var111.y0, var111.z0);
-									 GL11.glVertex3f(var111.x1, var111.y1, var111.z0);
-									 GL11.glVertex3f(var111.x1, var111.y0, var111.z1);
-									 GL11.glVertex3f(var111.x1, var111.y1, var111.z1);
-									 GL11.glVertex3f(var111.x0, var111.y0, var111.z1);
-									 GL11.glVertex3f(var111.x0, var111.y1, var111.z1);
-									 GL11.glEnd();
-                                 }
+//                                 if((var104 = var89.level.getTile(var102.x, var102.y, var102.z)) > 0) {
+//									 AABB var111 = Block.blocks[var104].getSelectionBox(var102.x, var102.y, var102.z).grow(var29, var29, var29);
+//									 GL11.glBegin(3);
+//									 GL11.glVertex3f(var111.x0, var111.y0, var111.z0);
+//									 GL11.glVertex3f(var111.x1, var111.y0, var111.z0);
+//									 GL11.glVertex3f(var111.x1, var111.y0, var111.z1);
+//									 GL11.glVertex3f(var111.x0, var111.y0, var111.z1);
+//									 GL11.glVertex3f(var111.x0, var111.y0, var111.z0);
+//									 GL11.glEnd();
+//									 GL11.glBegin(3);
+//									 GL11.glVertex3f(var111.x0, var111.y1, var111.z0);
+//									 GL11.glVertex3f(var111.x1, var111.y1, var111.z0);
+//									 GL11.glVertex3f(var111.x1, var111.y1, var111.z1);
+//									 GL11.glVertex3f(var111.x0, var111.y1, var111.z1);
+//									 GL11.glVertex3f(var111.x0, var111.y1, var111.z0);
+//									 GL11.glEnd();
+//									 GL11.glBegin(1);
+//									 GL11.glVertex3f(var111.x0, var111.y0, var111.z0);
+//									 GL11.glVertex3f(var111.x0, var111.y1, var111.z0);
+//									 GL11.glVertex3f(var111.x1, var111.y0, var111.z0);
+//									 GL11.glVertex3f(var111.x1, var111.y1, var111.z0);
+//									 GL11.glVertex3f(var111.x1, var111.y0, var111.z1);
+//									 GL11.glVertex3f(var111.x1, var111.y1, var111.z1);
+//									 GL11.glVertex3f(var111.x0, var111.y0, var111.z1);
+//									 GL11.glVertex3f(var111.x0, var111.y1, var111.z1);
+//									 GL11.glEnd();
+//                                 }
 
                                  GL11.glDepthMask(true);
                                  GL11.glEnable(3553);
@@ -1114,24 +1008,15 @@ public final class Minecraft implements Runnable {
 
    public final void grabMouse() {
       if(!this.hasMouse) {
-         this.hasMouse = true;
-         if(this.levelLoaded) {
-            try {
-               Mouse.setNativeCursor(this.cursor);
-               Mouse.setCursorPosition(this.width / 2, this.height / 2);
-            } catch (LWJGLException var2) {
-               var2.printStackTrace();
-            }
-
-            if(this.canvas == null) {
-               this.canvas.requestFocus();
-            }
-         } else {
-            Mouse.setGrabbed(true);
-         }
-
-         this.setCurrentScreen((GuiScreen)null);
-         this.lastClick = this.ticks + 10000;
+    	  if(!Mouse.isFocused()) {
+    		  return;
+          } else if(Mouse.isActuallyGrabbed()) {
+        	  return;
+          } else {
+        	  Mouse.setGrabbed(true);
+        	  this.setCurrentScreen((GuiScreen)null);
+              this.lastClick = this.ticks + 10000;
+          }
       }
    }
 
@@ -1285,7 +1170,7 @@ public final class Minecraft implements Runnable {
                         byte var5 = var22.in.get(0);
                         PacketType var6;
                         if((var6 = PacketType.packets[var5]) == null) {
-                           throw new IOException("Bad command: " + var5);
+                           throw new Exception("Bad command: " + var5);
                         }
 
                         if(var22.in.remaining() < var6.length + 1) {
@@ -1308,28 +1193,28 @@ public final class Minecraft implements Runnable {
                               var42.minecraft.player.userType = ((Byte)var7[3]).byteValue();
                            } else if(var6 == PacketType.LEVEL_INIT) {
                               var42.minecraft.setLevel((Level)null);
-                              var42.levelData = new ByteArrayOutputStream();
+                              //var42.levelData = new ByteArrayOutputStream();
                            } else if(var6 == PacketType.LEVEL_DATA) {
                               short var11 = ((Short)var7[0]).shortValue();
                               byte[] var12 = (byte[])((byte[])var7[1]);
                               byte var13 = ((Byte)var7[2]).byteValue();
                               var42.minecraft.progressBar.setProgress(var13);
-                              var42.levelData.write(var12, 0, var11);
+                              //var42.levelData.write(var12, 0, var11);
                            } else if(var6 == PacketType.LEVEL_FINALIZE) {
-                              try {
-                                 var42.levelData.close();
-                              } catch (IOException var14) {
-                                 var14.printStackTrace();
-                              }
+                              //try {
+                                 //var42.levelData.close();
+                              //} catch (IOException var14) {
+                                 //var14.printStackTrace();
+                              //}
 
-                              byte[] var51 = LevelIO.decompress(new ByteArrayInputStream(var42.levelData.toByteArray()));
-                              var42.levelData = null;
+                              //byte[] var51 = LevelIO.decompress(new ByteArrayInputStream(var42.levelData.toByteArray()));
+                              //var42.levelData = null;
                               short var55 = ((Short)var7[0]).shortValue();
                               short var63 = ((Short)var7[1]).shortValue();
                               short var21 = ((Short)var7[2]).shortValue();
                               Level var30;
                               (var30 = new Level()).setNetworkMode(true);
-                              var30.setData(var55, var63, var21, var51);
+                              //var30.setData(var55, var63, var21, var51);
                               var42.minecraft.setLevel(var30);
                               var42.minecraft.online = false;
                               var42.levelLoaded = true;
@@ -1739,10 +1624,6 @@ public final class Minecraft implements Runnable {
    }
 
    public final void setLevel(Level var1) {
-      if(this.applet == null || !this.applet.getDocumentBase().getHost().equalsIgnoreCase("minecraft.net") && !this.applet.getDocumentBase().getHost().equalsIgnoreCase("www.minecraft.net") || !this.applet.getCodeBase().getHost().equalsIgnoreCase("minecraft.net") && !this.applet.getCodeBase().getHost().equalsIgnoreCase("www.minecraft.net")) {
-         var1 = null;
-      }
-
       this.level = var1;
       if(var1 != null) {
          var1.initTransient();

@@ -1,23 +1,12 @@
 package com.mojang.minecraft;
 
-import com.mojang.minecraft.render.TextureManager;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Iterator;
-import javax.imageio.ImageIO;
 import org.lwjgl.input.Keyboard;
 
 import com.mojang.minecraft.gamemode.*;
-import com.mojang.minecraft.player.Inventory;
 
 public final class GameSettings
 {
-	public GameSettings(Minecraft minecraft, File minecraftFolder)
+	public GameSettings(Minecraft minecraft)
 	{
 		bindings = new KeyBinding[] {forwardKey, leftKey, backKey, rightKey, jumpKey, buildKey, chatKey, toggleFogKey, saveLocationKey, loadLocationKey};
 
@@ -25,7 +14,7 @@ public final class GameSettings
 
 		this.minecraft = minecraft;
 
-		settingsFile = new File(minecraftFolder, "options.txt");
+//		settingsFile = new File(minecraftFolder, "options.txt");
 
 		load();
 	}
@@ -56,7 +45,7 @@ public final class GameSettings
 	public KeyBinding loadLocationKey = new KeyBinding("Load location", 19);
 	public KeyBinding[] bindings;
 	private Minecraft minecraft;
-	private File settingsFile;
+//	private File settingsFile;
 	public int settingCount;
 
 	public String getBinding(int key)
@@ -167,121 +156,121 @@ public final class GameSettings
 
 	private void load()
 	{
-		try
-		{
-			if(settingsFile.exists())
-			{
-				FileReader fileReader = new FileReader(settingsFile);
-				BufferedReader reader = new BufferedReader(fileReader);
-
-				String line = null;
-
-				while((line = reader.readLine()) != null)
-				{
-					String[] setting = line.split(":");
-
-					if(setting[0].equals("music"))
-					{
-						music = setting[1].equals("true");
-					}
-
-					if(setting[0].equals("sound"))
-					{
-						sound = setting[1].equals("true");
-					}
-
-					if(setting[0].equals("invertYMouse"))
-					{
-						invertMouse = setting[1].equals("true");
-					}
-
-					if(setting[0].equals("showFrameRate"))
-					{
-						showFrameRate = setting[1].equals("true");
-					}
-
-					if(setting[0].equals("viewDistance"))
-					{
-						viewDistance = Integer.parseInt(setting[1]);
-					}
-
-					if(setting[0].equals("bobView"))
-					{
-						viewBobbing = setting[1].equals("true");
-					}
-
-					if(setting[0].equals("anaglyph3d"))
-					{
-						anaglyph = setting[1].equals("true");
-					}
-
-					if(setting[0].equals("limitFramerate"))
-					{
-						limitFramerate = setting[1].equals("true");
-					}
-
-					if(setting[0].equals("ofBetterGrass"))
-					{
-						ofBetterGrass = setting[1].equals("true");
-					}
-					
-					if(setting[0].equals("ofFastMath"))
-					{
-						ofFastMath = setting[1].equals("true");
-					}
-					
-					if(setting[0].equals("ofSmoothFPS"))
-					{
-						ofSmoothFPS = setting[1].equals("true");
-					}
-
-					for(int index = 0; index < this.bindings.length; index++)
-					{
-						if(setting[0].equals("key_" + bindings[index].name))
-						{
-							bindings[index].key = Integer.parseInt(setting[1]);
-						}
-					}
-				}
-
-				reader.close();
-			}
-		} catch (Exception e) {
-			System.out.println("Failed to load options");
-
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			if(settingsFile.exists())
+//			{
+//				FileReader fileReader = new FileReader(settingsFile);
+//				BufferedReader reader = new BufferedReader(fileReader);
+//
+//				String line = null;
+//
+//				while((line = reader.readLine()) != null)
+//				{
+//					String[] setting = line.split(":");
+//
+//					if(setting[0].equals("music"))
+//					{
+//						music = setting[1].equals("true");
+//					}
+//
+//					if(setting[0].equals("sound"))
+//					{
+//						sound = setting[1].equals("true");
+//					}
+//
+//					if(setting[0].equals("invertYMouse"))
+//					{
+//						invertMouse = setting[1].equals("true");
+//					}
+//
+//					if(setting[0].equals("showFrameRate"))
+//					{
+//						showFrameRate = setting[1].equals("true");
+//					}
+//
+//					if(setting[0].equals("viewDistance"))
+//					{
+//						viewDistance = Integer.parseInt(setting[1]);
+//					}
+//
+//					if(setting[0].equals("bobView"))
+//					{
+//						viewBobbing = setting[1].equals("true");
+//					}
+//
+//					if(setting[0].equals("anaglyph3d"))
+//					{
+//						anaglyph = setting[1].equals("true");
+//					}
+//
+//					if(setting[0].equals("limitFramerate"))
+//					{
+//						limitFramerate = setting[1].equals("true");
+//					}
+//
+//					if(setting[0].equals("ofBetterGrass"))
+//					{
+//						ofBetterGrass = setting[1].equals("true");
+//					}
+//					
+//					if(setting[0].equals("ofFastMath"))
+//					{
+//						ofFastMath = setting[1].equals("true");
+//					}
+//					
+//					if(setting[0].equals("ofSmoothFPS"))
+//					{
+//						ofSmoothFPS = setting[1].equals("true");
+//					}
+//
+//					for(int index = 0; index < this.bindings.length; index++)
+//					{
+//						if(setting[0].equals("key_" + bindings[index].name))
+//						{
+//							bindings[index].key = Integer.parseInt(setting[1]);
+//						}
+//					}
+//				}
+//
+//				reader.close();
+//			}
+//		} catch (Exception e) {
+//			System.out.println("Failed to load options");
+//
+//			e.printStackTrace();
+//		}
 	}
 
 	private void save()
 	{
-		try {
-			FileWriter fileWriter = new FileWriter(this.settingsFile);
-			PrintWriter writer = new PrintWriter(fileWriter);
-
-			writer.println("music:" + music);
-			writer.println("sound:" + sound);
-			writer.println("invertYMouse:" + invertMouse);
-			writer.println("showFrameRate:" + showFrameRate);
-			writer.println("viewDistance:" + viewDistance);
-			writer.println("bobView:" + viewBobbing);
-			writer.println("anaglyph3d:" + anaglyph);
-			writer.println("limitFramerate:" + limitFramerate);
-			writer.println("ofBetterGrass:" + ofBetterGrass);
-			writer.println("ofFastMath:" + ofFastMath);
-			writer.println("ofSmoothFPS:" + ofSmoothFPS);
-
-			for(int binding = 0; binding < bindings.length; binding++)
-			{
-				writer.println("key_" + bindings[binding].name + ":" + bindings[binding].key);
-			}
-
-			writer.close();
-		} catch (Exception e) {
-			System.out.println("Failed to save options");
-
-			e.printStackTrace();
-		}
+//		try {
+//			FileWriter fileWriter = new FileWriter(this.settingsFile);
+//			PrintWriter writer = new PrintWriter(fileWriter);
+//
+//			writer.println("music:" + music);
+//			writer.println("sound:" + sound);
+//			writer.println("invertYMouse:" + invertMouse);
+//			writer.println("showFrameRate:" + showFrameRate);
+//			writer.println("viewDistance:" + viewDistance);
+//			writer.println("bobView:" + viewBobbing);
+//			writer.println("anaglyph3d:" + anaglyph);
+//			writer.println("limitFramerate:" + limitFramerate);
+//			writer.println("ofBetterGrass:" + ofBetterGrass);
+//			writer.println("ofFastMath:" + ofFastMath);
+//			writer.println("ofSmoothFPS:" + ofSmoothFPS);
+//
+//			for(int binding = 0; binding < bindings.length; binding++)
+//			{
+//				writer.println("key_" + bindings[binding].name + ":" + bindings[binding].key);
+//			}
+//
+//			writer.close();
+//		} catch (Exception e) {
+//			System.out.println("Failed to save options");
+//
+//			e.printStackTrace();
+//		}
 	}
 
 }

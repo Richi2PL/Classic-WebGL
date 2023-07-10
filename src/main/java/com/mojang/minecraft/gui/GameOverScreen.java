@@ -1,10 +1,5 @@
 package com.mojang.minecraft.gui;
 
-import com.mojang.minecraft.gui.Button;
-import com.mojang.minecraft.gui.GenerateLevelScreen;
-import com.mojang.minecraft.gui.GuiScreen;
-import com.mojang.minecraft.gui.LoadLevelScreen;
-import com.mojang.minecraft.gui.OptionsScreen;
 import org.lwjgl.opengl.GL11;
 
 public final class GameOverScreen extends GuiScreen {
@@ -28,9 +23,9 @@ public final class GameOverScreen extends GuiScreen {
          this.minecraft.setCurrentScreen(new GenerateLevelScreen(this));
       }
 
-      if(this.minecraft.session != null && var1.id == 2) {
-         this.minecraft.setCurrentScreen(new LoadLevelScreen(this));
-      }
+      //if(this.minecraft.session != null && var1.id == 2) {
+         //this.minecraft.setCurrentScreen(new LoadLevelScreen(this));
+      //}
 
    }
 

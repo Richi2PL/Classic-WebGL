@@ -41,14 +41,14 @@ public class Screen {
       GL11.glDisable(3553);
       GL11.glEnable(3042);
       GL11.glBlendFunc(770, 771);
-      GL11.glBegin(7);
+      //GL11.glBegin(7);
       GL11.glColor4f(var7, var8, var12, var6);
-      GL11.glVertex2f((float)var2, (float)var1);
-      GL11.glVertex2f((float)var0, (float)var1);
+      //GL11.glVertex2f((float)var2, (float)var1);
+      //GL11.glVertex2f((float)var0, (float)var1);
       GL11.glColor4f(var10, var11, var13, var9);
-      GL11.glVertex2f((float)var0, (float)var3);
-      GL11.glVertex2f((float)var2, (float)var3);
-      GL11.glEnd();
+      //GL11.glVertex2f((float)var0, (float)var3);
+      //GL11.glVertex2f((float)var2, (float)var3);
+      //GL11.glEnd();
       GL11.glDisable(3042);
       GL11.glEnable(3553);
    }

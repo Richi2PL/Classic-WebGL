@@ -1,5 +1,7 @@
 package org.lwjgl.input;
 
+import org.lwjgl.opengl.Display;
+
 import net.PeytonPlayz585.lwjgl.PlatformInput;
 
 /**
@@ -87,6 +89,10 @@ public class Mouse {
 
 	public static boolean isMouseGrabbed() {
 		return PlatformInput.isMouseGrabbed();
+	}
+
+	public static boolean isFocused() {
+		return Display.isActive() && isActuallyGrabbed();
 	}
 
 }

@@ -19,6 +19,9 @@ import org.teavm.jso.typedarrays.Uint8Array;
 import org.teavm.jso.webgl.WebGLFramebuffer;
 import org.teavm.jso.webgl.WebGLRenderingContext;
 
+import com.mojang.minecraft.Minecraft;
+import com.mojang.minecraft.SessionData;
+
 import net.PeytonPlayz585.lwjgl.PlatformInput;
 import net.PeytonPlayz585.minecraft.MinecraftClient;
 import net.PeytonPlayz585.teavm.WebGL2RenderingContext;
@@ -107,7 +110,17 @@ public class MinecraftMain {
 			e.printStackTrace();
 		}
 		
-		//Start Game Function
+		//Start Game
+		Minecraft minecraft = new Minecraft(canvas.getWidth(), canvas.getHeight(), true);
+		//minecraft.host = "127.0.0.1:25565";
+		minecraft.session = new SessionData("PeytonPlayz585", "TeaVM-WebGL");
+		minecraft.levelLoaded = true;
+		canvas.focus();
+		
+		Thread thread = null;
+		thread = new Thread(minecraft);
+		thread.start();
+		minecraft.waiting = false;
 		
 	}
 	

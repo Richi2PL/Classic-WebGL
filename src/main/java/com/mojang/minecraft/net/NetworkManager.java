@@ -22,7 +22,7 @@ public class NetworkManager
 		new ServerConnectThread(this, server, port, username, key, minecraft).start();
 	}
 
-	public ByteArrayOutputStream levelData;
+//	public ByteArrayOutputStream levelData;
 
 	public NetworkHandler netHandler;
 
