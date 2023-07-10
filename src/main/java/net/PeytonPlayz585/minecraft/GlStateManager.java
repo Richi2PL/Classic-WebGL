@@ -325,23 +325,43 @@ public class GlStateManager extends LWJGL {
 		_wglClear(p1);
 	}
 
-	public static final void glOrtho(float left, float right, float bottom, float top, float zNear, float zFar) {
+	public static final void glOrtho(double l, double r, double b, double t, double n, double f) {
 		Matrix4f res = getMatrix();
-		res.m00 = 2.0f / (right - left);
+		res.m00 = (float) (2.0f / (r - l));
 		res.m01 = 0.0f;
 		res.m02 = 0.0f;
 		res.m03 = 0.0f;
 		res.m10 = 0.0f;
-		res.m11 = 2.0f / (top - bottom);
+		res.m11 = (float) (2.0f / (t - b));
 		res.m12 = 0.0f;
 		res.m13 = 0.0f;
 		res.m20 = 0.0f;
 		res.m21 = 0.0f;
-		res.m22 = 2.0f / (zFar - zNear);
+		res.m22 = (float) (2.0f / (f - n));
 		res.m23 = 0.0f;
-		res.m30 = -(right + left) / (right - left);
-		res.m31 = -(top + bottom) / (top - bottom);
-		res.m32 = (zFar + zNear) / (zFar - zNear);
+		res.m30 = (float) (-(r + l) / (r - l));
+		res.m31 = (float) (-(t + b) / (t - b));
+		res.m32 = (float) ((f + n) / (f - n));
+		res.m33 = 1.0f;
+	}
+
+	public static final void glOrtho(float l, float r, float b, float t, float n, float f) {
+		Matrix4f res = getMatrix();
+		res.m00 = 2.0f / (r - l);
+		res.m01 = 0.0f;
+		res.m02 = 0.0f;
+		res.m03 = 0.0f;
+		res.m10 = 0.0f;
+		res.m11 = 2.0f / (t - b);
+		res.m12 = 0.0f;
+		res.m13 = 0.0f;
+		res.m20 = 0.0f;
+		res.m21 = 0.0f;
+		res.m22 = 2.0f / (f - n);
+		res.m23 = 0.0f;
+		res.m30 = -(r + l) / (r - l);
+		res.m31 = -(t + b) / (t - b);
+		res.m32 = (f + n) / (f - n);
 		res.m33 = 1.0f;
 	}
 
