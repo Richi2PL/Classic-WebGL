@@ -16,8 +16,10 @@ import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
 import org.teavm.jso.typedarrays.ArrayBuffer;
 import org.teavm.jso.typedarrays.Uint8Array;
+import org.teavm.jso.webgl.WebGLFramebuffer;
 import org.teavm.jso.webgl.WebGLRenderingContext;
 
+import net.PeytonPlayz585.lwjgl.PlatformInput;
 import net.PeytonPlayz585.minecraft.MinecraftClient;
 import net.PeytonPlayz585.teavm.WebGL2RenderingContext;
 
@@ -34,16 +36,21 @@ public class MinecraftMain {
 	public static HTMLCanvasElement imageLoadCanvas = null;
 	public static CanvasRenderingContext2D imageLoadContext = null;
 	private static byte[] loadedPackage = null;
+	static WebGLFramebuffer mainFramebuffer = null;
 	
 	public static int width = 0;
 	public static int height = 0;
 	
 	public static void main(String args[]) {
 		String[] element = getClassicConfig();
-		initContext(rootElement = Window.current().getDocument().getElementById(element[0]), element[1]);
+		try {
+			initContext(rootElement = Window.current().getDocument().getElementById(element[0]), element[1]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public final static void initContext(HTMLElement rootElement, String assetsURI) {
+	public final static void initContext(HTMLElement rootElement, String assetsURI) throws Exception {
 		parent = rootElement;
 		String s = parent.getAttribute("style");
 		parent.setAttribute("style", (s == null ? "" : s)+"overflow-x:hidden;overflow-y:hidden;");
@@ -58,14 +65,37 @@ public class MinecraftMain {
 		canvas.setAttribute("id", "minecraftClassicBrowser");
 		rootElement.appendChild(canvas);
 		canvasBack = (HTMLCanvasElement)doc.createElement("canvas");
+		
+		double r = win.getDevicePixelRatio();
+		int iw = parent.getClientWidth();
+		int ih = parent.getClientHeight();
+		int sw = (int)(r * iw);
+		int sh = (int)(r * ih);
+		
 		canvasBack.setWidth(width);
 		canvasBack.setHeight(height);
+		
+		try {
+			PlatformInput.initHooks();
+		}catch(Throwable t) {
+			throw new Exception("Exception while registering window event handlers");
+		}
+		
+		try {
+			doc.exitPointerLock();
+		}catch(Throwable t) {
+			throw new Exception("Mouse cursor lock is not available on this device!");
+		}
+		
 		webgl = (WebGL2RenderingContext) canvasBack.getContext("webgl2");
 		if(webgl == null) {
 			throw new RuntimeException("WebGL 2.0 is not supported in your browser, please get a new one!");
 		}
 		setCurrentContext(webgl);
 		GL11.initWebGL(webgl);
+		
+		mainFramebuffer = webgl.createFramebuffer();
+		PlatformInput.initFramebuffer(mainFramebuffer, sw, sh);
 		
 		webgl.getExtension("EXT_texture_filter_anisotropic");
 		
@@ -121,6 +151,13 @@ public class MinecraftMain {
 			height = h;
 		}
 		return h;
+	}
+	
+	public static void sleep(long millis) {
+		try {
+			Thread.sleep(millis);
+		}catch(InterruptedException ex) {
+		}
 	}
 	
 	@JSBody(params = { "obj" }, script = "window.currentContext = obj;")

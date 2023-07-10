@@ -324,7 +324,7 @@ public class GlStateManager extends LWJGL {
 	public static final void glClear(int p1) {
 		_wglClear(p1);
 	}
-
+	
 	public static final void glOrtho(double l, double r, double b, double t, double n, double f) {
 		Matrix4f res = getMatrix();
 		res.m00 = (float) (2.0f / (r - l));
