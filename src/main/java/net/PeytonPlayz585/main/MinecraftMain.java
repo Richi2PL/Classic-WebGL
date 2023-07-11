@@ -68,6 +68,8 @@ public class MinecraftMain {
 		canvas.setAttribute("id", "minecraftClassicBrowser");
 		rootElement.appendChild(canvas);
 		canvasBack = (HTMLCanvasElement)doc.createElement("canvas");
+		imageLoadCanvas = (HTMLCanvasElement) doc.createElement("canvas");
+		imageLoadContext = (CanvasRenderingContext2D) imageLoadCanvas.getContext("2d");
 		
 		double r = win.getDevicePixelRatio();
 		int iw = parent.getClientWidth();

@@ -1,13 +1,16 @@
 package com.mojang.minecraft.render;
 
+import java.util.ArrayList;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.HashMap;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.minecraft.GameSettings;
+import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.render.texture.TextureFX;
 
 import net.PeytonPlayz585.lwjgl.LWJGLUtils;
@@ -15,6 +18,16 @@ import net.PeytonPlayz585.minecraft.GLAllocation;
 import net.PeytonPlayz585.minecraft.MinecraftImage;
 
 public class RenderEngine {
+	
+	public RenderEngine() {
+		textureMap = new HashMap<String, Integer>();
+		textureNameToImageMap = new HashMap<Object, Object>();
+		singleIntBuffer = BufferUtils.createIntBuffer(1);
+		imageDataB1 = BufferUtils.createByteBuffer(0x100000);
+		imageDataB2 = BufferUtils.createByteBuffer(0x100000);
+		textureList = new ArrayList<TextureFX>();
+		options = Minecraft.settings;
+	}
 	
 	public int getTexture(String s) {
 		TextureBase texturebase = new TextureBase();

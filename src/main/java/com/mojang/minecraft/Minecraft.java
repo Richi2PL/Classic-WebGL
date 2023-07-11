@@ -138,7 +138,6 @@ public final class Minecraft implements Runnable {
          System.out.println("########## GL ERROR ##########");
          System.out.println("@ " + var0);
          System.out.println(var1 + ": " + var2);
-         System.exit(0);
       }
 
    }
@@ -151,7 +150,7 @@ public final class Minecraft implements Runnable {
    public final void run() {
       this.running = true;
 
-      try {
+      //try {
          Minecraft var1 = this;
          this.width = MinecraftMain.canvas.getWidth();
          this.height = MinecraftMain.canvas.getHeight();
@@ -182,59 +181,16 @@ public final class Minecraft implements Runnable {
             (var85 = new Level()).setData(8, 8, 8, new byte[512]);
             this.setLevel(var85);
          } else {
-            boolean var10 = false;
-
-//            try {
-//               if(var1.levelName != null) {
-//                  var1.loadOnlineLevel(var1.levelName, var1.levelId);
-//               } else if(!var1.levelLoaded) {
-//                  Level var11 = null;
-//                  if((var11 = var1.levelIo.load((InputStream)(new FileInputStream(new File("level.dat"))))) != null) {
-//                     var1.setLevel(var11);
-//                  }
-//               }
-//            } catch (Exception var54) {
-//               var54.printStackTrace();
-//            }
-
-            //if(this.level == null) {
-               this.generateLevel(1);
-            //}
+            this.generateLevel(1);
          }
 
          this.particleManager = new ParticleManager(this.level);
-
-//         try {
-//            var1.soundPlayer = new SoundPlayer(var1.settings);
-//            SoundPlayer var4 = var1.soundPlayer;
-//
-//            try {
-//               AudioFormat var67 = new AudioFormat(44100.0F, 16, 2, true, true);
-//               var4.dataLine = AudioSystem.getSourceDataLine(var67);
-//               var4.dataLine.open(var67, 4410);
-//               var4.dataLine.start();
-//               var4.running = true;
-//               Thread var72;
-//               (var72 = new Thread(var4)).setDaemon(true);
-//               var72.setPriority(10);
-//               var72.start();
-//            } catch (Exception var51) {
-//               var51.printStackTrace();
-//               var4.running = false;
-//            }
-//
-//            var1.resourceThread = new ResourceDownloadThread(var2, var1);
-//            var1.resourceThread.start();
-//         } catch (Exception var52) {
-//            ;
-//         }
-
          checkGLError("Post startup");
          this.hud = new HUDScreen(this, this.width, this.height);
-      } catch (Exception var62) {
-         var62.printStackTrace();
-         throw new RuntimeException("Failed to start Minecraft! :(");
-      }
+      //} catch (Exception var62) {
+         //var62.printStackTrace();
+         //throw new RuntimeException("Failed to start Minecraft! :(");
+      //}
 
       long var13 = System.currentTimeMillis();
       int var15 = 0;
