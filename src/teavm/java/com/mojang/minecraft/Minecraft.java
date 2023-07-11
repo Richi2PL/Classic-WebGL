@@ -28,7 +28,7 @@ import com.mojang.minecraft.render.Renderer;
 import com.mojang.minecraft.render.texture.TextureFX;
 import com.mojang.minecraft.render.texture.TextureLavaFX;
 import com.mojang.minecraft.render.texture.TextureWaterFX;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 
 import net.lax1dude.eaglercraft.GLAllocation;
 

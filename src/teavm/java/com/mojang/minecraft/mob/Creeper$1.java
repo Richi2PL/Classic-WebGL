@@ -5,7 +5,7 @@ import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.mob.Creeper;
 import com.mojang.minecraft.mob.ai.BasicAttackAI;
 import com.mojang.minecraft.particle.TerrainParticle;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 
 final class Creeper$1 extends BasicAttackAI {
 

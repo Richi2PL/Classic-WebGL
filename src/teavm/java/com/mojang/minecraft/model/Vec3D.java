@@ -1,6 +1,6 @@
 package com.mojang.minecraft.model;
 
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 
 public final class Vec3D {
 

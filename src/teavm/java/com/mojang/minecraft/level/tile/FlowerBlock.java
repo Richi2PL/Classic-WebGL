@@ -3,7 +3,7 @@ package com.mojang.minecraft.level.tile;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.phys.AABB;
 import com.mojang.minecraft.render.ShapeRenderer;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 
 import java.util.Random;
 

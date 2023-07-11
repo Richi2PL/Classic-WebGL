@@ -5,7 +5,7 @@ import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.Frustrum;
 import com.mojang.minecraft.render.ShapeRenderer;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 public final class Chunk {

@@ -6,7 +6,7 @@ import com.mojang.minecraft.phys.AABB;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.ShapeRenderer;
 import com.mojang.minecraft.render.TextureManager;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
 

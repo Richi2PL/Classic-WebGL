@@ -2,7 +2,7 @@ package com.mojang.minecraft.model;
 
 import com.mojang.minecraft.model.Model;
 import com.mojang.minecraft.model.ModelPart;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 
 public final class SpiderModel extends Model {
 

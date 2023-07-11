@@ -11,7 +11,7 @@ import com.mojang.minecraft.model.Vec3D;
 import com.mojang.minecraft.particle.ParticleManager;
 import com.mojang.minecraft.phys.AABB;
 import com.mojang.minecraft.render.LevelRenderer;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;

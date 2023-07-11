@@ -8,7 +8,7 @@ import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.model.Vec3D;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.HeldBlock;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 
 import net.lax1dude.eaglercraft.GLAllocation;
 

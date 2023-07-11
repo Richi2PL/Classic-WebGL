@@ -1,7 +1,7 @@
 package com.mojang.minecraft.render;
 
 import com.mojang.minecraft.render.Frustrum;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 
 import net.lax1dude.eaglercraft.GLAllocation;
 

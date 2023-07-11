@@ -10,7 +10,7 @@ import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.player.Inventory;
 import com.mojang.minecraft.render.ShapeRenderer;
 import com.mojang.minecraft.render.TextureManager;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

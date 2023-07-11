@@ -8,7 +8,7 @@ import com.mojang.minecraft.particle.TerrainParticle;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.ShapeRenderer;
 import com.mojang.minecraft.render.TextureManager;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
 

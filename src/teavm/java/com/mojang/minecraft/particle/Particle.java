@@ -3,7 +3,7 @@ package com.mojang.minecraft.particle;
 import com.mojang.minecraft.Entity;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.render.ShapeRenderer;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 
 public class Particle extends Entity {
 

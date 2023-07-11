@@ -6,7 +6,7 @@ import com.mojang.minecraft.mob.ai.AI;
 import com.mojang.minecraft.mob.ai.BasicAI;
 import com.mojang.minecraft.model.ModelManager;
 import com.mojang.minecraft.render.TextureManager;
-import com.mojang.util.MathHelper;
+import net.PeytonPlayz585.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 public class Mob extends Entity {
