@@ -306,10 +306,6 @@ public abstract class Entity implements Serializable {
             int var19 = this.level.getTile((int)this.x, (int)(this.y - 0.2F - this.heightOffset), (int)this.z);
             if(this.walkDist > (float)this.nextStep && var19 > 0) {
                ++this.nextStep;
-               Tile$SoundType var20;
-               if((var20 = Block.blocks[var19].stepsound) != Tile$SoundType.none) {
-                  this.playSound("step." + var20.name, var20.getVolume() * 0.75F, var20.getPitch());
-               }
             }
          }
 
@@ -367,10 +363,6 @@ public abstract class Entity implements Serializable {
 
    public void setLevel(Level var1) {
       this.level = var1;
-   }
-
-   public void playSound(String var1, float var2, float var3) {
-      this.level.playSound(var1, this, var2, var3);
    }
 
    public void moveTo(float var1, float var2, float var3, float var4, float var5) {

@@ -11,9 +11,6 @@ import com.mojang.minecraft.model.Vec3D;
 import com.mojang.minecraft.particle.ParticleManager;
 import com.mojang.minecraft.phys.AABB;
 import com.mojang.minecraft.render.LevelRenderer;
-import com.mojang.minecraft.sound.AudioInfo;
-import com.mojang.minecraft.sound.EntitySoundPos;
-import com.mojang.minecraft.sound.LevelSoundPos;
 import com.mojang.util.MathHelper;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -850,36 +847,6 @@ public class Level implements Serializable {
       } else {
          return null;
       }
-   }
-
-   public void playSound(String var1, Entity var2, float var3, float var4) {
-      if(this.rendererContext$5cd64a7f != null) {
-         Minecraft var5;
-         if((var5 = this.rendererContext$5cd64a7f).soundPlayer == null || !var5.settings.sound) {
-            return;
-         }
-
-         AudioInfo var6;
-         if(var2.distanceToSqr(var5.player) < 1024.0F && (var6 = var5.sound.getAudioInfo(var1, var3, var4)) != null) {
-            var5.soundPlayer.play(var6, new EntitySoundPos(var2, var5.player));
-         }
-      }
-
-   }
-
-   public void playSound(String var1, float var2, float var3, float var4, float var5, float var6) {
-      if(this.rendererContext$5cd64a7f != null) {
-         Minecraft var7;
-         if((var7 = this.rendererContext$5cd64a7f).soundPlayer == null || !var7.settings.sound) {
-            return;
-         }
-
-         AudioInfo var8;
-         if((var8 = var7.sound.getAudioInfo(var1, var5, var6)) != null) {
-            var7.soundPlayer.play(var8, new LevelSoundPos(var2, var3, var4, var7.player));
-         }
-      }
-
    }
 
    public boolean maybeGrowTree(int var1, int var2, int var3) {

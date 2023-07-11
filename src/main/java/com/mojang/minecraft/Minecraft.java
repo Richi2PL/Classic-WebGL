@@ -29,8 +29,6 @@ import com.mojang.minecraft.render.*;
 import com.mojang.minecraft.render.texture.TextureFX;
 import com.mojang.minecraft.render.texture.TextureLavaFX;
 import com.mojang.minecraft.render.texture.TextureWaterFX;
-import com.mojang.minecraft.sound.SoundManager;
-import com.mojang.minecraft.sound.SoundPlayer;
 import com.mojang.net.NetworkHandler;
 import com.mojang.util.MathHelper;
 
@@ -66,8 +64,6 @@ public final class Minecraft implements Runnable {
    public ProgressBarDisplay progressBar = new ProgressBarDisplay(this);
    public Renderer renderer = new Renderer(this);
    public LevelIO levelIo;
-   public SoundManager sound;
-   private ResourceDownloadThread resourceThread;
    private int ticks;
    private int blockHitTime;
    public String levelName;
@@ -75,7 +71,6 @@ public final class Minecraft implements Runnable {
    public HUDScreen hud;
    public boolean online;
    public NetworkManager networkManager;
-   public SoundPlayer soundPlayer;
    public MovingObjectPosition selected;
    public static GameSettings settings;
    String server;
@@ -89,7 +84,6 @@ public final class Minecraft implements Runnable {
 
    public Minecraft(int var3, int var4, boolean var5) {
       this.levelIo = new LevelIO(this.progressBar);
-      this.sound = new SoundManager();
       this.ticks = 0;
       this.blockHitTime = 0;
       this.levelName = null;
@@ -155,28 +149,8 @@ public final class Minecraft implements Runnable {
    }
 
    public final void shutdown() {
-      try {
-         if(this.soundPlayer != null) {
-            SoundPlayer var1 = this.soundPlayer;
-            this.soundPlayer.running = false;
-         }
-
-         if(this.resourceThread != null) {
-            ResourceDownloadThread var4 = this.resourceThread;
-            this.resourceThread.running = true;
-         }
-      } catch (Exception var3) {
-         ;
-      }
-
-//      Minecraft var5 = this;
-//      if(!this.levelLoaded) {
-//         try {
-//            LevelIO.save(var5.level, (OutputStream)(new FileOutputStream(new File("level.dat"))));
-//         } catch (Exception var2) {
-//            var2.printStackTrace();
-//         }
-//      }
+	   this.running = false;
+	   MinecraftMain.canvas.delete();
    }
 
    public final void run() {
@@ -1114,14 +1088,6 @@ public final class Minecraft implements Runnable {
    }
 
    private void tick() {
-      if(this.soundPlayer != null) {
-         SoundPlayer var1 = this.soundPlayer;
-         SoundManager var2 = this.sound;
-         if(System.currentTimeMillis() > var2.lastMusic && var2.playMusic(var1, "calm")) {
-            var2.lastMusic = System.currentTimeMillis() + (long)var2.random.nextInt(900000) + 300000L;
-         }
-      }
-
       this.gamemode.spawnMob();
       HUDScreen var17 = this.hud;
       ++this.hud.ticks;
