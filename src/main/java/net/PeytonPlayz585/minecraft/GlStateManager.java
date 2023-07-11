@@ -1131,7 +1131,7 @@ public class GlStateManager extends LWJGL {
 		}
 	}
 
-	public static final void glMultiTexCoord2f(int p1, float p2, float p3) {
+	public static final void glMultiTexCoord2f(float p2, float p3) {
 		tex0X = p2;
 		tex0Y = p3;
 	}
