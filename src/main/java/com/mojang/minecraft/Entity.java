@@ -4,7 +4,6 @@ import com.mojang.minecraft.level.BlockMap;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.level.liquid.LiquidType;
 import com.mojang.minecraft.level.tile.Block;
-import com.mojang.minecraft.level.tile.Tile$SoundType;
 import com.mojang.minecraft.model.Vec3D;
 import com.mojang.minecraft.net.PositionUpdate;
 import com.mojang.minecraft.phys.AABB;
@@ -177,7 +176,7 @@ public abstract class Entity implements Serializable {
          float var7 = var2;
          float var8 = var3;
          AABB var9 = this.bb.copy();
-         ArrayList var10 = this.level.getCubes(this.bb.expand(var1, var2, var3));
+         ArrayList<?> var10 = this.level.getCubes(this.bb.expand(var1, var2, var3));
 
          for(int var11 = 0; var11 < var10.size(); ++var11) {
             var2 = ((AABB)var10.get(var11)).clipYCollide(this.bb, var2);

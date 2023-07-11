@@ -48,11 +48,6 @@ public class GameMode
 
 		if(block != null && success)
 		{
-			if(minecraft.isOnline())
-			{
-				minecraft.networkManager.sendBlockChange(x, y, z, 0, minecraft.player.inventory.getSelected());
-			}
-
 			block.spawnBreakParticles(level, x, y, z, minecraft.particleManager);
 		}
 

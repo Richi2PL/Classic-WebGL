@@ -3,8 +3,6 @@ package com.mojang.minecraft.net;
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.gui.FontRenderer;
 import com.mojang.minecraft.mob.HumanoidMob;
-import com.mojang.minecraft.net.PositionUpdate;
-import com.mojang.minecraft.net.SkinDownloadThread;
 import com.mojang.minecraft.render.TextureLocation;
 
 import java.awt.image.BufferedImage;
@@ -15,12 +13,11 @@ import org.lwjgl.opengl.GL11;
 public class NetworkPlayer extends HumanoidMob {
 
    public static final long serialVersionUID = 77479605454997290L;
-   private List moveQueue = new LinkedList();
+   private List<PositionUpdate> moveQueue = new LinkedList<PositionUpdate>();
    private Minecraft minecraft;
    private int xp;
    private int yp;
    private int zp;
-   private transient int a = -1;
    public transient BufferedImage newTexture = null;
    public String name;
    public String displayName;
@@ -42,7 +39,6 @@ public class NetworkPlayer extends HumanoidMob {
       this.yRot = var7;
       this.armor = this.helmet = false;
       this.renderOffset = 0.6875F;
-      (new SkinDownloadThread(this)).start();
       this.allowAlpha = false;
    }
 

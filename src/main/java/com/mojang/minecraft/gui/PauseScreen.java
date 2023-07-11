@@ -13,13 +13,6 @@ public final class PauseScreen extends GuiScreen {
          ((Button)this.buttons.get(2)).active = false;
          ((Button)this.buttons.get(3)).active = false;
       }
-
-      if(this.minecraft.networkManager != null) {
-         ((Button)this.buttons.get(1)).active = false;
-         ((Button)this.buttons.get(2)).active = false;
-         ((Button)this.buttons.get(3)).active = false;
-      }
-
    }
 
    protected final void onButtonClick(Button var1) {
@@ -30,16 +23,6 @@ public final class PauseScreen extends GuiScreen {
       if(var1.id == 1) {
          this.minecraft.setCurrentScreen(new GenerateLevelScreen(this));
       }
-
-      //if(this.minecraft.session != null) {
-         //if(var1.id == 2) {
-            //this.minecraft.setCurrentScreen(new SaveLevelScreen(this));
-         //}
-
-         //if(var1.id == 3) {
-            //this.minecraft.setCurrentScreen(new LoadLevelScreen(this));
-         //}
-      //}
 
       if(var1.id == 4) {
          this.minecraft.setCurrentScreen((GuiScreen)null);
