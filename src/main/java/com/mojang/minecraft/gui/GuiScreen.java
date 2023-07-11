@@ -4,6 +4,8 @@ import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.gui.Button;
 import com.mojang.minecraft.gui.FontRenderer;
 import com.mojang.minecraft.gui.Screen;
+import com.mojang.minecraft.render.TextureLocation;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.input.Keyboard;
@@ -27,7 +29,7 @@ public class GuiScreen extends Screen {
          Button var4 = var10000;
          if(var10000.visible) {
             FontRenderer var8 = var7.fontRenderer;
-            GL11.glBindTexture(3553, var7.textureManager.load("/gui/gui.png"));
+            new TextureLocation("/gui/gui.png").bindTexture();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             byte var9 = 1;
             boolean var6 = var1 >= var4.x && var2 >= var4.y && var1 < var4.x + var4.width && var2 < var4.y + var4.height;

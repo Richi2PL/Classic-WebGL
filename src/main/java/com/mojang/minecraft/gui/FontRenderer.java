@@ -2,11 +2,13 @@ package com.mojang.minecraft.gui;
 
 import com.mojang.minecraft.GameSettings;
 import com.mojang.minecraft.render.ShapeRenderer;
-import com.mojang.minecraft.render.TextureManager;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
+import net.PeytonPlayz585.lwjgl.LWJGLUtils;
+import net.PeytonPlayz585.minecraft.MinecraftImage;
+
 import org.lwjgl.opengl.GL11;
+
+import com.mojang.minecraft.render.RenderEngine;
 
 public final class FontRenderer {
 
@@ -15,21 +17,12 @@ public final class FontRenderer {
    private GameSettings settings;
 
 
-   public FontRenderer(GameSettings var1, String var2, TextureManager var3) {
+   public FontRenderer(GameSettings var1, String var2) {
       this.settings = var1;
-
-      BufferedImage var14;
-      try {
-         var14 = ImageIO.read(TextureManager.class.getResourceAsStream(var2));
-      } catch (IOException var13) {
-         throw new RuntimeException(var13);
-      }
-
-      int var4 = var14.getWidth();
-      int var5 = var14.getHeight();
+      MinecraftImage var14 = LWJGLUtils.loadPNG(GL11.loadResourceBytes(var2));
+      int var4 = var14.w;
+      int var5 = var14.h;
       int[] var6 = new int[var4 * var5];
-      var14.getRGB(0, 0, var4, var5, var6, 0, var4);
-
       for(int var15 = 0; var15 < 128; ++var15) {
          var5 = var15 % 16;
          int var7 = var15 / 16;
@@ -53,8 +46,10 @@ public final class FontRenderer {
 
          this.widthmap[var15] = var8;
       }
+      
+      RenderEngine r = new RenderEngine();
 
-      this.fontTexture = var3.load(var2);
+      this.fontTexture = r.getTexture(var2);
    }
 
    public final void render(String var1, int var2, int var3, int var4) {

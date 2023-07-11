@@ -2,7 +2,10 @@ package com.mojang.minecraft;
 
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.StopGameException;
+import com.mojang.minecraft.render.RenderEngine;
 import com.mojang.minecraft.render.ShapeRenderer;
+import com.mojang.minecraft.render.TextureLocation;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -55,8 +58,9 @@ public final class ProgressBarDisplay {
             int var5 = this.minecraft.height * 240 / this.minecraft.height;
             GL11.glClear(16640);
             ShapeRenderer var6 = ShapeRenderer.instance;
-            int var7 = this.minecraft.textureManager.load("/dirt.png");
-            GL11.glBindTexture(3553, var7);
+            RenderEngine r = new RenderEngine();
+            int var7 = r.getTexture("/dirt.png");
+            new TextureLocation("/dirt.png").bindTexture();
             float var10 = 32.0F;
             var6.begin();
             var6.color(4210752);

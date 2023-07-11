@@ -2,7 +2,6 @@ package com.mojang.minecraft.item;
 
 import com.mojang.minecraft.Entity;
 import com.mojang.minecraft.level.Level;
-import com.mojang.minecraft.render.TextureManager;
 
 public class TakeEntityAnim extends Entity
 {
@@ -45,9 +44,9 @@ public class TakeEntityAnim extends Entity
 	}
 
 	@Override
-	public void render(TextureManager textureManager, float unknown0)
+	public void render(float unknown0)
 	{
-		item.render(textureManager, unknown0);
+		item.render(unknown0);
 	}
 
 	private static final long serialVersionUID = 1L;

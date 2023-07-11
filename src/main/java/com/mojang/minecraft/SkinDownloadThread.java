@@ -29,12 +29,12 @@ public class SkinDownloadThread extends Thread
 
 				connection.connect();
 
-				if(connection.getResponseCode() != 404)
-				{
-					Player.newTexture = ImageIO.read(connection.getInputStream());
-
-					return;
-				}
+//				if(connection.getResponseCode() != 404)
+//				{
+//					Player.newTexture = ImageIO.read(connection.getInputStream());
+//
+//					return;
+//				}
 			} catch (Exception var4) {
 				var4.printStackTrace();
 			} finally {

@@ -8,7 +8,8 @@ import com.mojang.minecraft.mob.QuadrupedMob;
 import com.mojang.minecraft.mob.Sheep$1;
 import com.mojang.minecraft.model.AnimalModel;
 import com.mojang.minecraft.player.Player;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.TextureLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public class Sheep extends QuadrupedMob {
@@ -78,15 +79,15 @@ public class Sheep extends QuadrupedMob {
       }
    }
 
-   public void renderModel(TextureManager var1, float var2, float var3, float var4, float var5, float var6, float var7) {
+   public void renderModel(float var2, float var3, float var4, float var5, float var6, float var7) {
       AnimalModel var8;
       float var9 = (var8 = (AnimalModel)modelCache.getModel(this.modelName)).head.y;
       float var10 = var8.head.z;
       var8.head.y += (this.grazeO + (this.graze - this.grazeO) * var3) * 8.0F;
       var8.head.z -= this.grazeO + (this.graze - this.grazeO) * var3;
-      super.renderModel(var1, var2, var3, var4, var5, var6, var7);
+      super.renderModel(var2, var3, var4, var5, var6, var7);
       if(this.hasFur) {
-         GL11.glBindTexture(3553, var1.load("/mob/sheep_fur.png"));
+         new TextureLocation("/mob/sheep_fur.png").bindTexture();
          GL11.glDisable(2884);
          AnimalModel var11;
          (var11 = (AnimalModel)modelCache.getModel("sheep.fur")).head.yaw = var8.head.yaw;

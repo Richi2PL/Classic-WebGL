@@ -7,7 +7,7 @@ import com.mojang.minecraft.particle.SmokeParticle;
 import com.mojang.minecraft.particle.TerrainParticle;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.ShapeRenderer;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.TextureLocation;
 import com.mojang.util.MathHelper;
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
@@ -97,11 +97,9 @@ public class PrimedTnt extends Entity
 	}
 
 	@Override
-	public void render(TextureManager textureManager, float unknown0)
+	public void render(float unknown0)
 	{
-		int textureID = textureManager.load("/terrain.png");
-
-		GL11.glBindTexture(3553, textureID);
+		new TextureLocation("/terrain.png").bindTexture();
 
 		float brightness = level.getBrightness((int)x, (int)y, (int)z);
 

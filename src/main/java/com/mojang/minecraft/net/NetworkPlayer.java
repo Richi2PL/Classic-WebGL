@@ -5,7 +5,8 @@ import com.mojang.minecraft.gui.FontRenderer;
 import com.mojang.minecraft.mob.HumanoidMob;
 import com.mojang.minecraft.net.PositionUpdate;
 import com.mojang.minecraft.net.SkinDownloadThread;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.TextureLocation;
+
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,8 +25,6 @@ public class NetworkPlayer extends HumanoidMob {
    public String name;
    public String displayName;
    int tickCount = 0;
-   private TextureManager textures;
-
 
    public NetworkPlayer(Minecraft var1, int var2, String var3, int var4, int var5, int var6, float var7, float var8) {
       super(var1.level, (float)var4, (float)var5, (float)var6);
@@ -59,42 +58,11 @@ public class NetworkPlayer extends HumanoidMob {
       this.onGround = true;
    }
 
-   public void bindTexture(TextureManager var1) {
-      this.textures = var1;
-      if(this.newTexture != null) {
-         BufferedImage var2 = this.newTexture;
-         int[] var3 = new int[512];
-         var2.getRGB(32, 0, 32, 16, var3, 0, 32);
-         int var5 = 0;
-
-         boolean var10001;
-         while(true) {
-            if(var5 >= var3.length) {
-               var10001 = false;
-               break;
-            }
-
-            if(var3[var5] >>> 24 < 128) {
-               var10001 = true;
-               break;
-            }
-
-            ++var5;
-         }
-
-         this.hasHair = var10001;
-         this.a = var1.load(this.newTexture);
-         this.newTexture = null;
-      }
-
-      if(this.a < 0) {
-         GL11.glBindTexture(3553, var1.load("/char.png"));
-      } else {
-         GL11.glBindTexture(3553, this.a);
-      }
+   public void bindTexture() {
+	   new TextureLocation("/char.png").bindTexture();
    }
 
-   public void renderHover(TextureManager var1, float var2) {
+   public void renderHover(float var2) {
       FontRenderer var3 = this.minecraft.fontRenderer;
       GL11.glPushMatrix();
       GL11.glTranslatef(this.xo + (this.x - this.xo) * var2, this.yo + (this.y - this.yo) * var2 + 0.8F + this.renderOffset, this.zo + (this.z - this.zo) * var2);
@@ -217,19 +185,5 @@ public class NetworkPlayer extends HumanoidMob {
       var4 = this.xRot + var4 * 0.5F;
       this.moveQueue.add(new PositionUpdate(var3, var4));
       this.moveQueue.add(new PositionUpdate(var1, var2));
-   }
-
-   public void clear() {
-      if(this.a >= 0 && this.textures != null) {
-         TextureManager var10000 = this.textures;
-         int var1 = this.a;
-         TextureManager var2 = this.textures;
-         var10000.textureImages.remove(Integer.valueOf(var1));
-         var2.idBuffer.clear();
-         var2.idBuffer.put(var1);
-         var2.idBuffer.flip();
-         GL11.glDeleteTextures(var2.idBuffer.get());
-      }
-
    }
 }

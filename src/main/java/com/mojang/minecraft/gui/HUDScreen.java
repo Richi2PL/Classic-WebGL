@@ -9,7 +9,7 @@ import com.mojang.minecraft.gui.Screen;
 import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.player.Inventory;
 import com.mojang.minecraft.render.ShapeRenderer;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.TextureLocation;
 import com.mojang.util.MathHelper;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +37,7 @@ public final class HUDScreen extends Screen {
    public final void render(float var1, boolean var2, int var3, int var4) {
       FontRenderer var5 = this.mc.fontRenderer;
       this.mc.renderer.enableGuiMode();
-      TextureManager var6 = this.mc.textureManager;
-      GL11.glBindTexture(3553, this.mc.textureManager.load("/gui/gui.png"));
+      new TextureLocation("/gui/gui.png").bindTexture();
       ShapeRenderer var7 = ShapeRenderer.instance;
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       GL11.glEnable(3042);
@@ -46,7 +45,7 @@ public final class HUDScreen extends Screen {
       this.imgZ = -90.0F;
       this.drawImage(this.width / 2 - 91, this.height - 22, 0, 0, 182, 22);
       this.drawImage(this.width / 2 - 91 - 1 + var8.selected * 20, this.height - 22 - 1, 0, 22, 24, 22);
-      GL11.glBindTexture(3553, this.mc.textureManager.load("/gui/icons.png"));
+      new TextureLocation("/gui/icons.png").bindTexture();
       this.drawImage(this.width / 2 - 7, this.height / 2 - 7, 0, 0, 16, 16);
       boolean var9 = this.mc.player.invulnerableTime / 3 % 2 == 1;
       if(this.mc.player.invulnerableTime < 10) {
@@ -132,8 +131,7 @@ public final class HUDScreen extends Screen {
             GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(-1.5F, 0.5F, 0.5F);
             GL11.glScalef(-1.0F, -1.0F, -1.0F);
-            int var20 = var6.load("/terrain.png");
-            GL11.glBindTexture(3553, var20);
+            new TextureLocation("/terrain.png").bindTexture();
             var7.begin();
             Block.blocks[var15].renderFullbright(var7);
             var7.end();

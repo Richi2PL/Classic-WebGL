@@ -4,7 +4,7 @@ import com.mojang.minecraft.Entity;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.player.Player;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.TextureLocation;
 import com.mojang.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -64,11 +64,9 @@ public class Item extends Entity
 	}
 
 	@Override
-	public void render(TextureManager textureManager, float unknown0)
+	public void render(float unknown0)
 	{
-		textureId = textureManager.load("/terrain.png");
-
-		GL11.glBindTexture(3553, this.textureId);
+		new TextureLocation("/terrain.png").bindTexture();
 
 		float brightness = level.getBrightness((int)x, (int)y, (int)z);
 		float unknown1 = rot + ((float)tickCount + unknown0) * 3.0F;

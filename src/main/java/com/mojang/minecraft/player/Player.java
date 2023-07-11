@@ -4,14 +4,12 @@ import com.mojang.minecraft.Entity;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.mob.Mob;
 import com.mojang.minecraft.model.HumanoidModel;
-import com.mojang.minecraft.player.InputHandler;
-import com.mojang.minecraft.player.Inventory;
-import com.mojang.minecraft.player.Player$1;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.TextureLocation;
 import com.mojang.util.MathHelper;
-import java.awt.image.BufferedImage;
+
+import net.PeytonPlayz585.minecraft.MinecraftImage;
+
 import java.util.List;
-import org.lwjgl.opengl.GL11;
 
 public class Player extends Mob {
 
@@ -26,7 +24,7 @@ public class Player extends Mob {
    public int score = 0;
    public int arrows = 20;
    private static int newTextureId = -1;
-   public static BufferedImage newTexture;
+   public static MinecraftImage newTexture;
 
 
    public Player(Level var1) {
@@ -86,7 +84,7 @@ public class Player extends Mob {
 
    }
 
-   public void render(TextureManager var1, float var2) {}
+   public void render(float var2) {}
 
    public void releaseAllKeys() {
       this.input.resetKeys();
@@ -132,20 +130,8 @@ public class Player extends Mob {
       return true;
    }
 
-   public void bindTexture(TextureManager var1) {
-      if(newTexture != null) {
-         newTextureId = var1.load(newTexture);
-         newTexture = null;
-      }
-
-      int var2;
-      if(newTextureId < 0) {
-         var2 = var1.load("/char.png");
-         GL11.glBindTexture(3553, var2);
-      } else {
-         var2 = newTextureId;
-         GL11.glBindTexture(3553, var2);
-      }
+   public void bindTexture() {
+	   new TextureLocation("/char.png").bindTexture();
    }
 
    public void hurt(Entity var1, int var2) {
