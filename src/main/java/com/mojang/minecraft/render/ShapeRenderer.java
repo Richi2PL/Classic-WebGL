@@ -16,6 +16,8 @@ public final class ShapeRenderer {
    private float b;
    private boolean color = false;
    private boolean texture = false;
+   private boolean normals = false;
+   private int normal;
    private int vertexLength = 3;
    private int length = 0;
    private boolean noColor = false;
@@ -23,41 +25,37 @@ public final class ShapeRenderer {
 
 
    public final void end() {
-      if(this.vertices > 0) {
          this.buffer.clear();
          this.buffer.put(this.data, 0, this.length);
          this.buffer.flip();
-         if(this.texture && this.color) {
-            GL11.glInterleavedArrays(10794, 0, this.buffer);
-         } else if(this.texture) {
-            GL11.glInterleavedArrays(10791, 0, this.buffer);
-         } else if(this.color) {
-            GL11.glInterleavedArrays(10788, 0, this.buffer);
-         } else {
-            GL11.glInterleavedArrays(10785, 0, this.buffer);
+
+         if (this.texture) {
+        	 GL11.glEnableVertexAttrib(GL11.GL_TEXTURE_COORD_ARRAY);
+		 }
+
+		 if (this.color) {
+			 GL11.glEnableVertexAttrib(GL11.GL_COLOR_ARRAY);
+		 }
+
+		 if (this.normals) {
+			 GL11.glEnableVertexAttrib(GL11.GL_NORMAL_ARRAY);
+		 }
+         
+         GL11._wglDrawArrays(7, 0, this.vertices);
+         
+         if (this.texture) {
+        	 GL11.glDisableVertexAttrib(GL11.GL_TEXTURE_COORD_ARRAY);
          }
 
-         GL11.glEnableClientState('\u8074');
-         if(this.texture) {
-            GL11.glEnableClientState('\u8078');
+         if (this.color) {
+        	 GL11.glDisableVertexAttrib(GL11.GL_COLOR_ARRAY);
          }
 
-         if(this.color) {
-            GL11.glEnableClientState('\u8076');
+         if (this.normals) {
+        	 GL11.glDisableVertexAttrib(GL11.GL_NORMAL_ARRAY);
          }
-
-         GL11.glDrawArrays(7, 0, this.vertices);
-         GL11.glDisableClientState('\u8074');
-         if(this.texture) {
-            GL11.glDisableClientState('\u8078');
-         }
-
-         if(this.color) {
-            GL11.glDisableClientState('\u8076');
-         }
-      }
-
-      this.clear();
+			
+         this.clear();
    }
 
    private void clear() {
@@ -68,6 +66,7 @@ public final class ShapeRenderer {
 
    public final void begin() {
       this.clear();
+      this.normals = false;
       this.color = false;
       this.texture = false;
       this.noColor = false;
@@ -107,6 +106,10 @@ public final class ShapeRenderer {
          this.data[this.length++] = this.r;
          this.data[this.length++] = this.g;
          this.data[this.length++] = this.b;
+      }
+      
+      if(this.normals) {
+    	  this.data[this.length++] = this.normal;
       }
 
       this.data[this.length++] = var1;
@@ -151,7 +154,13 @@ public final class ShapeRenderer {
    }
 
    public final void normal(float var1, float var2, float var3) {
-      GL11.glNormal3f(var1, var2, var3);
+	   this.normals = true;
+	   float len = (float) Math.sqrt(var1 * var1 + var2 * var2 + var3 * var3);
+	   int var4 = (int) ((var1 / len) * 127.0F) + 127;
+	   int var5 = (int) ((var2 / len) * 127.0F) + 127;
+	   int var6 = (int) ((var3 / len) * 127.0F) + 127;
+	   this.normal = var4 & 255 | (var5 & 255) << 8 | (var6 & 255) << 16;
+       GL11.glNormal3f(var1, var2, var3);
    }
 
 }
