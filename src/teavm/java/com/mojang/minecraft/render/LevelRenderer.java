@@ -3,10 +3,6 @@ package com.mojang.minecraft.render;
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.player.Player;
-import com.mojang.minecraft.render.Chunk;
-import com.mojang.minecraft.render.ChunkDistanceComparator;
-import com.mojang.minecraft.render.ShapeRenderer;
-import com.mojang.minecraft.render.TextureManager;
 
 import net.lax1dude.eaglercraft.GLAllocation;
 
@@ -19,10 +15,9 @@ import org.lwjgl.opengl.GL11;
 public final class LevelRenderer {
 
    public Level level;
-   public TextureManager textureManager;
    public int listId;
    public IntBuffer buffer = GLAllocation.createDirectIntBuffer(4096);
-   public List chunks = new ArrayList();
+   public List<Chunk> chunks = new ArrayList<Chunk>();
    private Chunk[] loadQueue;
    public Chunk[] chunkCache;
    private int xChunks;
@@ -38,9 +33,8 @@ public final class LevelRenderer {
    public float cracks;
 
 
-   public LevelRenderer(Minecraft var1, TextureManager var2) {
+   public LevelRenderer(Minecraft var1) {
       this.minecraft = var1;
-      this.textureManager = var2;
       this.listId = GL11.glGenLists(2);
       this.baseListId = GL11.glGenLists(4096 << 6 << 1);
    }
@@ -201,7 +195,7 @@ public final class LevelRenderer {
       this.buffer.put(this.chunkDataCache, 0, var6);
       this.buffer.flip();
       if(this.buffer.remaining() > 0) {
-         GL11.glBindTexture(3553, this.textureManager.load("/terrain.png"));
+    	 new TextureLocation("/terrain.png").bindTexture();
          GL11.glCallLists(this.buffer);
       }
 

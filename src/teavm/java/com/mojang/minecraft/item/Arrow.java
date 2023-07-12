@@ -5,7 +5,7 @@ import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.phys.AABB;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.ShapeRenderer;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.TextureLocation;
 import net.PeytonPlayz585.math.MathHelper;
 import java.util.List;
 import org.lwjgl.opengl.GL11;
@@ -176,11 +176,9 @@ public class Arrow extends Entity
 	}
 
 	@Override
-	public void render(TextureManager textureManager, float unknown0)
+	public void render(float unknown0)
 	{
-		textureId = textureManager.load("/item/arrows.png");
-
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureId);
+		textureId = new TextureLocation("/item/arrows.png").bindTexture();
 
 		float brightness = level.getBrightness((int)x, (int)y, (int)z);
 

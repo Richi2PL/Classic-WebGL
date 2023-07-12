@@ -16,7 +16,6 @@ import com.mojang.minecraft.model.HumanoidModel;
 import com.mojang.minecraft.model.ModelManager;
 import com.mojang.minecraft.model.ModelPart;
 import com.mojang.minecraft.model.Vec3D;
-import com.mojang.minecraft.net.NetworkPlayer;
 import com.mojang.minecraft.particle.Particle;
 import com.mojang.minecraft.particle.ParticleManager;
 import com.mojang.minecraft.particle.WaterDropParticle;
@@ -54,7 +53,6 @@ public final class Minecraft implements Runnable {
    public String host;
    public boolean levelLoaded = false;
    public volatile boolean waiting = false;
-   public TextureManager textureManager;
    public FontRenderer fontRenderer;
    public GuiScreen currentScreen = null;
    public ProgressBarDisplay progressBar = new ProgressBarDisplay(this);
@@ -67,7 +65,7 @@ public final class Minecraft implements Runnable {
    public HUDScreen hud;
    public boolean online;
    public MovingObjectPosition selected;
-   public GameSettings settings;
+   public static GameSettings settings;
    String server;
    int port;
    volatile boolean running;
@@ -161,13 +159,10 @@ public final class Minecraft implements Runnable {
          GL11.glMatrixMode(5888);
          checkGLError("Startup");
          this.settings = new GameSettings(this);
-         this.textureManager = new TextureManager(this.settings);
-         this.textureManager.registerAnimation(new TextureLavaFX());
-         this.textureManager.registerAnimation(new TextureWaterFX());
-         this.fontRenderer = new FontRenderer(this.settings, "/default.png", this.textureManager);
+         this.fontRenderer = new FontRenderer(this.settings, "/default.png");
          IntBuffer var9;
          (var9 = GLAllocation.createDirectIntBuffer(256)).clear().limit(256);
-         this.levelRenderer = new LevelRenderer(this, this.textureManager);
+         this.levelRenderer = new LevelRenderer(this);
          Item.initModels();
          Mob.modelCache = new ModelManager();
          GL11.glViewport(0, 0, this.width, this.height);
@@ -180,7 +175,7 @@ public final class Minecraft implements Runnable {
             this.generateLevel(1);
          }
 
-         this.particleManager = new ParticleManager(this.level, this.textureManager);
+         this.particleManager = new ParticleManager(this.level);
          checkGLError("Post startup");
          this.hud = new HUDScreen(this, this.width, this.height);
       //} catch (Exception var62) {
@@ -502,7 +497,7 @@ public final class Minecraft implements Runnable {
 
                               var82.setLighting(true);
                               Vec3D var103 = var82.getPlayerVector(var80);
-                              var89.level.blockMap.render(var103, var76, var89.textureManager, var80);
+                              var89.level.blockMap.render(var103, var76, var80);
                               var82.setLighting(false);
                               var82.updateFog();
                               float var107 = var80;
@@ -516,14 +511,13 @@ public final class Minecraft implements Runnable {
                                  if(var96.particles[var83].size() != 0) {
                                     var110 = 0;
                                     if(var83 == 0) {
-                                       var110 = var96.textureManager.load("/particles.png");
+                                       var110 = new TextureLocation("/particles.png").bindTexture();
                                     }
 
                                     if(var83 == 1) {
-                                       var110 = var96.textureManager.load("/terrain.png");
+                                       var110 = new TextureLocation("/terrain.png").bindTexture();
                                     }
 
-                                    GL11.glBindTexture(3553, var110);
                                     ShapeRenderer var121 = ShapeRenderer.instance;
                                     ShapeRenderer.instance.begin();
 
@@ -535,12 +529,12 @@ public final class Minecraft implements Runnable {
                                  }
                               }
 
-                              GL11.glBindTexture(3553, var89.textureManager.load("/rock.png"));
+                              new TextureLocation("/rock.png").bindTexture();
                               GL11.glEnable(3553);
                               GL11.glCallList(var89.listId);
                               var82.updateFog();
                               var101 = var89;
-                              GL11.glBindTexture(3553, var89.textureManager.load("/clouds.png"));
+                              new TextureLocation("/clouds.png").bindTexture();
                               GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                               var107 = (float)(var89.level.cloudColor >> 16 & 255) / 255.0F;
                               var29 = (float)(var89.level.cloudColor >> 8 & 255) / 255.0F;
@@ -621,7 +615,7 @@ public final class Minecraft implements Runnable {
                                  GL11.glColor4f(1.0F, 1.0F, 1.0F, (MathHelper.sin((float)System.currentTimeMillis() / 100.0F) * 0.2F + 0.4F) * 0.5F);
                                  if(var89.cracks > 0.0F) {
                                     GL11.glBlendFunc(774, 768);
-                                    var108 = var89.textureManager.load("/terrain.png");
+                                    var108 = new TextureLocation("/terrain.png").bindTexture();
                                     GL11.glBindTexture(3553, var108);
                                     GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
                                     GL11.glPushMatrix();
@@ -673,7 +667,7 @@ public final class Minecraft implements Runnable {
                               var82.updateFog();
                               GL11.glEnable(3553);
                               GL11.glEnable(3042);
-                              GL11.glBindTexture(3553, var89.textureManager.load("/water.png"));
+                              new TextureLocation("/water.png").bindTexture();
                               GL11.glCallList(var89.listId + 1);
                               GL11.glDisable(3042);
                               GL11.glEnable(3042);
@@ -689,7 +683,7 @@ public final class Minecraft implements Runnable {
                               }
 
                               if(var120 > 0) {
-                                 GL11.glBindTexture(3553, var89.textureManager.load("/terrain.png"));
+                            	 new TextureLocation("/terrain.png").bindTexture();
                                  GL11.glCallLists(var89.buffer);
                               }
 
@@ -709,7 +703,7 @@ public final class Minecraft implements Runnable {
                                  GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                                  GL11.glEnable(3042);
                                  GL11.glBlendFunc(770, 771);
-                                 GL11.glBindTexture(3553, var82.minecraft.textureManager.load("/rain.png"));
+                                 new TextureLocation("/rain.png").bindTexture();
 
                                  for(var110 = var104 - 5; var110 <= var104 + 5; ++var110) {
                                     for(var122 = var114 - 5; var122 <= var114 + 5; ++var122) {
@@ -749,7 +743,7 @@ public final class Minecraft implements Runnable {
                               }
 
                               if(var82.entity != null) {
-                                 var82.entity.renderHover(var82.minecraft.textureManager, var80);
+                                 var82.entity.renderHover(var80);
                               }
 
                               GL11.glClear(256);
@@ -793,10 +787,10 @@ public final class Minecraft implements Runnable {
                                  var34 = 0.4F;
                                  GL11.glScalef(0.4F, var34, var34);
                                  GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                                 GL11.glBindTexture(3553, var112.minecraft.textureManager.load("/terrain.png"));
+                                 new TextureLocation("/terrain.png").bindTexture();
                                  var112.block.renderPreview(var123);
                               } else {
-                                 var116.bindTexture(var112.minecraft.textureManager);
+                                 var116.bindTexture();
                                  GL11.glScalef(1.0F, -1.0F, -1.0F);
                                  GL11.glTranslatef(0.0F, 0.2F, 0.0F);
                                  GL11.glRotatef(-120.0F, 0.0F, 0.0F, 1.0F);
@@ -988,18 +982,19 @@ public final class Minecraft implements Runnable {
          ++((ChatLine)var17.chat.get(var16)).time;
       }
 
-      GL11.glBindTexture(3553, this.textureManager.load("/terrain.png"));
-      TextureManager var19 = this.textureManager;
+      new TextureLocation("/terrain.png").bindTexture();
+      
+      //TODO: Write a system for block animations
 
-      for(var16 = 0; var16 < var19.animations.size(); ++var16) {
-         TextureFX var3;
-         (var3 = (TextureFX)var19.animations.get(var16)).anaglyph = var19.settings.anaglyph;
-         var3.animate();
-         var19.textureBuffer.clear();
-         var19.textureBuffer.put(var3.textureData);
-         var19.textureBuffer.position(0).limit(var3.textureData.length);
-         GL11.glTexSubImage2D(3553, 0, var3.textureId % 16 << 4, var3.textureId / 16 << 4, 16, 16, 6408, 5121, var19.textureBuffer);
-      }
+//      for(var16 = 0; var16 < var19.animations.size(); ++var16) {
+//         TextureFX var3;
+//         (var3 = (TextureFX)var19.animations.get(var16)).anaglyph = var19.settings.anaglyph;
+//         var3.animate();
+//         var19.textureBuffer.clear();
+//         var19.textureBuffer.put(var3.textureData);
+//         var19.textureBuffer.position(0).limit(var3.textureData.length);
+//         GL11.glTexSubImage2D(3553, 0, var3.textureId % 16 << 4, var3.textureId / 16 << 4, 16, 16, 6408, 5121, var19.textureBuffer);
+//      }
 
       int var4;
       int var8;

@@ -6,7 +6,6 @@ import com.mojang.minecraft.level.SyntheticClass;
 import com.mojang.minecraft.model.Vec3D;
 import com.mojang.minecraft.phys.AABB;
 import com.mojang.minecraft.render.Frustrum;
-import com.mojang.minecraft.render.TextureManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -166,7 +165,7 @@ public class BlockMap implements Serializable {
 
    }
 
-   public void render(Vec3D var1, Frustrum var2, TextureManager var3, float var4) {
+   public void render(Vec3D var1, Frustrum var2, float var4) {
       for(int var5 = 0; var5 < this.width; ++var5) {
          float var6 = (float)((var5 << 4) - 2);
          float var7 = (float)((var5 + 1 << 4) + 2);
@@ -252,7 +251,7 @@ public class BlockMap implements Serializable {
                               }
                            }
 
-                           var22.render(var3, var4);
+                           var22.render(var4);
                         }
                      }
                   }

@@ -3,6 +3,8 @@ package com.mojang.minecraft;
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.StopGameException;
 import com.mojang.minecraft.render.ShapeRenderer;
+import com.mojang.minecraft.render.TextureLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public final class ProgressBarDisplay {
@@ -54,8 +56,7 @@ public final class ProgressBarDisplay {
             int var5 = this.minecraft.height * 240 / this.minecraft.height;
             GL11.glClear(16640);
             ShapeRenderer var6 = ShapeRenderer.instance;
-            int var7 = this.minecraft.textureManager.load("/dirt.png");
-            GL11.glBindTexture(3553, var7);
+            int var7 = new TextureLocation("/dirt.png").bindTexture();
             float var10 = 32.0F;
             var6.begin();
             var6.color(4210752);
@@ -83,8 +84,8 @@ public final class ProgressBarDisplay {
                GL11.glEnable(3553);
             }
 
-            this.minecraft.fontRenderer.render(this.title, (var4 - this.minecraft.fontRenderer.getWidth(this.title)) / 2, var5 / 2 - 4 - 16, 16777215);
-            this.minecraft.fontRenderer.render(this.text, (var4 - this.minecraft.fontRenderer.getWidth(this.text)) / 2, var5 / 2 - 4 + 8, 16777215);
+            this.minecraft.fontRenderer.drawString(this.title, (var4 - this.minecraft.fontRenderer.getStringWidth(this.title)) / 2, var5 / 2 - 4 - 16, 16777215);
+            this.minecraft.fontRenderer.drawString(this.text, (var4 - this.minecraft.fontRenderer.getStringWidth(this.text)) / 2, var5 / 2 - 4 + 8, 16777215);
             GL11.updateDisplay();
 
             try {

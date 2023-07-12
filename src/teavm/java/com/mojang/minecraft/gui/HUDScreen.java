@@ -3,13 +3,10 @@ package com.mojang.minecraft.gui;
 import com.mojang.minecraft.ChatLine;
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.gamemode.SurvivalGameMode;
-import com.mojang.minecraft.gui.ChatInputScreen;
-import com.mojang.minecraft.gui.FontRenderer;
-import com.mojang.minecraft.gui.Screen;
 import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.player.Inventory;
 import com.mojang.minecraft.render.ShapeRenderer;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.TextureLocation;
 import net.PeytonPlayz585.math.MathHelper;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +15,7 @@ import org.lwjgl.opengl.GL11;
 
 public final class HUDScreen extends Screen {
 
-   public List chat = new ArrayList();
+   public List<ChatLine> chat = new ArrayList<ChatLine>();
    private Random random = new Random();
    private Minecraft mc;
    private int width;
@@ -36,8 +33,7 @@ public final class HUDScreen extends Screen {
    public final void render(float var1, boolean var2, int var3, int var4) {
       FontRenderer var5 = this.mc.fontRenderer;
       this.mc.renderer.enableGuiMode();
-      TextureManager var6 = this.mc.textureManager;
-      GL11.glBindTexture(3553, this.mc.textureManager.load("/gui/gui.png"));
+      new TextureLocation("/gui/gui.png.png").bindTexture();
       ShapeRenderer var7 = ShapeRenderer.instance;
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       GL11.glEnable(3042);
@@ -45,7 +41,7 @@ public final class HUDScreen extends Screen {
       this.imgZ = -90.0F;
       this.drawImage(this.width / 2 - 91, this.height - 22, 0, 0, 182, 22);
       this.drawImage(this.width / 2 - 91 - 1 + var8.selected * 20, this.height - 22 - 1, 0, 22, 24, 22);
-      GL11.glBindTexture(3553, this.mc.textureManager.load("/gui/icons.png"));
+      new TextureLocation("/gui/icons.png").bindTexture();
       this.drawImage(this.width / 2 - 7, this.height / 2 - 7, 0, 0, 16, 16);
       boolean var9 = this.mc.player.invulnerableTime / 3 % 2 == 1;
       if(this.mc.player.invulnerableTime < 10) {
@@ -131,28 +127,27 @@ public final class HUDScreen extends Screen {
             GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(-1.5F, 0.5F, 0.5F);
             GL11.glScalef(-1.0F, -1.0F, -1.0F);
-            int var20 = var6.load("/terrain.png");
-            GL11.glBindTexture(3553, var20);
+            new TextureLocation("/terrain.png").bindTexture();
             var7.begin();
             Block.blocks[var15].renderFullbright(var7);
             var7.end();
             GL11.glPopMatrix();
             if(var8.count[var12] > 1) {
                var23 = "" + var8.count[var12];
-               var5.render(var23, var26 + 19 - var5.getWidth(var23), var14 + 6, 16777215);
+               var5.drawString(var23, var26 + 19 - var5.getStringWidth(var23), var14 + 6, 16777215);
             }
          }
       }
 
-      var5.render("0.30", 2, 2, 16777215);
+      var5.drawString("Minecraft Classic (Modified) Webport", 2, 2, 16777215);
       if(this.mc.settings.showFrameRate) {
-         var5.render(this.mc.debug, 2, 12, 16777215);
+         var5.drawString(this.mc.debug, 2, 12, 16777215);
       }
 
       if(this.mc.gamemode instanceof SurvivalGameMode) {
          String var24 = "Score: &e" + this.mc.player.getScore();
-         var5.render(var24, this.width - var5.getWidth(var24) - 2, 2, 16777215);
-         var5.render("Arrows: " + this.mc.player.arrows, this.width / 2 + 8, this.height - 33, 16777215);
+         var5.drawString(var24, this.width - var5.getStringWidth(var24) - 2, 2, 16777215);
+         var5.drawString("Arrows: " + this.mc.player.arrows, this.width / 2 + 8, this.height - 33, 16777215);
       }
 
       byte var25 = 10;
@@ -164,7 +159,7 @@ public final class HUDScreen extends Screen {
 
       for(var14 = 0; var14 < this.chat.size() && var14 < var25; ++var14) {
          if(((ChatLine)this.chat.get(var14)).time < 200 || var27) {
-            var5.render(((ChatLine)this.chat.get(var14)).message, 2, this.height - 8 - var14 * 9 - 20, 16777215);
+            var5.drawString(((ChatLine)this.chat.get(var14)).message, 2, this.height - 8 - var14 * 9 - 20, 16777215);
          }
       }
 

@@ -5,7 +5,9 @@ import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.mob.ai.AI;
 import com.mojang.minecraft.mob.ai.BasicAI;
 import com.mojang.minecraft.model.ModelManager;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.RenderEngine;
+import com.mojang.minecraft.render.TextureLocation;
+
 import net.PeytonPlayz585.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -204,12 +206,11 @@ public class Mob extends Entity {
 
    }
 
-   protected void bindTexture(TextureManager var1) {
-      this.textureId = var1.load(this.textureName);
-      GL11.glBindTexture(3553, this.textureId);
+   protected void bindTexture() {
+      this.textureId = new TextureLocation(textureName).bindTexture();
    }
 
-   public void render(TextureManager var1, float var2) {
+   public void render(float var2) {
       if(this.modelName != null) {
          float var3;
          if((var3 = (float)this.attackTime - var2) < 0.0F) {
@@ -288,14 +289,14 @@ public class Mob extends Entity {
 
          GL11.glScalef(-1.0F, 1.0F, 1.0F);
          modelCache.getModel(this.modelName).attackOffset = var3 / 5.0F;
-         this.bindTexture(var1);
-         this.renderModel(var1, var8, var2, var5, var6, var7, var9);
+         this.bindTexture();
+         this.renderModel(var8, var2, var5, var6, var7, var9);
          if(this.invulnerableTime > this.invulnerableDuration - 10) {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
             GL11.glEnable(3042);
             GL11.glBlendFunc(770, 1);
-            this.bindTexture(var1);
-            this.renderModel(var1, var8, var2, var5, var6, var7, var9);
+            this.bindTexture();
+            this.renderModel(var8, var2, var5, var6, var7, var9);
             GL11.glDisable(3042);
             GL11.glBlendFunc(770, 771);
          }
@@ -310,7 +311,7 @@ public class Mob extends Entity {
       }
    }
 
-   public void renderModel(TextureManager var1, float var2, float var3, float var4, float var5, float var6, float var7) {
+   public void renderModel(float var2, float var3, float var4, float var5, float var6, float var7) {
       modelCache.getModel(this.modelName).render(var2, var4, (float)this.tickCount + var3, var5, var6, var7);
    }
 

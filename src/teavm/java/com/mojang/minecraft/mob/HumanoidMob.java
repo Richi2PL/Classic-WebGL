@@ -4,7 +4,7 @@ import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.mob.Mob;
 import com.mojang.minecraft.model.HumanoidModel;
 import com.mojang.minecraft.model.Model;
-import com.mojang.minecraft.render.TextureManager;
+import com.mojang.minecraft.render.TextureLocation;
 import org.lwjgl.opengl.GL11;
 
 public class HumanoidMob extends Mob {
@@ -20,8 +20,8 @@ public class HumanoidMob extends Mob {
       this.setPos(var2, var3, var4);
    }
 
-   public void renderModel(TextureManager var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      super.renderModel(var1, var2, var3, var4, var5, var6, var7);
+   public void renderModel(float var2, float var3, float var4, float var5, float var6, float var7) {
+      super.renderModel(var2, var3, var4, var5, var6, var7);
       Model var9 = modelCache.getModel(this.modelName);
       GL11.glEnable(3008);
       if(this.allowAlpha) {
@@ -38,7 +38,7 @@ public class HumanoidMob extends Mob {
       }
 
       if(this.armor || this.helmet) {
-         GL11.glBindTexture(3553, var1.load("/armor/plate.png"));
+    	  new TextureLocation("/armor/plate.png").bindTexture();
          GL11.glDisable(2884);
          HumanoidModel var8;
          (var8 = (HumanoidModel)modelCache.getModel("humanoid.armor")).head.render = this.helmet;

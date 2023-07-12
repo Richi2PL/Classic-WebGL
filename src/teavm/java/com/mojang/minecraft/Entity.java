@@ -6,9 +6,7 @@ import com.mojang.minecraft.level.liquid.LiquidType;
 import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.level.tile.Tile$SoundType;
 import com.mojang.minecraft.model.Vec3D;
-import com.mojang.minecraft.net.PositionUpdate;
 import com.mojang.minecraft.phys.AABB;
-import com.mojang.minecraft.render.TextureManager;
 import net.PeytonPlayz585.math.MathHelper;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -86,20 +84,6 @@ public abstract class Entity implements Serializable {
    public void setSize(float var1, float var2) {
       this.bbWidth = var1;
       this.bbHeight = var2;
-   }
-
-   public void setPos(PositionUpdate var1) {
-      if(var1.position) {
-         this.setPos(var1.x, var1.y, var1.z);
-      } else {
-         this.setPos(this.x, this.y, this.z);
-      }
-
-      if(var1.rotation) {
-         this.setRot(var1.yaw, var1.pitch);
-      } else {
-         this.setRot(this.yRot, this.xRot);
-      }
    }
 
    protected void setRot(float var1, float var2) {
@@ -360,7 +344,7 @@ public abstract class Entity implements Serializable {
       return this.level.getBrightness(var4, var2, var3);
    }
 
-   public void render(TextureManager var1, float var2) {}
+   public void render(float var2) {}
 
    public void setLevel(Level var1) {
       this.level = var1;
@@ -465,5 +449,5 @@ public abstract class Entity implements Serializable {
       return false;
    }
 
-   public void renderHover(TextureManager var1, float var2) {}
+   public void renderHover(float var2) {}
 }

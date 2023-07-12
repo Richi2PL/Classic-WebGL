@@ -3,22 +3,18 @@ package com.mojang.minecraft.particle;
 import com.mojang.minecraft.Entity;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.particle.Particle;
-import com.mojang.minecraft.render.TextureManager;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class ParticleManager {
 
    public List[] particles = new List[2];
-   public TextureManager textureManager;
 
 
-   public ParticleManager(Level var1, TextureManager var2) {
+   public ParticleManager(Level var1) {
       if(var1 != null) {
          var1.particleEngine = this;
       }
-
-      this.textureManager = var2;
 
       for(int var3 = 0; var3 < 2; ++var3) {
          this.particles[var3] = new ArrayList();
