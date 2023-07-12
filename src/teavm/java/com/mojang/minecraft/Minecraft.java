@@ -141,8 +141,6 @@ public final class Minecraft implements Runnable {
 
    public final void run() {
       this.running = true;
-
-      //try {
          Minecraft var1 = this;
          checkGLError("Pre startup");
          GL11.glEnable(3553);
@@ -177,21 +175,18 @@ public final class Minecraft implements Runnable {
          this.particleManager = new ParticleManager(this.level);
          checkGLError("Post startup");
          this.hud = new HUDScreen(this, this.width, this.height);
-      //} catch (Exception var62) {
-         //var62.printStackTrace();
-         //JOptionPane.showMessageDialog((Component)null, var62.toString(), "Failed to start Minecraft", 0);
-         //throw new RuntimeException("Failed to start Minecraft! :(");
-      //}
 
       long var13 = System.currentTimeMillis();
       int var15 = 0;
-
-      try {
          while(this.running) {
             if(this.waiting) {
-               Thread.sleep(100L);
-            } else {
                try {
+				Thread.sleep(100L);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            } else {
                   Timer var63 = this.timer;
                   long var16;
                   long var18 = (var16 = System.currentTimeMillis()) - var63.lastSysClock;
@@ -835,15 +830,20 @@ public final class Minecraft implements Runnable {
                   }
 
                   if(this.settings.limitFramerate) {
-                     Thread.sleep(5L);
+                     try {
+						Thread.sleep(5L);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                   }
 
                   checkGLError("Post render");
                   ++var15;
-               } catch (Exception var58) {
-                  this.setCurrentScreen(new ErrorScreen("Client error", "The game broke! [" + var58 + "]"));
-                  var58.printStackTrace();
-               }
+               //} catch (Exception var58) {
+                  //this.setCurrentScreen(new ErrorScreen("Client error", "The game broke! [" + var58 + "]"));
+                  //var58.printStackTrace();
+               //}
 
                while(System.currentTimeMillis() >= var13 + 1000L) {
                   this.debug = var15 + " fps, " + Chunk.chunkUpdates + " chunk updates";
@@ -853,17 +853,6 @@ public final class Minecraft implements Runnable {
                }
             }
          }
-
-         return;
-      } catch (StopGameException var59) {
-         ;
-      } catch (Exception var60) {
-         var60.printStackTrace();
-         return;
-      } finally {
-         this.shutdown();
-      }
-
    }
 
    public final void grabMouse() {

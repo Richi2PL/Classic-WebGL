@@ -309,7 +309,7 @@ public class EaglerAdapterImpl2 {
 		});
 		initFileChooser();
 		
-		EarlyLoadScreen.paintScreen();
+		//EarlyLoadScreen.paintScreen();
 		
 		OpenState st = IndexedDBFilesystem.initialize();
 		if(st != OpenState.OPENED) {
@@ -329,17 +329,17 @@ public class EaglerAdapterImpl2 {
 			e.printStackTrace();
 		}
 		
-		if(mouseEvents.isEmpty() && keyEvents.isEmpty() && !hasBeenActive()) {
-			EarlyLoadScreen.paintEnable();
-			
-			while(mouseEvents.isEmpty() && keyEvents.isEmpty()) {
-				try {
-					Thread.sleep(100l);
-				} catch (InterruptedException e) {
-					;
-				}
-			}
-		}
+//		if(mouseEvents.isEmpty() && keyEvents.isEmpty() && !hasBeenActive()) {
+//			EarlyLoadScreen.paintEnable();
+//			
+//			while(mouseEvents.isEmpty() && keyEvents.isEmpty()) {
+//				try {
+//					Thread.sleep(100l);
+//				} catch (InterruptedException e) {
+//					;
+//				}
+//			}
+//		}
 		
 		audioctx = AudioContext.create();
 		
