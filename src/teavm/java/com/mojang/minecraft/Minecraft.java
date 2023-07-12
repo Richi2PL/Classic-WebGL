@@ -30,6 +30,7 @@ import com.mojang.minecraft.render.texture.TextureWaterFX;
 import net.PeytonPlayz585.math.MathHelper;
 
 import net.lax1dude.eaglercraft.GLAllocation;
+import net.lax1dude.eaglercraft.adapter.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
@@ -73,6 +74,7 @@ public final class Minecraft implements Runnable {
    public boolean hasMouse;
    private int lastClick;
    public boolean raining;
+   private static Tessellator tessellator = Tessellator.instance;
 
 
    public Minecraft() {
@@ -446,7 +448,6 @@ public final class Minecraft implements Runnable {
                               var89.sortChunks(var126, 0);
                               int var83;
                               int var110;
-                              ShapeRenderer var115;
                               int var114;
                               int var125;
                               int var122;
@@ -465,22 +466,21 @@ public final class Minecraft implements Runnable {
                                           if((var104 = var89.level.getTile(var122, var125, var38)) != 0 && Block.blocks[var104].isSolid()) {
                                              GL11.glColor4f(0.2F, 0.2F, 0.2F, 1.0F);
                                              GL11.glDepthFunc(513);
-                                             var115 = ShapeRenderer.instance;
-                                             ShapeRenderer.instance.begin();
+                                             tessellator.startDrawing();
 
                                              for(var114 = 0; var114 < 6; ++var114) {
-                                                Block.blocks[var104].renderInside(var115, var99, var98, var105, var114);
+                                                Block.blocks[var104].renderInside(var99, var98, var105, var114);
                                              }
 
-                                             var115.end();
+                                             tessellator.draw();
                                              GL11.glCullFace(1028);
-                                             var115.begin();
+                                             tessellator.startDrawing();
 
                                              for(var114 = 0; var114 < 6; ++var114) {
-                                                Block.blocks[var104].renderInside(var115, var99, var98, var105, var114);
+                                                Block.blocks[var104].renderInside(var99, var98, var105, var114);
                                              }
 
-                                             var115.end();
+                                             tessellator.draw();
                                              GL11.glCullFace(1029);
                                              GL11.glDepthFunc(515);
                                           }
@@ -512,14 +512,13 @@ public final class Minecraft implements Runnable {
                                        var110 = new TextureLocation("/terrain.png").bindTexture();
                                     }
 
-                                    ShapeRenderer var121 = ShapeRenderer.instance;
-                                    ShapeRenderer.instance.begin();
+                                    tessellator.startDrawing();
 
                                     for(var120 = 0; var120 < var96.particles[var83].size(); ++var120) {
-                                       ((Particle)var96.particles[var83].get(var120)).render(var121, var107, var29, var69, var30, var117, var32);
+                                       ((Particle)var96.particles[var83].get(var120)).render(var107, var29, var69, var30, var117, var32);
                                     }
 
-                                    var121.end();
+                                    tessellator.draw();
                                  }
                               }
 
@@ -542,31 +541,30 @@ public final class Minecraft implements Runnable {
                                  var30 = var69;
                               }
 
-                              var115 = ShapeRenderer.instance;
                               var74 = 0.0F;
                               var33 = 4.8828125E-4F;
                               var74 = (float)(var89.level.depth + 2);
                               var34 = ((float)var89.ticks + var80) * var33 * 0.03F;
                               var35 = 0.0F;
-                              var115.begin();
-                              var115.color(var107, var29, var30);
+                              tessellator.startDrawing();
+                              tessellator.setColorOpaque_F(var107, var29, var30);
 
                               for(var86 = -2048; var86 < var101.level.width + 2048; var86 += 512) {
                                  for(var125 = -2048; var125 < var101.level.height + 2048; var125 += 512) {
-                                    var115.vertexUV((float)var86, var74, (float)(var125 + 512), (float)var86 * var33 + var34, (float)(var125 + 512) * var33);
-                                    var115.vertexUV((float)(var86 + 512), var74, (float)(var125 + 512), (float)(var86 + 512) * var33 + var34, (float)(var125 + 512) * var33);
-                                    var115.vertexUV((float)(var86 + 512), var74, (float)var125, (float)(var86 + 512) * var33 + var34, (float)var125 * var33);
-                                    var115.vertexUV((float)var86, var74, (float)var125, (float)var86 * var33 + var34, (float)var125 * var33);
-                                    var115.vertexUV((float)var86, var74, (float)var125, (float)var86 * var33 + var34, (float)var125 * var33);
-                                    var115.vertexUV((float)(var86 + 512), var74, (float)var125, (float)(var86 + 512) * var33 + var34, (float)var125 * var33);
-                                    var115.vertexUV((float)(var86 + 512), var74, (float)(var125 + 512), (float)(var86 + 512) * var33 + var34, (float)(var125 + 512) * var33);
-                                    var115.vertexUV((float)var86, var74, (float)(var125 + 512), (float)var86 * var33 + var34, (float)(var125 + 512) * var33);
+                                	tessellator.addVertexWithUV((float)var86, var74, (float)(var125 + 512), (float)var86 * var33 + var34, (float)(var125 + 512) * var33);
+                                    tessellator.addVertexWithUV((float)(var86 + 512), var74, (float)(var125 + 512), (float)(var86 + 512) * var33 + var34, (float)(var125 + 512) * var33);
+                                    tessellator.addVertexWithUV((float)(var86 + 512), var74, (float)var125, (float)(var86 + 512) * var33 + var34, (float)var125 * var33);
+                                    tessellator.addVertexWithUV((float)var86, var74, (float)var125, (float)var86 * var33 + var34, (float)var125 * var33);
+                                    tessellator.addVertexWithUV((float)var86, var74, (float)var125, (float)var86 * var33 + var34, (float)var125 * var33);
+                                    tessellator.addVertexWithUV((float)(var86 + 512), var74, (float)var125, (float)(var86 + 512) * var33 + var34, (float)var125 * var33);
+                                    tessellator.addVertexWithUV((float)(var86 + 512), var74, (float)(var125 + 512), (float)(var86 + 512) * var33 + var34, (float)(var125 + 512) * var33);
+                                    tessellator.addVertexWithUV((float)var86, var74, (float)(var125 + 512), (float)var86 * var33 + var34, (float)(var125 + 512) * var33);
                                  }
                               }
 
-                              var115.end();
+                              tessellator.draw();
                               GL11.glDisable(3553);
-                              var115.begin();
+                              tessellator.startDrawing();
                               var34 = (float)(var101.level.skyColor >> 16 & 255) / 255.0F;
                               var35 = (float)(var101.level.skyColor >> 8 & 255) / 255.0F;
                               var87 = (float)(var101.level.skyColor & 255) / 255.0F;
@@ -579,19 +577,19 @@ public final class Minecraft implements Runnable {
                                  var87 = var74;
                               }
 
-                              var115.color(var34, var35, var87);
+                              tessellator.setColorOpaque_F(var34, var35, var87);
                               var74 = (float)(var101.level.depth + 10);
 
                               for(var125 = -2048; var125 < var101.level.width + 2048; var125 += 512) {
                                  for(var68 = -2048; var68 < var101.level.height + 2048; var68 += 512) {
-                                    var115.vertex((float)var125, var74, (float)var68);
-                                    var115.vertex((float)(var125 + 512), var74, (float)var68);
-                                    var115.vertex((float)(var125 + 512), var74, (float)(var68 + 512));
-                                    var115.vertex((float)var125, var74, (float)(var68 + 512));
+                                	 tessellator.addVertex((float)var125, var74, (float)var68);
+                                    tessellator.addVertex((float)(var125 + 512), var74, (float)var68);
+                                    tessellator.addVertex((float)(var125 + 512), var74, (float)(var68 + 512));
+                                    tessellator.addVertex((float)var125, var74, (float)(var68 + 512));
                                  }
                               }
 
-                              var115.end();
+                              tessellator.draw();
                               GL11.glEnable(3553);
                               var82.updateFog();
                               int var108;
@@ -602,7 +600,6 @@ public final class Minecraft implements Runnable {
                                  boolean var106 = false;
                                  MovingObjectPosition var102 = var10001;
                                  var101 = var89;
-                                 ShapeRenderer var113 = ShapeRenderer.instance;
                                  GL11.glEnable(3042);
                                  GL11.glEnable(3008);
                                  GL11.glBlendFunc(770, 1);
@@ -622,18 +619,18 @@ public final class Minecraft implements Runnable {
                                     var35 = 1.01F;
                                     GL11.glScalef(1.01F, var35, var35);
                                     GL11.glTranslatef(-((float)var102.x + var74), -((float)var102.y + var33), -((float)var102.z + var34));
-                                    var113.begin();
-                                    var113.noColor();
+                                    tessellator.startDrawing();
+                                    tessellator.disableColor();
                                     GL11.glDepthMask(false);
                                     if(var73 == null) {
                                        var73 = Block.STONE;
                                     }
 
                                     for(var86 = 0; var86 < 6; ++var86) {
-                                       var73.renderSide(var113, var102.x, var102.y, var102.z, var86, 240 + (int)(var101.cracks * 10.0F));
+                                       var73.renderSide(var102.x, var102.y, var102.z, var86, 240 + (int)(var101.cracks * 10.0F));
                                     }
 
-                                    var113.end();
+                                    tessellator.draw();
                                     GL11.glDepthMask(true);
                                     GL11.glPopMatrix();
                                  }
@@ -692,7 +689,6 @@ public final class Minecraft implements Runnable {
                                  var104 = (int)var28.x;
                                  var108 = (int)var28.y;
                                  var114 = (int)var28.z;
-                                 ShapeRenderer var84 = ShapeRenderer.instance;
                                  GL11.glDisable(2884);
                                  GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                                  GL11.glEnable(3042);
@@ -718,16 +714,16 @@ public final class Minecraft implements Runnable {
                                           var35 = (float)var122 + 0.5F - var28.z;
                                           float var92 = MathHelper.sqrt(var124 * var124 + var35 * var35) / (float)5;
                                           GL11.glColor4f(1.0F, 1.0F, 1.0F, (1.0F - var92 * var92) * 0.7F);
-                                          var84.begin();
-                                          var84.vertexUV((float)var110, (float)var86, (float)var122, 0.0F, (float)var86 * 2.0F / 8.0F + var74 * 2.0F);
-                                          var84.vertexUV((float)(var110 + 1), (float)var86, (float)(var122 + 1), 2.0F, (float)var86 * 2.0F / 8.0F + var74 * 2.0F);
-                                          var84.vertexUV((float)(var110 + 1), (float)var125, (float)(var122 + 1), 2.0F, (float)var125 * 2.0F / 8.0F + var74 * 2.0F);
-                                          var84.vertexUV((float)var110, (float)var125, (float)var122, 0.0F, (float)var125 * 2.0F / 8.0F + var74 * 2.0F);
-                                          var84.vertexUV((float)var110, (float)var86, (float)(var122 + 1), 0.0F, (float)var86 * 2.0F / 8.0F + var74 * 2.0F);
-                                          var84.vertexUV((float)(var110 + 1), (float)var86, (float)var122, 2.0F, (float)var86 * 2.0F / 8.0F + var74 * 2.0F);
-                                          var84.vertexUV((float)(var110 + 1), (float)var125, (float)var122, 2.0F, (float)var125 * 2.0F / 8.0F + var74 * 2.0F);
-                                          var84.vertexUV((float)var110, (float)var125, (float)(var122 + 1), 0.0F, (float)var125 * 2.0F / 8.0F + var74 * 2.0F);
-                                          var84.end();
+                                          tessellator.startDrawing();
+                                          tessellator.addVertexWithUV((float)var110, (float)var86, (float)var122, 0.0F, (float)var86 * 2.0F / 8.0F + var74 * 2.0F);
+                                          tessellator.addVertexWithUV((float)(var110 + 1), (float)var86, (float)(var122 + 1), 2.0F, (float)var86 * 2.0F / 8.0F + var74 * 2.0F);
+                                          tessellator.addVertexWithUV((float)(var110 + 1), (float)var125, (float)(var122 + 1), 2.0F, (float)var125 * 2.0F / 8.0F + var74 * 2.0F);
+                                          tessellator.addVertexWithUV((float)var110, (float)var125, (float)var122, 0.0F, (float)var125 * 2.0F / 8.0F + var74 * 2.0F);
+                                          tessellator.addVertexWithUV((float)var110, (float)var86, (float)(var122 + 1), 0.0F, (float)var86 * 2.0F / 8.0F + var74 * 2.0F);
+                                          tessellator.addVertexWithUV((float)(var110 + 1), (float)var86, (float)var122, 2.0F, (float)var86 * 2.0F / 8.0F + var74 * 2.0F);
+                                          tessellator.addVertexWithUV((float)(var110 + 1), (float)var125, (float)var122, 2.0F, (float)var125 * 2.0F / 8.0F + var74 * 2.0F);
+                                          tessellator.addVertexWithUV((float)var110, (float)var125, (float)(var122 + 1), 0.0F, (float)var125 * 2.0F / 8.0F + var74 * 2.0F);
+                                          tessellator.draw();
                                        }
                                     }
                                  }
@@ -776,13 +772,12 @@ public final class Minecraft implements Runnable {
                               }
 
                               GL11.glColor4f(var74 = var112.minecraft.level.getBrightness((int)var116.x, (int)var116.y, (int)var116.z), var74, var74, 1.0F);
-                              ShapeRenderer var123 = ShapeRenderer.instance;
                               if(var112.block != null) {
                                  var34 = 0.4F;
                                  GL11.glScalef(0.4F, var34, var34);
                                  GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
                                  new TextureLocation("/terrain.png").bindTexture();
-                                 var112.block.renderPreview(var123);
+                                 var112.block.renderPreview();
                               } else {
                                  var116.bindTexture();
                                  GL11.glScalef(1.0F, -1.0F, -1.0F);

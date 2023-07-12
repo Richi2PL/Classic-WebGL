@@ -5,9 +5,10 @@ import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.gamemode.SurvivalGameMode;
 import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.player.Inventory;
-import com.mojang.minecraft.render.ShapeRenderer;
 import com.mojang.minecraft.render.TextureLocation;
 import net.PeytonPlayz585.math.MathHelper;
+import net.lax1dude.eaglercraft.adapter.Tessellator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,7 +35,7 @@ public final class HUDScreen extends Screen {
       FontRenderer var5 = this.mc.fontRenderer;
       this.mc.renderer.enableGuiMode();
       new TextureLocation("/gui/gui.png").bindTexture();
-      ShapeRenderer var7 = ShapeRenderer.instance;
+      Tessellator tessellator = Tessellator.instance;
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
       GL11.glEnable(3042);
       Inventory var8 = this.mc.player.inventory;
@@ -128,9 +129,9 @@ public final class HUDScreen extends Screen {
             GL11.glTranslatef(-1.5F, 0.5F, 0.5F);
             GL11.glScalef(-1.0F, -1.0F, -1.0F);
             new TextureLocation("/terrain.png").bindTexture();
-            var7.begin();
-            Block.blocks[var15].renderFullbright(var7);
-            var7.end();
+            tessellator.startDrawing();
+            Block.blocks[var15].renderFullbright();
+            tessellator.draw();
             GL11.glPopMatrix();
             if(var8.count[var12] > 1) {
                var23 = "" + var8.count[var12];

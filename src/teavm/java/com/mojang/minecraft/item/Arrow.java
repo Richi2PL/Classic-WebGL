@@ -4,9 +4,10 @@ import com.mojang.minecraft.Entity;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.phys.AABB;
 import com.mojang.minecraft.player.Player;
-import com.mojang.minecraft.render.ShapeRenderer;
 import com.mojang.minecraft.render.TextureLocation;
 import net.PeytonPlayz585.math.MathHelper;
+import net.lax1dude.eaglercraft.adapter.Tessellator;
+
 import java.util.List;
 import org.lwjgl.opengl.GL11;
 
@@ -189,7 +190,7 @@ public class Arrow extends Entity
 		GL11.glRotatef(xRotO + (xRot - xRotO) * unknown0, 0.0F, 0.0F, 1.0F);
 		GL11.glRotatef(45.0F, 1.0F, 0.0F, 0.0F);
 
-		ShapeRenderer shapeRenderer = ShapeRenderer.instance;
+		Tessellator tessellator = Tessellator.instance;
 
 		unknown0 = 0.5F;
 
@@ -205,21 +206,21 @@ public class Arrow extends Entity
 
 		GL11.glNormal3f(unknown6, 0.0F, 0.0F);
 
-		shapeRenderer.begin();
-		shapeRenderer.vertexUV(-7.0F, -2.0F, -2.0F, 0.0F, unknown4);
-		shapeRenderer.vertexUV(-7.0F, -2.0F, 2.0F, unknown3, unknown4);
-		shapeRenderer.vertexUV(-7.0F, 2.0F, 2.0F, unknown3, unknown5);
-		shapeRenderer.vertexUV(-7.0F, 2.0F, -2.0F, 0.0F, unknown5);
-		shapeRenderer.end();
+		tessellator.startDrawing();
+		tessellator.addVertexWithUV(-7.0F, -2.0F, -2.0F, 0.0F, unknown4);
+		tessellator.addVertexWithUV(-7.0F, -2.0F, 2.0F, unknown3, unknown4);
+		tessellator.addVertexWithUV(-7.0F, 2.0F, 2.0F, unknown3, unknown5);
+		tessellator.addVertexWithUV(-7.0F, 2.0F, -2.0F, 0.0F, unknown5);
+		tessellator.draw();
 
 		GL11.glNormal3f(-unknown6, 0.0F, 0.0F);
 
-		shapeRenderer.begin();
-		shapeRenderer.vertexUV(-7.0F, 2.0F, -2.0F, 0.0F, unknown4);
-		shapeRenderer.vertexUV(-7.0F, 2.0F, 2.0F, unknown3, unknown4);
-		shapeRenderer.vertexUV(-7.0F, -2.0F, 2.0F, unknown3, unknown5);
-		shapeRenderer.vertexUV(-7.0F, -2.0F, -2.0F, 0.0F, unknown5);
-		shapeRenderer.end();
+		tessellator.startDrawing();
+		tessellator.addVertexWithUV(-7.0F, 2.0F, -2.0F, 0.0F, unknown4);
+		tessellator.addVertexWithUV(-7.0F, 2.0F, 2.0F, unknown3, unknown4);
+		tessellator.addVertexWithUV(-7.0F, -2.0F, 2.0F, unknown3, unknown5);
+		tessellator.addVertexWithUV(-7.0F, -2.0F, -2.0F, 0.0F, unknown5);
+		tessellator.draw();
 
 		for(int unknown7 = 0; unknown7 < 4; unknown7++)
 		{
@@ -227,11 +228,11 @@ public class Arrow extends Entity
 
 			GL11.glNormal3f(0.0F, -unknown6, 0.0F);
 
-			shapeRenderer.vertexUV(-8.0F, -2.0F, 0.0F, 0.0F, unknown1);
-			shapeRenderer.vertexUV(8.0F, -2.0F, 0.0F, unknown0, unknown1);
-			shapeRenderer.vertexUV(8.0F, 2.0F, 0.0F, unknown0, unknown2);
-			shapeRenderer.vertexUV(-8.0F, 2.0F, 0.0F, 0.0F, unknown2);
-			shapeRenderer.end();
+			tessellator.addVertexWithUV(-8.0F, -2.0F, 0.0F, 0.0F, unknown1);
+			tessellator.addVertexWithUV(8.0F, -2.0F, 0.0F, unknown0, unknown1);
+			tessellator.addVertexWithUV(8.0F, 2.0F, 0.0F, unknown0, unknown2);
+			tessellator.addVertexWithUV(-8.0F, 2.0F, 0.0F, 0.0F, unknown2);
+			tessellator.draw();
 		}
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

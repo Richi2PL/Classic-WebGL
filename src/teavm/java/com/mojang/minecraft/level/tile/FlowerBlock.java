@@ -2,12 +2,14 @@ package com.mojang.minecraft.level.tile;
 
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.phys.AABB;
-import com.mojang.minecraft.render.ShapeRenderer;
 import net.PeytonPlayz585.math.MathHelper;
+import net.lax1dude.eaglercraft.adapter.Tessellator;
 
 import java.util.Random;
 
 public class FlowerBlock extends Block {
+	
+   Tessellator tessellator = Tessellator.instance;
 
    protected FlowerBlock(int var1, int var2) {
       super(var1);
@@ -27,7 +29,7 @@ public class FlowerBlock extends Block {
       }
    }
 
-   private void render(ShapeRenderer var1, float var2, float var3, float var4) {
+   private void render(float var2, float var3, float var4) {
       int var15;
       int var5 = (var15 = this.getTextureId(15)) % 16 << 4;
       int var6 = var15 / 16 << 4;
@@ -44,14 +46,14 @@ public class FlowerBlock extends Block {
          float var13 = var3 + 1.0F;
          float var14 = var4 + 0.5F - var10;
          var10 += var4 + 0.5F;
-         var1.vertexUV(var11, var13, var14, var17, var7);
-         var1.vertexUV(var9, var13, var10, var16, var7);
-         var1.vertexUV(var9, var3, var10, var16, var18);
-         var1.vertexUV(var11, var3, var14, var17, var18);
-         var1.vertexUV(var9, var13, var10, var17, var7);
-         var1.vertexUV(var11, var13, var14, var16, var7);
-         var1.vertexUV(var11, var3, var14, var16, var18);
-         var1.vertexUV(var9, var3, var10, var17, var18);
+         tessellator.addVertexWithUV(var11, var13, var14, var17, var7);
+         tessellator.addVertexWithUV(var9, var13, var10, var16, var7);
+         tessellator.addVertexWithUV(var9, var3, var10, var16, var18);
+         tessellator.addVertexWithUV(var11, var3, var14, var17, var18);
+         tessellator.addVertexWithUV(var9, var13, var10, var17, var7);
+         tessellator.addVertexWithUV(var11, var13, var14, var16, var7);
+         tessellator.addVertexWithUV(var11, var3, var14, var16, var18);
+         tessellator.addVertexWithUV(var9, var3, var10, var17, var18);
       }
 
    }
@@ -64,27 +66,27 @@ public class FlowerBlock extends Block {
       return false;
    }
 
-   public final void renderPreview(ShapeRenderer var1) {
-      var1.normal(0.0F, 1.0F, 0.0F);
-      var1.begin();
-      this.render(var1, 0.0F, 0.4F, -0.3F);
-      var1.end();
+   public final void renderPreview() {
+	  tessellator.setNormal(0.0F, 1.0F, 0.0F);
+      tessellator.startDrawing();
+      this.render(0.0F, 0.4F, -0.3F);
+      tessellator.draw();
    }
 
    public final boolean isCube() {
       return false;
    }
 
-   public final boolean render(Level var1, int var2, int var3, int var4, ShapeRenderer var5) {
+   public final boolean render(Level var1, int var2, int var3, int var4) {
       float var6 = var1.getBrightness(var2, var3, var4);
-      var5.color(var6, var6, var6);
-      this.render(var5, (float)var2, (float)var3, (float)var4);
+      tessellator.setColorOpaque_F(var6, var6, var6);
+      this.render((float)var2, (float)var3, (float)var4);
       return true;
    }
 
-   public final void renderFullbright(ShapeRenderer shapeRenderer) {
-      shapeRenderer.color(1.0F, 1.0F, 1.0F);
-      this.render(shapeRenderer, (float)-2, 0.0F, 0.0F);
+   public final void renderFullbright() {
+	   tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+      this.render((float)-2, 0.0F, 0.0F);
    }
 
 	@Override

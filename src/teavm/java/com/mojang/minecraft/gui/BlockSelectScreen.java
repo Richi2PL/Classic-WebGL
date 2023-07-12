@@ -3,8 +3,10 @@ package com.mojang.minecraft.gui;
 import com.mojang.minecraft.SessionData;
 import com.mojang.minecraft.gui.GuiScreen;
 import com.mojang.minecraft.level.tile.Block;
-import com.mojang.minecraft.render.ShapeRenderer;
 import com.mojang.minecraft.render.TextureLocation;
+
+import net.lax1dude.eaglercraft.adapter.Tessellator;
+
 import org.lwjgl.opengl.GL11;
 
 public final class BlockSelectScreen extends GuiScreen {
@@ -35,7 +37,7 @@ public final class BlockSelectScreen extends GuiScreen {
       }
 
       drawCenteredString(this.fontRenderer, "Select block", this.width / 2, 40, 16777215);
-      ShapeRenderer var8 = ShapeRenderer.instance;
+      Tessellator tessellator = Tessellator.instance;
       var2 = new TextureLocation("/terrain.png").bindTexture();
       GL11.glBindTexture(3553, var2);
 
@@ -55,9 +57,9 @@ public final class BlockSelectScreen extends GuiScreen {
 
          GL11.glTranslatef(-1.5F, 0.5F, 0.5F);
          GL11.glScalef(-1.0F, -1.0F, -1.0F);
-         var8.begin();
-         var4.renderFullbright(var8);
-         var8.end();
+         tessellator.startDrawing();
+         var4.renderFullbright();
+         tessellator.draw();
          GL11.glPopMatrix();
       }
 

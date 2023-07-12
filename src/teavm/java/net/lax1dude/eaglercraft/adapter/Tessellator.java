@@ -54,9 +54,6 @@ public class Tessellator {
 	/** Disables all color information for the following draw call. */
 	private boolean isColorDisabled = false;
 
-	/** The draw mode currently being used by the tessellator. */
-	private int drawMode;
-
 	/**
 	 * An offset to be applied along the x-axis for all vertices in this draw call.
 	 */
@@ -118,7 +115,7 @@ public class Tessellator {
 					GL11.glEnableVertexAttrib(GL11.GL_NORMAL_ARRAY);
 				}
 				
-				GL11.glDrawArrays(this.drawMode, 0, this.vertexCount, Int32Array.create(intBuffer.getBuffer(), 0, this.vertexCount * 7));
+				GL11.glDrawArrays(7, 0, this.vertexCount, Int32Array.create(intBuffer.getBuffer(), 0, this.vertexCount * 7));
 				
 				if (this.hasTexture) {
 					GL11.glDisableVertexAttrib(GL11.GL_TEXTURE_COORD_ARRAY);
@@ -153,20 +150,19 @@ public class Tessellator {
 	 * Sets draw mode in the tessellator to draw quads.
 	 */
 	public void startDrawingQuads() {
-		this.startDrawing(GL11.GL_QUADS);
+		this.startDrawing();
 	}
 
 	/**
 	 * Resets tessellator state and prepares for drawing (with the specified draw
 	 * mode).
 	 */
-	public void startDrawing(int par1) {
+	public void startDrawing() {
 		if (this.isDrawing) {
 			this.draw();
 		}
 		this.isDrawing = true;
 		this.reset();
-		this.drawMode = par1;
 		this.hasNormals = false;
 		this.hasColor = false;
 		this.hasTexture = false;

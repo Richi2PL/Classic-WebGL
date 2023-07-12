@@ -2,8 +2,9 @@ package com.mojang.minecraft;
 
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.StopGameException;
-import com.mojang.minecraft.render.ShapeRenderer;
 import com.mojang.minecraft.render.TextureLocation;
+
+import net.lax1dude.eaglercraft.adapter.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
@@ -55,32 +56,32 @@ public final class ProgressBarDisplay {
             int var4 = this.minecraft.width * 240 / this.minecraft.height;
             int var5 = this.minecraft.height * 240 / this.minecraft.height;
             GL11.glClear(16640);
-            ShapeRenderer var6 = ShapeRenderer.instance;
+            Tessellator tessellator = Tessellator.instance;
             int var7 = new TextureLocation("/dirt.png").bindTexture();
             float var10 = 32.0F;
-            var6.begin();
-            var6.color(4210752);
-            var6.vertexUV(0.0F, (float)var5, 0.0F, 0.0F, (float)var5 / var10);
-            var6.vertexUV((float)var4, (float)var5, 0.0F, (float)var4 / var10, (float)var5 / var10);
-            var6.vertexUV((float)var4, 0.0F, 0.0F, (float)var4 / var10, 0.0F);
-            var6.vertexUV(0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-            var6.end();
+            tessellator.startDrawing();
+            tessellator.setColorOpaque_I(4210752);
+            tessellator.addVertexWithUV(0.0F, (float)var5, 0.0F, 0.0F, (float)var5 / var10);
+            tessellator.addVertexWithUV((float)var4, (float)var5, 0.0F, (float)var4 / var10, (float)var5 / var10);
+            tessellator.addVertexWithUV((float)var4, 0.0F, 0.0F, (float)var4 / var10, 0.0F);
+            tessellator.addVertexWithUV(0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+            tessellator.draw();
             if(var1 >= 0) {
                var7 = var4 / 2 - 50;
                int var8 = var5 / 2 + 16;
                GL11.glDisable(3553);
-               var6.begin();
-               var6.color(8421504);
-               var6.vertex((float)var7, (float)var8, 0.0F);
-               var6.vertex((float)var7, (float)(var8 + 2), 0.0F);
-               var6.vertex((float)(var7 + 100), (float)(var8 + 2), 0.0F);
-               var6.vertex((float)(var7 + 100), (float)var8, 0.0F);
-               var6.color(8454016);
-               var6.vertex((float)var7, (float)var8, 0.0F);
-               var6.vertex((float)var7, (float)(var8 + 2), 0.0F);
-               var6.vertex((float)(var7 + var1), (float)(var8 + 2), 0.0F);
-               var6.vertex((float)(var7 + var1), (float)var8, 0.0F);
-               var6.end();
+               tessellator.startDrawing();
+               tessellator.setColorOpaque_I(8421504);
+               tessellator.addVertex((float)var7, (float)var8, 0.0F);
+               tessellator.addVertex((float)var7, (float)(var8 + 2), 0.0F);
+               tessellator.addVertex((float)(var7 + 100), (float)(var8 + 2), 0.0F);
+               tessellator.addVertex((float)(var7 + 100), (float)var8, 0.0F);
+               tessellator.setColorOpaque_I(8454016);
+               tessellator.addVertex((float)var7, (float)var8, 0.0F);
+               tessellator.addVertex((float)var7, (float)(var8 + 2), 0.0F);
+               tessellator.addVertex((float)(var7 + var1), (float)(var8 + 2), 0.0F);
+               tessellator.addVertex((float)(var7 + var1), (float)var8, 0.0F);
+               tessellator.draw();
                GL11.glEnable(3553);
             }
 

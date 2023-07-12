@@ -6,9 +6,9 @@ import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.particle.SmokeParticle;
 import com.mojang.minecraft.particle.TerrainParticle;
 import com.mojang.minecraft.player.Player;
-import com.mojang.minecraft.render.ShapeRenderer;
 import com.mojang.minecraft.render.TextureLocation;
 import net.PeytonPlayz585.math.MathHelper;
+
 import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
@@ -108,9 +108,7 @@ public class PrimedTnt extends Entity
 		GL11.glTranslatef(xo + (x - xo) * unknown0 - 0.5F, yo + (y - yo) * unknown0 - 0.5F, zo + (z - zo) * unknown0 - 0.5F);
 		GL11.glPushMatrix();
 
-		ShapeRenderer shapeRenderer = ShapeRenderer.instance;
-
-		Block.TNT.renderPreview(shapeRenderer);
+		Block.TNT.renderPreview();
 
 		GL11.glDisable(3553);
 		GL11.glDisable(2896);
@@ -129,7 +127,7 @@ public class PrimedTnt extends Entity
 		GL11.glEnable(3042);
 		GL11.glBlendFunc(770, 1);
 
-		Block.TNT.renderPreview(shapeRenderer);
+		Block.TNT.renderPreview();
 
 		GL11.glDisable(3042);
 		GL11.glEnable(3553);

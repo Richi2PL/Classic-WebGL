@@ -4,15 +4,16 @@ import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.Frustrum;
-import com.mojang.minecraft.render.ShapeRenderer;
 import net.PeytonPlayz585.math.MathHelper;
+import net.lax1dude.eaglercraft.adapter.Tessellator;
+
 import org.lwjgl.opengl.GL11;
 
 public final class Chunk {
 
    private Level level;
    private int baseListId = -1;
-   private static ShapeRenderer renderer = ShapeRenderer.instance;
+   private static Tessellator renderer = Tessellator.instance;
    public static int chunkUpdates = 0;
    private int x;
    private int y;
@@ -54,7 +55,7 @@ public final class Chunk {
          boolean var8 = false;
          boolean var9 = false;
          GL11.glNewList(this.baseListId + var7, 4864);
-         renderer.begin();
+         renderer.startDrawing();
 
          for(int var10 = var1; var10 < var4; ++var10) {
             for(int var11 = var2; var11 < var5; ++var11) {
@@ -65,14 +66,14 @@ public final class Chunk {
                      if((var14 = Block.blocks[var13]).getRenderPass() != var7) {
                         var8 = true;
                      } else {
-                        var9 |= var14.render(this.level, var10, var11, var12, renderer);
+                        var9 |= var14.render(this.level, var10, var11, var12);
                      }
                   }
                }
             }
          }
 
-         renderer.end();
+         renderer.draw();
          GL11.glEndList();
          if(var9) {
             this.dirty[var7] = false;

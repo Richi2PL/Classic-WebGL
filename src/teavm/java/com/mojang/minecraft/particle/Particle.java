@@ -2,8 +2,8 @@ package com.mojang.minecraft.particle;
 
 import com.mojang.minecraft.Entity;
 import com.mojang.minecraft.level.Level;
-import com.mojang.minecraft.render.ShapeRenderer;
 import net.PeytonPlayz585.math.MathHelper;
+import net.lax1dude.eaglercraft.adapter.Tessellator;
 
 public class Particle extends Entity {
 
@@ -78,7 +78,8 @@ public class Particle extends Entity {
 
    }
 
-   public void render(ShapeRenderer var1, float var2, float var3, float var4, float var5, float var6, float var7) {
+   public void render(float var2, float var3, float var4, float var5, float var6, float var7) {
+	  Tessellator var1 = Tessellator.instance;
       float var8;
       float var9 = (var8 = (float)(this.tex % 16) / 16.0F) + 0.0624375F;
       float var10;
@@ -88,11 +89,11 @@ public class Particle extends Entity {
       float var14 = this.yo + (this.y - this.yo) * var2;
       float var15 = this.zo + (this.z - this.zo) * var2;
       var2 = this.getBrightness(var2);
-      var1.color(this.rCol * var2, this.gCol * var2, this.bCol * var2);
-      var1.vertexUV(var13 - var3 * var12 - var6 * var12, var14 - var4 * var12, var15 - var5 * var12 - var7 * var12, var8, var11);
-      var1.vertexUV(var13 - var3 * var12 + var6 * var12, var14 + var4 * var12, var15 - var5 * var12 + var7 * var12, var8, var10);
-      var1.vertexUV(var13 + var3 * var12 + var6 * var12, var14 + var4 * var12, var15 + var5 * var12 + var7 * var12, var9, var10);
-      var1.vertexUV(var13 + var3 * var12 - var6 * var12, var14 - var4 * var12, var15 + var5 * var12 - var7 * var12, var9, var11);
+      var1.setColorOpaque_F(this.rCol * var2, this.gCol * var2, this.bCol * var2);
+      var1.addVertexWithUV(var13 - var3 * var12 - var6 * var12, var14 - var4 * var12, var15 - var5 * var12 - var7 * var12, var8, var11);
+      var1.addVertexWithUV(var13 - var3 * var12 + var6 * var12, var14 + var4 * var12, var15 - var5 * var12 + var7 * var12, var8, var10);
+      var1.addVertexWithUV(var13 + var3 * var12 + var6 * var12, var14 + var4 * var12, var15 + var5 * var12 + var7 * var12, var9, var10);
+      var1.addVertexWithUV(var13 + var3 * var12 - var6 * var12, var14 - var4 * var12, var15 + var5 * var12 - var7 * var12, var9, var11);
    }
 
    public int getParticleTexture() {

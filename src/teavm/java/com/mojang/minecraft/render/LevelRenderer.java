@@ -5,6 +5,7 @@ import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.player.Player;
 
 import net.lax1dude.eaglercraft.GLAllocation;
+import net.lax1dude.eaglercraft.adapter.Tessellator;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public final class LevelRenderer {
       LevelRenderer var9 = this;
       float var10 = 0.5F;
       GL11.glColor4f(0.5F, var10, var10, 1.0F);
-      ShapeRenderer var11 = ShapeRenderer.instance;
+      Tessellator var11 = Tessellator.instance;
       float var12 = this.level.getGroundLevel();
       int var5 = 128;
       if(128 > this.level.width) {
@@ -87,7 +88,7 @@ public final class LevelRenderer {
       }
 
       int var6 = 2048 / var5;
-      var11.begin();
+      var11.startDrawing();
 
       int var7;
       for(var7 = -var5 * var6; var7 < var9.level.width + var5 * var6; var7 += var5) {
@@ -97,49 +98,49 @@ public final class LevelRenderer {
                var10 = 0.0F;
             }
 
-            var11.vertexUV((float)var7, var10, (float)(var8 + var5), 0.0F, (float)var5);
-            var11.vertexUV((float)(var7 + var5), var10, (float)(var8 + var5), (float)var5, (float)var5);
-            var11.vertexUV((float)(var7 + var5), var10, (float)var8, (float)var5, 0.0F);
-            var11.vertexUV((float)var7, var10, (float)var8, 0.0F, 0.0F);
+            var11.addVertexWithUV((float)var7, var10, (float)(var8 + var5), 0.0F, (float)var5);
+            var11.addVertexWithUV((float)(var7 + var5), var10, (float)(var8 + var5), (float)var5, (float)var5);
+            var11.addVertexWithUV((float)(var7 + var5), var10, (float)var8, (float)var5, 0.0F);
+            var11.addVertexWithUV((float)var7, var10, (float)var8, 0.0F, 0.0F);
          }
       }
 
-      var11.end();
+      var11.draw();
       GL11.glColor3f(0.8F, 0.8F, 0.8F);
-      var11.begin();
+      var11.startDrawing();
 
       for(var7 = 0; var7 < var9.level.width; var7 += var5) {
-         var11.vertexUV((float)var7, 0.0F, 0.0F, 0.0F, 0.0F);
-         var11.vertexUV((float)(var7 + var5), 0.0F, 0.0F, (float)var5, 0.0F);
-         var11.vertexUV((float)(var7 + var5), var12, 0.0F, (float)var5, var12);
-         var11.vertexUV((float)var7, var12, 0.0F, 0.0F, var12);
-         var11.vertexUV((float)var7, var12, (float)var9.level.height, 0.0F, var12);
-         var11.vertexUV((float)(var7 + var5), var12, (float)var9.level.height, (float)var5, var12);
-         var11.vertexUV((float)(var7 + var5), 0.0F, (float)var9.level.height, (float)var5, 0.0F);
-         var11.vertexUV((float)var7, 0.0F, (float)var9.level.height, 0.0F, 0.0F);
+         var11.addVertexWithUV((float)var7, 0.0F, 0.0F, 0.0F, 0.0F);
+         var11.addVertexWithUV((float)(var7 + var5), 0.0F, 0.0F, (float)var5, 0.0F);
+         var11.addVertexWithUV((float)(var7 + var5), var12, 0.0F, (float)var5, var12);
+         var11.addVertexWithUV((float)var7, var12, 0.0F, 0.0F, var12);
+         var11.addVertexWithUV((float)var7, var12, (float)var9.level.height, 0.0F, var12);
+         var11.addVertexWithUV((float)(var7 + var5), var12, (float)var9.level.height, (float)var5, var12);
+         var11.addVertexWithUV((float)(var7 + var5), 0.0F, (float)var9.level.height, (float)var5, 0.0F);
+         var11.addVertexWithUV((float)var7, 0.0F, (float)var9.level.height, 0.0F, 0.0F);
       }
 
       GL11.glColor3f(0.6F, 0.6F, 0.6F);
 
       for(var7 = 0; var7 < var9.level.height; var7 += var5) {
-         var11.vertexUV(0.0F, var12, (float)var7, 0.0F, 0.0F);
-         var11.vertexUV(0.0F, var12, (float)(var7 + var5), (float)var5, 0.0F);
-         var11.vertexUV(0.0F, 0.0F, (float)(var7 + var5), (float)var5, var12);
-         var11.vertexUV(0.0F, 0.0F, (float)var7, 0.0F, var12);
-         var11.vertexUV((float)var9.level.width, 0.0F, (float)var7, 0.0F, var12);
-         var11.vertexUV((float)var9.level.width, 0.0F, (float)(var7 + var5), (float)var5, var12);
-         var11.vertexUV((float)var9.level.width, var12, (float)(var7 + var5), (float)var5, 0.0F);
-         var11.vertexUV((float)var9.level.width, var12, (float)var7, 0.0F, 0.0F);
+         var11.addVertexWithUV(0.0F, var12, (float)var7, 0.0F, 0.0F);
+         var11.addVertexWithUV(0.0F, var12, (float)(var7 + var5), (float)var5, 0.0F);
+         var11.addVertexWithUV(0.0F, 0.0F, (float)(var7 + var5), (float)var5, var12);
+         var11.addVertexWithUV(0.0F, 0.0F, (float)var7, 0.0F, var12);
+         var11.addVertexWithUV((float)var9.level.width, 0.0F, (float)var7, 0.0F, var12);
+         var11.addVertexWithUV((float)var9.level.width, 0.0F, (float)(var7 + var5), (float)var5, var12);
+         var11.addVertexWithUV((float)var9.level.width, var12, (float)(var7 + var5), (float)var5, 0.0F);
+         var11.addVertexWithUV((float)var9.level.width, var12, (float)var7, 0.0F, 0.0F);
       }
 
-      var11.end();
+      var11.draw();
       GL11.glEndList();
       GL11.glNewList(this.listId + 1, 4864);
       var9 = this;
       GL11.glColor3f(1.0F, 1.0F, 1.0F);
       var10 = this.level.getWaterLevel();
       GL11.glBlendFunc(770, 771);
-      var11 = ShapeRenderer.instance;
+      var11 = Tessellator.instance;
       var4 = 128;
       if(128 > this.level.width) {
          var4 = this.level.width;
@@ -150,25 +151,25 @@ public final class LevelRenderer {
       }
 
       var5 = 2048 / var4;
-      var11.begin();
+      var11.startDrawing();
 
       for(var6 = -var4 * var5; var6 < var9.level.width + var4 * var5; var6 += var4) {
          for(var7 = -var4 * var5; var7 < var9.level.height + var4 * var5; var7 += var4) {
             float var13 = var10 - 0.1F;
             if(var6 < 0 || var7 < 0 || var6 >= var9.level.width || var7 >= var9.level.height) {
-               var11.vertexUV((float)var6, var13, (float)(var7 + var4), 0.0F, (float)var4);
-               var11.vertexUV((float)(var6 + var4), var13, (float)(var7 + var4), (float)var4, (float)var4);
-               var11.vertexUV((float)(var6 + var4), var13, (float)var7, (float)var4, 0.0F);
-               var11.vertexUV((float)var6, var13, (float)var7, 0.0F, 0.0F);
-               var11.vertexUV((float)var6, var13, (float)var7, 0.0F, 0.0F);
-               var11.vertexUV((float)(var6 + var4), var13, (float)var7, (float)var4, 0.0F);
-               var11.vertexUV((float)(var6 + var4), var13, (float)(var7 + var4), (float)var4, (float)var4);
-               var11.vertexUV((float)var6, var13, (float)(var7 + var4), 0.0F, (float)var4);
+               var11.addVertexWithUV((float)var6, var13, (float)(var7 + var4), 0.0F, (float)var4);
+               var11.addVertexWithUV((float)(var6 + var4), var13, (float)(var7 + var4), (float)var4, (float)var4);
+               var11.addVertexWithUV((float)(var6 + var4), var13, (float)var7, (float)var4, 0.0F);
+               var11.addVertexWithUV((float)var6, var13, (float)var7, 0.0F, 0.0F);
+               var11.addVertexWithUV((float)var6, var13, (float)var7, 0.0F, 0.0F);
+               var11.addVertexWithUV((float)(var6 + var4), var13, (float)var7, (float)var4, 0.0F);
+               var11.addVertexWithUV((float)(var6 + var4), var13, (float)(var7 + var4), (float)var4, (float)var4);
+               var11.addVertexWithUV((float)var6, var13, (float)(var7 + var4), 0.0F, (float)var4);
             }
          }
       }
 
-      var11.end();
+      var11.draw();
       GL11.glDisable(3042);
       GL11.glEndList();
       this.queueChunks(0, 0, 0, this.level.width, this.level.depth, this.level.height);

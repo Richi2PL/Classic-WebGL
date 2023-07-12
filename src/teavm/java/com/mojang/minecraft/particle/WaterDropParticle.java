@@ -2,7 +2,6 @@ package com.mojang.minecraft.particle;
 
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.particle.Particle;
-import com.mojang.minecraft.render.ShapeRenderer;
 
 public class WaterDropParticle extends Particle {
 
@@ -22,8 +21,8 @@ public class WaterDropParticle extends Particle {
       this.lifetime = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
    }
 
-   public void render(ShapeRenderer var1, float var2, float var3, float var4, float var5, float var6, float var7) {
-      super.render(var1, var2, var3, var4, var5, var6, var7);
+   public void render(float var2, float var3, float var4, float var5, float var6, float var7) {
+      super.render(var2, var3, var4, var5, var6, var7);
    }
 
    public void tick() {

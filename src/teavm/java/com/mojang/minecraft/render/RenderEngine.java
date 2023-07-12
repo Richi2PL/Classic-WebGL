@@ -190,7 +190,6 @@ public class RenderEngine {
 		}
 	}
 
-	//public static boolean useMipmaps = false;
 	private HashMap<String, Integer> textureMap;
 	private HashMap<Integer, EaglerImage> textureNameToImageMap;
 	private IntBuffer singleIntBuffer;

@@ -8,7 +8,9 @@ import com.mojang.minecraft.model.Vec3D;
 import com.mojang.minecraft.particle.ParticleManager;
 import com.mojang.minecraft.particle.TerrainParticle;
 import com.mojang.minecraft.phys.AABB;
-import com.mojang.minecraft.render.ShapeRenderer;
+
+import net.lax1dude.eaglercraft.adapter.Tessellator;
+
 import java.util.Random;
 
 public class Block
@@ -136,29 +138,30 @@ public class Block
 		this.tickDelay[id] = tickDelay;
 	}
 
-	public void renderFullbright(ShapeRenderer shapeRenderer)
+	public void renderFullbright()
 	{
+		Tessellator tessellator = Tessellator.instance;
 		float red = 0.5F;
 		float green = 0.8F;
 		float blue = 0.6F;
 
-		shapeRenderer.color(red, red, red);
-		renderInside(shapeRenderer, -2, 0, 0, 0);
+		tessellator.setColorOpaque_F(red, red, red);
+		renderInside(-2, 0, 0, 0);
 
-		shapeRenderer.color(1.0F, 1.0F, 1.0F);
-		renderInside(shapeRenderer, -2, 0, 0, 1);
+		tessellator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+		renderInside(-2, 0, 0, 1);
 
-		shapeRenderer.color(green, green, green);
-		renderInside(shapeRenderer, -2, 0, 0, 2);
+		tessellator.setColorOpaque_F(green, green, green);
+		renderInside(-2, 0, 0, 2);
 
-		shapeRenderer.color(green, green, green);
-		renderInside(shapeRenderer, -2, 0, 0, 3);
+		tessellator.setColorOpaque_F(green, green, green);
+		renderInside(-2, 0, 0, 3);
 
-		shapeRenderer.color(blue, blue, blue);
-		renderInside(shapeRenderer, -2, 0, 0, 4);
+		tessellator.setColorOpaque_F(blue, blue, blue);
+		renderInside(-2, 0, 0, 4);
 
-		shapeRenderer.color(blue, blue, blue);
-		renderInside(shapeRenderer, -2, 0, 0, 5);
+		tessellator.setColorOpaque_F(blue, blue, blue);
+		renderInside(-2, 0, 0, 5);
 	}
 
 	protected float getBrightness(Level level, int x, int y, int z)
@@ -176,16 +179,17 @@ public class Block
 		return textureId;
 	}
 
-	public void renderInside(ShapeRenderer shapeRenderer, int x, int y, int z, int side)
+	public void renderInside(int x, int y, int z, int side)
 	{
 		int textureID1 = getTextureId(side);
 
-		renderSide(shapeRenderer, x, y, z, side, textureID1);
+		renderSide(x, y, z, side, textureID1);
 	}
 
 	// TODO.
-	public void renderSide(ShapeRenderer shapeRenderer, int x, int y, int z, int side, int textureID)
+	public void renderSide(int x, int y, int z, int side, int textureID)
 	{
+		Tessellator tessellator = Tessellator.instance;
 		int var7 = textureID % 16 << 4;
 		int var8 = textureID / 16 << 4;
 		float var9 = (float)var7 / 256.0F;
@@ -209,40 +213,41 @@ public class Block
 		float var12 = (float)z + this.z1;
 		float var13 = (float)z + this.z2;
 		if(side == 0) {
-			shapeRenderer.vertexUV(var16, var18, var13, var9, var11);
-			shapeRenderer.vertexUV(var16, var18, var12, var9, var10);
-			shapeRenderer.vertexUV(var14, var18, var12, var17, var10);
-			shapeRenderer.vertexUV(var14, var18, var13, var17, var11);
+			tessellator.addVertexWithUV(var16, var18, var13, var9, var11);
+			tessellator.addVertexWithUV(var16, var18, var12, var9, var10);
+			tessellator.addVertexWithUV(var14, var18, var12, var17, var10);
+			tessellator.addVertexWithUV(var14, var18, var13, var17, var11);
 		} else if(side == 1) {
-			shapeRenderer.vertexUV(var14, var15, var13, var17, var11);
-			shapeRenderer.vertexUV(var14, var15, var12, var17, var10);
-			shapeRenderer.vertexUV(var16, var15, var12, var9, var10);
-			shapeRenderer.vertexUV(var16, var15, var13, var9, var11);
+			tessellator.addVertexWithUV(var14, var15, var13, var17, var11);
+			tessellator.addVertexWithUV(var14, var15, var12, var17, var10);
+			tessellator.addVertexWithUV(var16, var15, var12, var9, var10);
+			tessellator.addVertexWithUV(var16, var15, var13, var9, var11);
 		} else if(side == 2) {
-			shapeRenderer.vertexUV(var16, var15, var12, var17, var10);
-			shapeRenderer.vertexUV(var14, var15, var12, var9, var10);
-			shapeRenderer.vertexUV(var14, var18, var12, var9, var11);
-			shapeRenderer.vertexUV(var16, var18, var12, var17, var11);
+			tessellator.addVertexWithUV(var16, var15, var12, var17, var10);
+			tessellator.addVertexWithUV(var14, var15, var12, var9, var10);
+			tessellator.addVertexWithUV(var14, var18, var12, var9, var11);
+			tessellator.addVertexWithUV(var16, var18, var12, var17, var11);
 		} else if(side == 3) {
-			shapeRenderer.vertexUV(var16, var15, var13, var9, var10);
-			shapeRenderer.vertexUV(var16, var18, var13, var9, var11);
-			shapeRenderer.vertexUV(var14, var18, var13, var17, var11);
-			shapeRenderer.vertexUV(var14, var15, var13, var17, var10);
+			tessellator.addVertexWithUV(var16, var15, var13, var9, var10);
+			tessellator.addVertexWithUV(var16, var18, var13, var9, var11);
+			tessellator.addVertexWithUV(var14, var18, var13, var17, var11);
+			tessellator.addVertexWithUV(var14, var15, var13, var17, var10);
 		} else if(side == 4) {
-			shapeRenderer.vertexUV(var16, var15, var13, var17, var10);
-			shapeRenderer.vertexUV(var16, var15, var12, var9, var10);
-			shapeRenderer.vertexUV(var16, var18, var12, var9, var11);
-			shapeRenderer.vertexUV(var16, var18, var13, var17, var11);
+			tessellator.addVertexWithUV(var16, var15, var13, var17, var10);
+			tessellator.addVertexWithUV(var16, var15, var12, var9, var10);
+			tessellator.addVertexWithUV(var16, var18, var12, var9, var11);
+			tessellator.addVertexWithUV(var16, var18, var13, var17, var11);
 		} else if(side == 5) {
-			shapeRenderer.vertexUV(var14, var18, var13, var9, var11);
-			shapeRenderer.vertexUV(var14, var18, var12, var17, var11);
-			shapeRenderer.vertexUV(var14, var15, var12, var17, var10);
-			shapeRenderer.vertexUV(var14, var15, var13, var9, var10);
+			tessellator.addVertexWithUV(var14, var18, var13, var9, var11);
+			tessellator.addVertexWithUV(var14, var18, var12, var17, var11);
+			tessellator.addVertexWithUV(var14, var15, var12, var17, var10);
+			tessellator.addVertexWithUV(var14, var15, var13, var9, var10);
 		}
 	}
 
 	// TODO.
-	public final void renderSide(ShapeRenderer var1, int var2, int var3, int var4, int var5) {
+	public final void renderSide(int var2, int var3, int var4, int var5) {
+		Tessellator tessellator = Tessellator.instance;
 		int var6;
 		float var7;
 		float var8 = (var7 = (float)((var6 = this.getTextureId(var5)) % 16) / 16.0F) + 0.0624375F;
@@ -255,45 +260,45 @@ public class Block
 		float var12 = (float)var4 + this.z1;
 		float var13 = (float)var4 + this.z2;
 		if(var5 == 0) {
-			var1.vertexUV(var14, var11, var13, var8, var9);
-			var1.vertexUV(var14, var11, var12, var8, var16);
-			var1.vertexUV(var10, var11, var12, var7, var16);
-			var1.vertexUV(var10, var11, var13, var7, var9);
+			tessellator.addVertexWithUV(var14, var11, var13, var8, var9);
+			tessellator.addVertexWithUV(var14, var11, var12, var8, var16);
+			tessellator.addVertexWithUV(var10, var11, var12, var7, var16);
+			tessellator.addVertexWithUV(var10, var11, var13, var7, var9);
 		}
 
 		if(var5 == 1) {
-			var1.vertexUV(var10, var15, var13, var7, var9);
-			var1.vertexUV(var10, var15, var12, var7, var16);
-			var1.vertexUV(var14, var15, var12, var8, var16);
-			var1.vertexUV(var14, var15, var13, var8, var9);
+			tessellator.addVertexWithUV(var10, var15, var13, var7, var9);
+			tessellator.addVertexWithUV(var10, var15, var12, var7, var16);
+			tessellator.addVertexWithUV(var14, var15, var12, var8, var16);
+			tessellator.addVertexWithUV(var14, var15, var13, var8, var9);
 		}
 
 		if(var5 == 2) {
-			var1.vertexUV(var10, var11, var12, var8, var9);
-			var1.vertexUV(var14, var11, var12, var7, var9);
-			var1.vertexUV(var14, var15, var12, var7, var16);
-			var1.vertexUV(var10, var15, var12, var8, var16);
+			tessellator.addVertexWithUV(var10, var11, var12, var8, var9);
+			tessellator.addVertexWithUV(var14, var11, var12, var7, var9);
+			tessellator.addVertexWithUV(var14, var15, var12, var7, var16);
+			tessellator.addVertexWithUV(var10, var15, var12, var8, var16);
 		}
 
 		if(var5 == 3) {
-			var1.vertexUV(var14, var15, var13, var8, var16);
-			var1.vertexUV(var14, var11, var13, var8, var9);
-			var1.vertexUV(var10, var11, var13, var7, var9);
-			var1.vertexUV(var10, var15, var13, var7, var16);
+			tessellator.addVertexWithUV(var14, var15, var13, var8, var16);
+			tessellator.addVertexWithUV(var14, var11, var13, var8, var9);
+			tessellator.addVertexWithUV(var10, var11, var13, var7, var9);
+			tessellator.addVertexWithUV(var10, var15, var13, var7, var16);
 		}
 
 		if(var5 == 4) {
-			var1.vertexUV(var10, var11, var13, var8, var9);
-			var1.vertexUV(var10, var11, var12, var7, var9);
-			var1.vertexUV(var10, var15, var12, var7, var16);
-			var1.vertexUV(var10, var15, var13, var8, var16);
+			tessellator.addVertexWithUV(var10, var11, var13, var8, var9);
+			tessellator.addVertexWithUV(var10, var11, var12, var7, var9);
+			tessellator.addVertexWithUV(var10, var15, var12, var7, var16);
+			tessellator.addVertexWithUV(var10, var15, var13, var8, var16);
 		}
 
 		if(var5 == 5) {
-			var1.vertexUV(var14, var15, var13, var7, var16);
-			var1.vertexUV(var14, var15, var12, var8, var16);
-			var1.vertexUV(var14, var11, var12, var8, var9);
-			var1.vertexUV(var14, var11, var13, var7, var9);
+			tessellator.addVertexWithUV(var14, var15, var13, var7, var16);
+			tessellator.addVertexWithUV(var14, var15, var12, var8, var16);
+			tessellator.addVertexWithUV(var14, var11, var12, var8, var9);
+			tessellator.addVertexWithUV(var14, var11, var13, var7, var9);
 		}
 
 	}
@@ -439,38 +444,39 @@ public class Block
 		}
 	}
 
-	public void renderPreview(ShapeRenderer var1) {
-		var1.begin();
+	public void renderPreview() {
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawing();
 
 		for(int var2 = 0; var2 < 6; ++var2) {
 			if(var2 == 0) {
-				var1.normal(0.0F, 1.0F, 0.0F);
+				tessellator.setNormal(0.0F, 1.0F, 0.0F);
 			}
 
 			if(var2 == 1) {
-				var1.normal(0.0F, -1.0F, 0.0F);
+				tessellator.setNormal(0.0F, -1.0F, 0.0F);
 			}
 
 			if(var2 == 2) {
-				var1.normal(0.0F, 0.0F, 1.0F);
+				tessellator.setNormal(0.0F, 0.0F, 1.0F);
 			}
 
 			if(var2 == 3) {
-				var1.normal(0.0F, 0.0F, -1.0F);
+				tessellator.setNormal(0.0F, 0.0F, -1.0F);
 			}
 
 			if(var2 == 4) {
-				var1.normal(1.0F, 0.0F, 0.0F);
+				tessellator.setNormal(1.0F, 0.0F, 0.0F);
 			}
 
 			if(var2 == 5) {
-				var1.normal(-1.0F, 0.0F, 0.0F);
+				tessellator.setNormal(-1.0F, 0.0F, 0.0F);
 			}
 
-			this.renderInside(var1, 0, 0, 0, var2);
+			this.renderInside(0, 0, 0, var2);
 		}
 
-		var1.end();
+		tessellator.draw();
 	}
 
 	public final boolean canExplode() {
@@ -581,7 +587,8 @@ public class Block
 
 	public void explode(Level var1, int var2, int var3, int var4) {}
 
-	public boolean render(Level var1, int var2, int var3, int var4, ShapeRenderer var5) {
+	public boolean render(Level var1, int var2, int var3, int var4) {
+		Tessellator tessellator = Tessellator.instance;
 		boolean var6 = false;
 		float var7 = 0.5F;
 		float var8 = 0.8F;
@@ -589,43 +596,43 @@ public class Block
 		float var10;
 		if(this.canRenderSide(var1, var2, var3 - 1, var4, 0)) {
 			var10 = this.getBrightness(var1, var2, var3 - 1, var4);
-			var5.color(var7 * var10, var7 * var10, var7 * var10);
-			this.renderInside(var5, var2, var3, var4, 0);
+			tessellator.setColorOpaque_F(var7 * var10, var7 * var10, var7 * var10);
+			this.renderInside(var2, var3, var4, 0);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2, var3 + 1, var4, 1)) {
 			var10 = this.getBrightness(var1, var2, var3 + 1, var4);
-			var5.color(var10 * 1.0F, var10 * 1.0F, var10 * 1.0F);
-			this.renderInside(var5, var2, var3, var4, 1);
+			tessellator.setColorOpaque_F(var10 * 1.0F, var10 * 1.0F, var10 * 1.0F);
+			this.renderInside(var2, var3, var4, 1);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2, var3, var4 - 1, 2)) {
 			var10 = this.getBrightness(var1, var2, var3, var4 - 1);
-			var5.color(var8 * var10, var8 * var10, var8 * var10);
-			this.renderInside(var5, var2, var3, var4, 2);
+			tessellator.setColorOpaque_F(var8 * var10, var8 * var10, var8 * var10);
+			this.renderInside(var2, var3, var4, 2);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2, var3, var4 + 1, 3)) {
 			var10 = this.getBrightness(var1, var2, var3, var4 + 1);
-			var5.color(var8 * var10, var8 * var10, var8 * var10);
-			this.renderInside(var5, var2, var3, var4, 3);
+			tessellator.setColorOpaque_F(var8 * var10, var8 * var10, var8 * var10);
+			this.renderInside(var2, var3, var4, 3);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2 - 1, var3, var4, 4)) {
 			var10 = this.getBrightness(var1, var2 - 1, var3, var4);
-			var5.color(var9 * var10, var9 * var10, var9 * var10);
-			this.renderInside(var5, var2, var3, var4, 4);
+			tessellator.setColorOpaque_F(var9 * var10, var9 * var10, var9 * var10);
+			this.renderInside(var2, var3, var4, 4);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2 + 1, var3, var4, 5)) {
 			var10 = this.getBrightness(var1, var2 + 1, var3, var4);
-			var5.color(var9 * var10, var9 * var10, var9 * var10);
-			this.renderInside(var5, var2, var3, var4, 5);
+			tessellator.setColorOpaque_F(var9 * var10, var9 * var10, var9 * var10);
+			this.renderInside(var2, var3, var4, 5);
 			var6 = true;
 		}
 
