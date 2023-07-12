@@ -3,6 +3,9 @@ package com.mojang.minecraft.model;
 import com.mojang.minecraft.model.TexturedQuad;
 import com.mojang.minecraft.model.Vec3D;
 import com.mojang.minecraft.model.Vertex;
+
+import net.PeytonPlayz585.glemu.ModeBuffer;
+
 import org.lwjgl.opengl.GL11;
 
 public final class ModelPart {
@@ -128,7 +131,7 @@ public final class ModelPart {
    public void generateList(float var1) {
       this.list = GL11.glGenLists(1);
       GL11.glNewList(this.list, 4864);
-      GL11.glBegin(7);
+      GL11.glBeginQuery(7);
 
       for(int var2 = 0; var2 < this.quads.length; ++var2) {
          TexturedQuad var10000 = this.quads[var2];
@@ -140,12 +143,13 @@ public final class ModelPart {
 
          for(int var7 = 0; var7 < 4; ++var7) {
             Vertex var8;
-            GL11.glTexCoord2f((var8 = var4.vertices[var7]).u, var8.v);
-            GL11.glVertex3f(var8.vector.x * var3, var8.vector.y * var3, var8.vector.z * var3);
+            final ModeBuffer mb = new ModeBuffer(1024);
+            mb.glTexCoord2f((var8 = var4.vertices[var7]).u, var8.v);
+            mb.glVertex3f(var8.vector.x * var3, var8.vector.y * var3, var8.vector.z * var3);
          }
       }
 
-      GL11.glEnd();
+      GL11.glEndQuery();
       GL11.glEndList();
       this.hasList = true;
    }
