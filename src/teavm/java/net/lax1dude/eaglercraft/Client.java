@@ -57,7 +57,7 @@ public class Client {
     	instance.run();
     }
 
-	@JSBody(params = { }, script = "return window.minecraftOpts;")
+	@JSBody(params = { }, script = "return window.classicConfig;")
 	public static native String[] getOpts();
 
 	@JSBody(params = { }, script = "window.minecraftError = null; window.onerror = function(message, file, line, column, errorObj) { if(errorObj) { window.minecraftError = errorObj; window.minecraftErrorL = \"\"+line+\":\"+column; javaMethods.get(\"net.lax1dude.eaglercraft.Client.handleNativeError()V\").invoke(); } else { alert(\"a native browser exception was thrown but your browser does not support fith argument in onerror\"); } };")
