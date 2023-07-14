@@ -23,12 +23,18 @@ public final class HUDScreen extends Screen {
    private int height;
    public String hoveredPlayer = null;
    public int ticks = 0;
-
+   
+   private boolean firstTimeLaunch = true;
 
    public HUDScreen(Minecraft var1, int var2, int var3) {
       this.mc = var1;
       this.width = var2 * 240 / var3;
       this.height = var3 * 240 / var3;
+      
+      if(firstTimeLaunch) {
+    	  mc.setCurrentScreen(new PauseScreen());
+    	  firstTimeLaunch = false;
+      }
    }
 
    public final void render(float var1, boolean var2, int var3, int var4) {
