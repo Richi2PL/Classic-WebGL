@@ -31,30 +31,34 @@ public class Screen {
       GL11.glDisable(3042);
    }
 
-   protected static void drawFadingBox(int var0, int var1, int var2, int var3, int var4, int var5) {
-      float var6 = (float)(var4 >>> 24) / 255.0F;
-      float var7 = (float)(var4 >> 16 & 255) / 255.0F;
-      float var8 = (float)(var4 >> 8 & 255) / 255.0F;
-      float var12 = (float)(var4 & 255) / 255.0F;
-      float var9 = (float)(var5 >>> 24) / 255.0F;
-      float var10 = (float)(var5 >> 16 & 255) / 255.0F;
-      float var11 = (float)(var5 >> 8 & 255) / 255.0F;
-      float var13 = (float)(var5 & 255) / 255.0F;
-      GL11.glDisable(3553);
-      GL11.glEnable(3042);
-      GL11.glBlendFunc(770, 771);
-      //TODO: Rewrite later...
-      
-      //GL11.glBegin(7);
-      GL11.glColor4f(var7, var8, var12, var6);
-      //GL11.glVertex2f((float)var2, (float)var1);
-      //GL11.glVertex2f((float)var0, (float)var1);
-      GL11.glColor4f(var10, var11, var13, var9);
-      //GL11.glVertex2f((float)var0, (float)var3);
-      //GL11.glVertex2f((float)var2, (float)var3);
-      //GL11.glEnd();
-      GL11.glDisable(3042);
-      GL11.glEnable(3553);
+   protected static void drawFadingBox(int i, int j, int k, int l, int i1, int j1) {
+	    float f = (float) (i1 >> 24 & 0xff) / 255F;
+		float f1 = (float) (i1 >> 16 & 0xff) / 255F;
+		float f2 = (float) (i1 >> 8 & 0xff) / 255F;
+		float f3 = (float) (i1 & 0xff) / 255F;
+		float f4 = (float) (j1 >> 24 & 0xff) / 255F;
+		float f5 = (float) (j1 >> 16 & 0xff) / 255F;
+		float f6 = (float) (j1 >> 8 & 0xff) / 255F;
+		float f7 = (float) (j1 & 0xff) / 255F;
+		GL11.glDisable(3553 /* GL_TEXTURE_2D */);
+		GL11.glEnable(3042 /* GL_BLEND */);
+		GL11.glDisable(3008 /* GL_ALPHA_TEST */);
+		GL11.glBlendFunc(770, 771);
+		GL11.glShadeModel(7425 /* GL_SMOOTH */);
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.setColorRGBA_F(f1, f2, f3, f);
+		tessellator.addVertex(k, j, 0.0D);
+		tessellator.addVertex(i, j, 0.0D);
+		tessellator.setColorRGBA_F(f5, f6, f7, f4);
+		tessellator.addVertex(i, l, 0.0D);
+		tessellator.addVertex(k, l, 0.0D);
+		tessellator.draw();
+		GL11.glShadeModel(7424 /* GL_FLAT */);
+		GL11.glDisable(3042 /* GL_BLEND */);
+		GL11.glEnable(3008 /* GL_ALPHA_TEST */);
+		GL11.glEnable(3553 /* GL_TEXTURE_2D */);
+
    }
 
    public static void drawCenteredString(FontRenderer var0, String var1, int var2, int var3, int var4) {

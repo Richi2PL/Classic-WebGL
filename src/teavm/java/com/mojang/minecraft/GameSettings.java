@@ -1,5 +1,7 @@
 package com.mojang.minecraft;
 
+import com.mojang.minecraft.gamemode.*;
+
 import org.lwjgl.opengl.GL11;
 
 public final class GameSettings
@@ -24,6 +26,7 @@ public final class GameSettings
 	public boolean viewBobbing = true;
 	public boolean anaglyph = false;
 	public boolean limitFramerate = false;
+	public boolean gamemode = false;
 	public KeyBinding forwardKey = new KeyBinding("Forward", 17);
 	public KeyBinding leftKey = new KeyBinding("Left", 30);
 	public KeyBinding backKey = new KeyBinding("Back", 31);
@@ -93,6 +96,22 @@ public final class GameSettings
 		{
 			limitFramerate = !limitFramerate;
 		}
+		
+		if(setting == 8) {
+			gamemode = !gamemode;
+			
+			if(gamemode) {
+				GameMode gamemode = new CreativeGameMode(minecraft);
+				gamemode.apply(minecraft.level);
+				gamemode.apply(minecraft.player);
+				minecraft.gamemode = gamemode;
+			} else {
+				GameMode gamemode = new SurvivalGameMode(minecraft);
+				gamemode.apply(minecraft.level);
+				gamemode.apply(minecraft.player);
+				minecraft.gamemode = gamemode;
+			}
+		}
 
 		save();
 	}
@@ -107,7 +126,8 @@ public final class GameSettings
 				: (id == 5 ? "View bobbing: " + (viewBobbing ? "ON" : "OFF")
 				: (id == 6 ? "3d anaglyph: " + (anaglyph ? "ON" : "OFF")
 				: (id == 7 ? "Limit framerate: " + (limitFramerate ? "ON" : "OFF")
-				: "")))))));
+				: (id == 8 ? "Game Mode: " + (gamemode ? "Creative" : "Survival")
+				: ""))))))));
 	}
 
 	private void load()
