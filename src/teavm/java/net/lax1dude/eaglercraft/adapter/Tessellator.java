@@ -73,7 +73,7 @@ public class Tessellator {
 	private int normal;
 
 	/** The static instance of the Tessellator. */
-	public static final Tessellator instance = new Tessellator(325000);
+	public static final Tessellator instance = new Tessellator(285000);
 
 	/** Whether this tessellator is currently in draw mode. */
 	private boolean isDrawing = false;
@@ -86,7 +86,7 @@ public class Tessellator {
 
 	private Tessellator(int par1) {
 		this.bufferSize = par1;
-		ArrayBuffer a = ArrayBuffer.create(par1);
+		ArrayBuffer a = ArrayBuffer.create(par1 * 4);
 		this.intBuffer = Int32Array.create(a);
 		this.floatBuffer = Float32Array.create(a);
 	}
