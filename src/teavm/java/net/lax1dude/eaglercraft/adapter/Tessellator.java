@@ -73,7 +73,7 @@ public class Tessellator {
 	private int normal;
 
 	/** The static instance of the Tessellator. */
-	public static final Tessellator instance = new Tessellator(525000);
+	public static final Tessellator instance = new Tessellator(325000);
 
 	/** Whether this tessellator is currently in draw mode. */
 	private boolean isDrawing = false;
@@ -86,7 +86,7 @@ public class Tessellator {
 
 	private Tessellator(int par1) {
 		this.bufferSize = par1;
-		ArrayBuffer a = ArrayBuffer.create(par1 * 4);
+		ArrayBuffer a = ArrayBuffer.create(par1);
 		this.intBuffer = Int32Array.create(a);
 		this.floatBuffer = Float32Array.create(a);
 	}
@@ -115,7 +115,7 @@ public class Tessellator {
 					GL11.glEnableVertexAttrib(GL11.GL_NORMAL_ARRAY);
 				}
 				
-				GL11.glDrawArrays(7, 0, this.vertexCount, Int32Array.create(intBuffer.getBuffer(), 0, this.vertexCount * 7));
+				GL11.glDrawArrays(7, 0, this.vertexCount, Int32Array.create(intBuffer.getBuffer(), 0, this.vertexCount * 8));
 				
 				if (this.hasTexture) {
 					GL11.glDisableVertexAttrib(GL11.GL_TEXTURE_COORD_ARRAY);
@@ -158,9 +158,9 @@ public class Tessellator {
 	 * mode).
 	 */
 	public void startDrawing() {
-		if (this.isDrawing) {
-			this.draw();
-		}
+//		if (this.isDrawing) {
+//			this.draw();
+//		}
 		this.isDrawing = true;
 		this.reset();
 		this.hasNormals = false;
@@ -319,9 +319,9 @@ public class Tessellator {
 	public void setNormal(float par1, float par2, float par3) {
 		this.hasNormals = true;
 		float len = (float) Math.sqrt(par1 * par1 + par2 * par2 + par3 * par3);
-		int var4 = (int)((par1 / len) * 127.0F) + 127;
-		int var5 = (int)((par2 / len) * 127.0F) + 127;
-		int var6 = (int)((par3 / len) * 127.0F) + 127;
+		int var4 = (int)((par1 / len) * 126.0F) + 126;
+		int var5 = (int)((par2 / len) * 126.0F) + 126;
+		int var6 = (int)((par3 / len) * 126.0F) + 126;
 		this.normal = var4 & 255 | (var5 & 255) << 8 | (var6 & 255) << 16;
 	}
 
