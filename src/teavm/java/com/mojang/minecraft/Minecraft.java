@@ -232,6 +232,13 @@ public final class Minecraft implements Runnable {
                      ++this.ticks;
                      this.tick();
                   }
+                  
+                  if(!hasMouse & GL11.isPointerLocked2() && this.currentScreen == null) {
+                	  hasMouse = true;
+                  } else if(!GL11.isPointerLocked2()) {
+                	  hasMouse = false;
+                	  this.ungrabMouse();
+                  }
 
                   checkGLError("Pre render");
                   GL11.glEnable(3553);
@@ -249,14 +256,8 @@ public final class Minecraft implements Runnable {
                      int var86;
                      int var81;
                      if(var66.minecraft.hasMouse) {
-                        var81 = 0;
-                        var86 = 0;
-                        if(var66.minecraft.levelLoaded) {
-                        	GL11.mouseSetCursorPosition(var66.minecraft.width / 2, var66.minecraft.height / 2);
-                        } else {
-                           var81 = GL11.mouseGetDX();
-                           var86 = GL11.mouseGetDY();
-                        }
+                    	var81 = GL11.mouseGetDX();
+                        var86 = GL11.mouseGetDY();
 
                         byte var91 = 1;
                         if(var66.minecraft.settings.invertMouse) {
@@ -865,15 +866,26 @@ public final class Minecraft implements Runnable {
    }
 
    public final void grabMouse() {
-	   if(GL11.isFocused()) {
+	   if(!GL11.isFocused()) {
 		   return;
 	   }
 	   if (GL11.isPointerLocked2()) {
 			return;
 	   } else {
 		   GL11.mouseSetGrabbed(true);
-		   this.setCurrentScreen((GuiScreen)null);
+		   //this.setCurrentScreen((GuiScreen)null);
 	       this.lastClick = this.ticks + 10000;
+	       return;
+	   }
+   }
+   
+   public final void ungrabMouse() {
+	   if (GL11.isPointerLocked2()) {
+			GL11.mouseSetGrabbed(false);
+	   } else {
+		   GL11.mouseSetGrabbed(false);
+		   //this.setCurrentScreen((GuiScreen)null);
+	       //this.lastClick = this.ticks + 10000;
 	       return;
 	   }
    }
