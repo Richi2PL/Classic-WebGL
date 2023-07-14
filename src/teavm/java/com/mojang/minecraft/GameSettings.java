@@ -13,6 +13,8 @@ public final class GameSettings
 		settingCount = 9;
 
 		this.minecraft = minecraft;
+		
+		Minecraft.minecraft = minecraft;
 
 		load();
 	}

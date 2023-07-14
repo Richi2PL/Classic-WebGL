@@ -1,5 +1,6 @@
 package com.mojang.minecraft.render;
 
+import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.player.Player;

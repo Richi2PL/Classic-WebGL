@@ -17,7 +17,7 @@ public final class LevelRenderer {
 
    public Level level;
    public int listId;
-   public IntBuffer buffer = GLAllocation.createDirectIntBuffer(4096);
+   public IntBuffer buffer = GLAllocation.createDirectIntBuffer(65536);
    public List<Chunk> chunks = new ArrayList<Chunk>();
    private Chunk[] loadQueue;
    public Chunk[] chunkCache;
@@ -26,7 +26,7 @@ public final class LevelRenderer {
    private int zChunks;
    private int baseListId;
    public Minecraft minecraft;
-   private int[] chunkDataCache = new int['\uc350'];
+   private int[] chunkDataCache = new int[4096];
    public int ticks = 0;
    private float lastLoadX = -9999.0F;
    private float lastLoadY = -9999.0F;

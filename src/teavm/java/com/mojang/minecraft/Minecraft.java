@@ -75,6 +75,7 @@ public final class Minecraft implements Runnable {
    private int lastClick;
    public boolean raining;
    private static Tessellator tessellator = Tessellator.instance;
+   public static Minecraft minecraft;
    public Entity field_22009_h;
 
 
@@ -982,9 +983,9 @@ public final class Minecraft implements Runnable {
    }
 
    private void tick() {
-	  if(!settings.gamemode) {
-		  this.gamemode.spawnMob();
-	  }
+	  //if(!settings.gamemode) {
+		  //this.gamemode.spawnMob();
+	  //}
       HUDScreen var17 = this.hud;
       ++this.hud.ticks;
 
@@ -1282,5 +1283,9 @@ public final class Minecraft implements Runnable {
       }
 
       System.gc();
+   }
+   
+   public static Minecraft getMinecraft() {
+	   return minecraft;
    }
 }
