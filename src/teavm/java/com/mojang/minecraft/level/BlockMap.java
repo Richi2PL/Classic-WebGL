@@ -196,42 +196,42 @@ public class BlockMap implements Serializable {
                            break;
                         }
 
-                        if(var19.frustrum[var20][0] * var18 + var19.frustrum[var20][1] * var13 + var19.frustrum[var20][2] * var14 + var19.frustrum[var20][3] <= 0.0F) {
+                        if(var19.clippingHelper.frustum[var20][0] * var18 + var19.clippingHelper.frustum[var20][1] * var13 + var19.clippingHelper.frustum[var20][2] * var14 + var19.clippingHelper.frustum[var20][3] <= 0.0F) {
                            var10000 = false;
                            break;
                         }
 
-                        if(var19.frustrum[var20][0] * var15 + var19.frustrum[var20][1] * var13 + var19.frustrum[var20][2] * var14 + var19.frustrum[var20][3] <= 0.0F) {
+                        if(var19.clippingHelper.frustum[var20][0] * var15 + var19.clippingHelper.frustum[var20][1] * var13 + var19.clippingHelper.frustum[var20][2] * var14 + var19.clippingHelper.frustum[var20][3] <= 0.0F) {
                            var10000 = false;
                            break;
                         }
 
-                        if(var19.frustrum[var20][0] * var18 + var19.frustrum[var20][1] * var17 + var19.frustrum[var20][2] * var14 + var19.frustrum[var20][3] <= 0.0F) {
+                        if(var19.clippingHelper.frustum[var20][0] * var18 + var19.clippingHelper.frustum[var20][1] * var17 + var19.clippingHelper.frustum[var20][2] * var14 + var19.clippingHelper.frustum[var20][3] <= 0.0F) {
                            var10000 = false;
                            break;
                         }
 
-                        if(var19.frustrum[var20][0] * var15 + var19.frustrum[var20][1] * var17 + var19.frustrum[var20][2] * var14 + var19.frustrum[var20][3] <= 0.0F) {
+                        if(var19.clippingHelper.frustum[var20][0] * var15 + var19.clippingHelper.frustum[var20][1] * var17 + var19.clippingHelper.frustum[var20][2] * var14 + var19.clippingHelper.frustum[var20][3] <= 0.0F) {
                            var10000 = false;
                            break;
                         }
 
-                        if(var19.frustrum[var20][0] * var18 + var19.frustrum[var20][1] * var13 + var19.frustrum[var20][2] * var16 + var19.frustrum[var20][3] <= 0.0F) {
+                        if(var19.clippingHelper.frustum[var20][0] * var18 + var19.clippingHelper.frustum[var20][1] * var13 + var19.clippingHelper.frustum[var20][2] * var16 + var19.clippingHelper.frustum[var20][3] <= 0.0F) {
                            var10000 = false;
                            break;
                         }
 
-                        if(var19.frustrum[var20][0] * var15 + var19.frustrum[var20][1] * var13 + var19.frustrum[var20][2] * var16 + var19.frustrum[var20][3] <= 0.0F) {
+                        if(var19.clippingHelper.frustum[var20][0] * var15 + var19.clippingHelper.frustum[var20][1] * var13 + var19.clippingHelper.frustum[var20][2] * var16 + var19.clippingHelper.frustum[var20][3] <= 0.0F) {
                            var10000 = false;
                            break;
                         }
 
-                        if(var19.frustrum[var20][0] * var18 + var19.frustrum[var20][1] * var17 + var19.frustrum[var20][2] * var16 + var19.frustrum[var20][3] <= 0.0F) {
+                        if(var19.clippingHelper.frustum[var20][0] * var18 + var19.clippingHelper.frustum[var20][1] * var17 + var19.clippingHelper.frustum[var20][2] * var16 + var19.clippingHelper.frustum[var20][3] <= 0.0F) {
                            var10000 = false;
                            break;
                         }
 
-                        if(var19.frustrum[var20][0] * var15 + var19.frustrum[var20][1] * var17 + var19.frustrum[var20][2] * var16 + var19.frustrum[var20][3] <= 0.0F) {
+                        if(var19.clippingHelper.frustum[var20][0] * var15 + var19.clippingHelper.frustum[var20][1] * var17 + var19.clippingHelper.frustum[var20][2] * var16 + var19.clippingHelper.frustum[var20][3] <= 0.0F) {
                            var10000 = false;
                            break;
                         }
