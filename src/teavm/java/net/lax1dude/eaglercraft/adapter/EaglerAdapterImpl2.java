@@ -608,6 +608,9 @@ public class EaglerAdapterImpl2 {
 	public static final void _wglBlendFunc(int p1, int p2) {
 		webgl.blendFunc(p1, p2);
 	}
+	public static final void _wglBlendFuncSeparate(int p1, int p2, int p3, int p4) {
+		webgl.blendFuncSeparate(p1, p2, p3, p4);
+	}
 	public static final void _wglDepthMask(boolean p1) {
 		webgl.depthMask(p1);
 	}

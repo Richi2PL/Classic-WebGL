@@ -561,6 +561,11 @@ public class EaglerAdapterGL30 extends EaglerAdapterImpl2 {
 		fogPremultiply = (p1 == GL_ONE && p2 == GL_ONE_MINUS_SRC_ALPHA);
 		_wglBlendFunc(p1, p2);
 	}
+	
+	public static final void glBlendFuncSeparate(int p1, int p2, int p3, int p4) {
+		fogPremultiply = (p3 == GL_ONE && p4 == GL_ONE_MINUS_SRC_ALPHA);
+		_wglBlendFuncSeparate(p1, p2, p3, p4);
+	}
 
 	public static final void glDepthMask(boolean p1) {
 		_wglDepthMask(p1);
