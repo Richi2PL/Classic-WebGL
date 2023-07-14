@@ -39,7 +39,7 @@ public final class GameOverScreen extends GuiScreen {
       GL11.glScalef(2.0F, 2.0F, 2.0F);
       drawCenteredString(this.fontRenderer, "Game over!", this.width / 2 / 2, 30, 16777215);
       GL11.glPopMatrix();
-      drawCenteredString(this.fontRenderer, "Score: &e" + this.minecraft.player.getScore(), this.width / 2, 100, 16777215);
+      drawCenteredString(this.fontRenderer, "Score: " + this.minecraft.player.getScore(), this.width / 2, 100, 16777215);
       super.render(var1, var2);
    }
 }
