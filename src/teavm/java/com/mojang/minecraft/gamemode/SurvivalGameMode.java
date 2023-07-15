@@ -146,12 +146,12 @@ public final class SurvivalGameMode extends GameMode
 	@Override
 	public void spawnMob()
 	{
-		int area = spawner.level.width * spawner.level.height * spawner.level.depth / 64 / 64 / 64;
-
-		if(spawner.level.random.nextInt(100) < area && spawner.level.countInstanceOf(Mob.class) < area * 20)
-		{
-			spawner.spawn(area, spawner.level.player, null);
-		}
+//		int area = spawner.level.width * spawner.level.height * spawner.level.depth / 64 / 64 / 64;
+//
+//		if(spawner.level.random.nextInt(100) < area && spawner.level.countInstanceOf(Mob.class) < area * 20)
+//		{
+//			spawner.spawn(area, spawner.level.player, null);
+//		}
 
 	}
 

@@ -983,9 +983,9 @@ public final class Minecraft implements Runnable {
    }
 
    private void tick() {
-	  //if(!settings.gamemode) {
-		  //this.gamemode.spawnMob();
-	  //}
+//	  if(!settings.gamemode) {
+//		  this.gamemode.spawnMob();
+//	  }
       HUDScreen var17 = this.hud;
       ++this.hud.ticks;
 

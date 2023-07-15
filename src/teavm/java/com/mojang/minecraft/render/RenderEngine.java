@@ -29,7 +29,7 @@ public class RenderEngine {
 		imageDataB1 = GLAllocation.createDirectByteBuffer(0x100000);
 		imageDataB2 = GLAllocation.createDirectByteBuffer(0x100000);
 		textureList = new ArrayList<TextureFX>();
-		//useMipmaps = false;
+		textureBlending = false;
 		options = Minecraft.settings;
 	}
 
@@ -43,11 +43,11 @@ public class RenderEngine {
 			singleIntBuffer.clear();
 			GLAllocation.generateTextureNames(singleIntBuffer);
 			int i = singleIntBuffer.get(0);
-			//if(s.equals("/terrain.png")) {
-				//useMipmaps = true;
-			//}
+			if(s.equals("/terrain.png") || s.contains("arrow") || s.contains("default")) {
+				textureBlending = true;
+			}
 			setupTexture(readTextureImage(texturepackbase.func_6481_a(s)), i);
-			//useMipmaps = false;
+			textureBlending = false;
 			textureMap.put(s, Integer.valueOf(i));
 			return i;
 		} catch (IOException ioexception) {
@@ -63,43 +63,19 @@ public class RenderEngine {
 		textureNameToImageMap.put(Integer.valueOf(i), bufferedimage);
 		return i;
 	}
-	
-	public int allocateAndSetupTexture(byte[] data, int w, int h) {
-		int i = GL11.glGenTextures();
+
+	public void setupTexture(EaglerImage bufferedimage, int i) {
+		if(textureBlending) {
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			//GL11.glDepthMask(false);
+			GL11.glAlphaFunc(GL11._wGL_LESS, 1.0F);
+		}
 		bindTexture(i);
-		GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10241 /* GL_TEXTURE_MIN_FILTER */, 9729 /* GL_LINEAR */);
+		GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10241 /* GL_TEXTURE_MIN_FILTER */, 9728 /* GL_NEAREST */);
 		GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10240 /* GL_TEXTURE_MAG_FILTER */, 9728 /* GL_NEAREST */);
 		GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10242 /* GL_TEXTURE_WRAP_S */, 10497 /* GL_REPEAT */);
 		GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10243 /* GL_TEXTURE_WRAP_T */, 10497 /* GL_REPEAT */);
-		imageDataB1.clear();
-		imageDataB1.put(data);
-		imageDataB1.position(0).limit(data.length);
-		GL11.glTexImage2D(3553 /* GL_TEXTURE_2D */, 0, 6408 /* GL_RGBA */, w, h, 0, 6408 /* GL_RGBA */,
-						5121 /* GL_UNSIGNED_BYTE */, imageDataB1);
-		return i;
-	}
-
-	public void setupTexture(EaglerImage bufferedimage, int i) {
-		bindTexture(i);
-//		if (useMipmaps) {
-//			GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10241 /* GL_TEXTURE_MIN_FILTER */, EaglerAdapter.GL_NEAREST_MIPMAP_LINEAR);
-//			GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10240 /* GL_TEXTURE_MAG_FILTER */, EaglerAdapter.GL_NEAREST /* GL_LINEAR */);
-//			GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, EaglerAdapter.GL_TEXTURE_MAX_LEVEL, 4);
-//		} else {
-		GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10241 /* GL_TEXTURE_MIN_FILTER */, 9728 /* GL_NEAREST */);
-		GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10240 /* GL_TEXTURE_MAG_FILTER */, 9728 /* GL_NEAREST */);
-//		}
-//		if (blurTexture) {
-//			EaglerAdapter.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10241 /* GL_TEXTURE_MIN_FILTER */, 9729 /* GL_LINEAR */);
-//			EaglerAdapter.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10240 /* GL_TEXTURE_MAG_FILTER */, 9729 /* GL_LINEAR */);
-//		}
-//		if (clampTexture) {
-//			EaglerAdapter.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10242 /* GL_TEXTURE_WRAP_S */, 10496 /* GL_CLAMP */);
-//			EaglerAdapter.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10243 /* GL_TEXTURE_WRAP_T */, 10496 /* GL_CLAMP */);
-//		} else {
-			GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10242 /* GL_TEXTURE_WRAP_S */, 10497 /* GL_REPEAT */);
-			GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10243 /* GL_TEXTURE_WRAP_T */, 10497 /* GL_REPEAT */);
-//		}
 		int j = bufferedimage.w;
 		int k = bufferedimage.h;
 		int ai[] = bufferedimage.data;
@@ -125,34 +101,9 @@ public class RenderEngine {
 		imageDataB1.clear();
 		imageDataB1.put(abyte0);
 		imageDataB1.position(0).limit(abyte0.length);
-		GL11.glTexImage2D(3553 /* GL_TEXTURE_2D */, 0, 6408 /* GL_RGBA */, j, k, 0, 6408 /* GL_RGBA */,
+		GL11.glTexImage2D(3553 /* GL_TEXTURE_2D */, 0, GL11._wGL_RGBA8 /* GL_RGBA */, j, k, 0, GL11._wGL_RGBA8 /* GL_RGBA */,
 				5121 /* GL_UNSIGNED_BYTE */, imageDataB1);
-//		if (useMipmaps) {
-//			for (int i1 = 1; i1 <= 4; i1++) {
-//				int k1 = j >> i1 - 1;
-//				int i2 = j >> i1;
-//				int k2 = k >> i1;
-//				imageDataB2.clear();
-//				for (int i3 = 0; i3 < i2; i3++) {
-//					for (int k3 = 0; k3 < k2; k3++) {
-//						int i4 = imageDataB1.getInt((i3 * 2 + 0 + (k3 * 2 + 0) * k1) * 4);
-//						int k4 = imageDataB1.getInt((i3 * 2 + 1 + (k3 * 2 + 0) * k1) * 4);
-//						int l4 = imageDataB1.getInt((i3 * 2 + 1 + (k3 * 2 + 1) * k1) * 4);
-//						int i5 = imageDataB1.getInt((i3 * 2 + 0 + (k3 * 2 + 1) * k1) * 4);
-//						int j5 = averageColor(averageColor(i4, k4), averageColor(l4, i5));
-//						imageDataB2.putInt((i3 + k3 * i2) * 4, j5);
-//					}
-//
-//				}
-//				
-//				GL11.glTexImage2D(3553 /* GL_TEXTURE_2D */, i1, 6408 /* GL_RGBA */, i2, k2, 0, 6408 /* GL_RGBA */,
-//						5121 /* GL_UNSIGNED_BYTE */, imageDataB2);
-//				ByteBuffer tmp = imageDataB1;
-//				imageDataB1 = imageDataB2;
-//				imageDataB2 = tmp;
-//			}
-//
-//		}
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	public void deleteTexture(int i) {
@@ -195,4 +146,5 @@ public class RenderEngine {
 	private ByteBuffer imageDataB2;
 	private java.util.List<TextureFX> textureList;
 	private GameSettings options;
+	private boolean textureBlending;
 }
