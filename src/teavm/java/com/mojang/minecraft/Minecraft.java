@@ -243,6 +243,20 @@ public final class Minecraft implements Runnable {
                 	  hasMouse = false;
                 	  this.ungrabMouse();
                   }
+                  
+                  if(this.width != GL11.parent.getClientWidth() || this.height != GL11.parent.getClientHeight()) {
+                	  this.width = GL11.parent.getClientWidth();
+                	  this.height = GL11.parent.getClientHeight();
+                	  GL11.canvas.setWidth(width);
+                	  GL11.canvas.setHeight(height);
+                	  GL11.updateDisplay();
+                	  if (currentScreen != null) {
+              			ScaledResolution scaledresolution = new ScaledResolution(width, height);
+              			int k = scaledresolution.getScaledWidth();
+              			int l = scaledresolution.getScaledHeight();
+              			currentScreen.setWorldAndResolution(this, k, l);
+              		}
+                  }
 
                   checkGLError("Pre render");
                   GL11.glEnable(3553);

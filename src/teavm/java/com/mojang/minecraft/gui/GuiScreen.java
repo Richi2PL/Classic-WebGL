@@ -73,6 +73,15 @@ public class GuiScreen extends Screen {
    }
 
    protected void onButtonClick(Button var1) {}
+   
+   public void setWorldAndResolution(Minecraft minecraft, int i, int j) {
+		this.minecraft = minecraft;
+		fontRenderer = minecraft.fontRenderer;
+		width = i;
+		height = j;
+		buttons.clear();
+		onOpen();
+	}
 
    public final void open(Minecraft var1, int var2, int var3) {
       this.minecraft = var1;
