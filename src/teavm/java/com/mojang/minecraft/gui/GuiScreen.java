@@ -83,18 +83,18 @@ public class GuiScreen extends Screen {
 		   gui.buttons.clear();
 		   gui.minecraft.setCurrentScreen(gui);
 	   }
-	   
-	   for(int var1 = 0; var1 < 5; var1++) {
+	   GL11.updateDisplay();
+	   for(int var1 = 0; var1 < 3; var1++) {
 		   minecraft.width = GL11.parent.getClientWidth();
      	   minecraft.height = GL11.parent.getClientHeight();
      	   GL11.canvas.setWidth(minecraft.width);
      	   GL11.canvas.setHeight(minecraft.height);
 		   minecraft.hud = null;
-		   HUDScreen hud = new HUDScreen(minecraft, minecraft.width, minecraft.height);
-		   hud.render(minecraft.timer.delta, minecraft.currentScreen != null, GL11.mouseGetX() * minecraft.width * 240 / minecraft.height / minecraft.width, minecraft.height * 240 / minecraft.height - GL11.mouseGetY() * minecraft.height * 240 / minecraft.height / minecraft.height - 1);
-		   minecraft.hud = hud;
 	   }
 	   GL11.updateDisplay();
+	   HUDScreen hud = new HUDScreen(minecraft, minecraft.width, minecraft.height);
+	   hud.render(minecraft.timer.delta, minecraft.currentScreen != null, GL11.mouseGetX() * minecraft.width * 240 / minecraft.height / minecraft.width, minecraft.height * 240 / minecraft.height - GL11.mouseGetY() * minecraft.height * 240 / minecraft.height / minecraft.height - 1);
+	   minecraft.hud = hud;
    }
 
    public final void open(Minecraft var1, int var2, int var3) {
