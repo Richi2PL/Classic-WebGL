@@ -13,6 +13,7 @@ import org.teavm.jso.dom.html.HTMLElement;
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.SessionData;
 
+import net.PeytonPlayz585.storage.LocalStorageManager;
 import net.lax1dude.eaglercraft.adapter.EaglerAdapterImpl2;
 
 public class Client {
@@ -46,6 +47,7 @@ public class Client {
     private static void run0() {
     	System.out.println(" -------- starting minecraft -------- ");
     	instance = new Minecraft();
+    	LocalStorageManager.loadStorage();
     	run1();
     }
     

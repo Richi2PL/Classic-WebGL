@@ -63,6 +63,7 @@ import org.teavm.jso.websocket.WebSocket;
 import net.lax1dude.eaglercraft.adapter.teavm.WebGLQuery;
 import net.lax1dude.eaglercraft.adapter.teavm.WebGLVertexArray;
 import net.PeytonPlayz585.math.MathHelper;
+import net.PeytonPlayz585.storage.LocalStorageManager;
 import net.lax1dude.eaglercraft.AssetRepository;
 import net.lax1dude.eaglercraft.Base64;
 import net.lax1dude.eaglercraft.Client;
@@ -113,6 +114,14 @@ public class EaglerAdapterImpl2 {
 			return new String(contents, Charset.forName("UTF-8"));
 		}
 	}
+	
+	public static void onWindowUnload() {
+		LocalStorageManager.saveStorageG();
+		LocalStorageManager.saveStorageP();
+	}
+	
+	@JSBody(params = { }, script = "window.onbeforeunload = function(){javaMethods.get('net.lax1dude.eaglercraft.adapter.EaglerAdapterImpl2.onWindowUnload()V').invoke();return false;};")
+	private static native void onBeforeCloseRegister();
 	
 	public static final String[] fileContentsLines(String path) {
 		String contents = fileContents(path);
@@ -306,9 +315,8 @@ public class EaglerAdapterImpl2 {
 				forceMouseGrabbed();
 			}
 		});
+		onBeforeCloseRegister();
 		initFileChooser();
-		
-		//EarlyLoadScreen.paintScreen();
 		
 		OpenState st = IndexedDBFilesystem.initialize();
 		if(st != OpenState.OPENED) {
@@ -327,20 +335,6 @@ public class EaglerAdapterImpl2 {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-//		if(mouseEvents.isEmpty() && keyEvents.isEmpty() && !hasBeenActive()) {
-//			EarlyLoadScreen.paintEnable();
-//			
-//			while(mouseEvents.isEmpty() && keyEvents.isEmpty()) {
-//				try {
-//					Thread.sleep(100l);
-//				} catch (InterruptedException e) {
-//					;
-//				}
-//			}
-//		}
-		
-		audioctx = AudioContext.create();
 		
 		mouseEvents.clear();
 		keyEvents.clear();
