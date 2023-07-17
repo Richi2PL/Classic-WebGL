@@ -1,21 +1,13 @@
 package com.mojang.minecraft.render;
 
-
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.minecraft.GameSettings;
 import com.mojang.minecraft.Minecraft;
-import com.mojang.minecraft.render.texture.TextureFX;
 
 import net.lax1dude.eaglercraft.EaglerImage;
 import net.lax1dude.eaglercraft.GLAllocation;
@@ -23,22 +15,21 @@ import net.lax1dude.eaglercraft.GLAllocation;
 public class RenderEngine {
 
 	public RenderEngine() {
-		textureMap = new HashMap<String, Integer>();
-		textureNameToImageMap = new HashMap<Integer, EaglerImage>();
+//		textureMap = new HashMap<String, Integer>();
+//		textureNameToImageMap = new HashMap<Integer, EaglerImage>();
 		singleIntBuffer = GLAllocation.createDirectIntBuffer(1);
 		imageDataB1 = GLAllocation.createDirectByteBuffer(0x100000);
-		imageDataB2 = GLAllocation.createDirectByteBuffer(0x100000);
-		textureList = new ArrayList<TextureFX>();
+//		imageDataB2 = GLAllocation.createDirectByteBuffer(0x100000);
 		textureBlending = false;
 		options = Minecraft.settings;
 	}
 
 	public int getTexture(String s) {
-		TextureBase texturepackbase = new TextureBase();
-		Integer integer = (Integer) textureMap.get(s);
-		if (integer != null) {
-			return integer.intValue();
-		}
+//		TextureBase texturepackbase = new TextureBase();
+//		Integer integer = (Integer) textureMap.get(s);
+//		if (integer != null) {
+//			return integer.intValue();
+//		}
 		try {
 			singleIntBuffer.clear();
 			GLAllocation.generateTextureNames(singleIntBuffer);
@@ -46,9 +37,9 @@ public class RenderEngine {
 			if(s.equals("/terrain.png") || s.contains("arrow") || s.contains("default")) {
 				textureBlending = true;
 			}
-			setupTexture(readTextureImage(texturepackbase.func_6481_a(s)), i);
+			setupTexture(readTextureImage(TextureBase.func_6481_a(s)), i);
 			textureBlending = false;
-			textureMap.put(s, Integer.valueOf(i));
+//			textureMap.put(s, Integer.valueOf(i));
 			return i;
 		} catch (IOException ioexception) {
 			throw new RuntimeException("!!");
@@ -62,7 +53,7 @@ public class RenderEngine {
 		textureBlending = true;
 		setupTexture(bufferedimage, i);
 		textureBlending = false;
-		textureNameToImageMap.put(Integer.valueOf(i), bufferedimage);
+		//textureNameToImageMap.put(Integer.valueOf(i), bufferedimage);
 		return i;
 	}
 
@@ -103,29 +94,12 @@ public class RenderEngine {
 		imageDataB1.clear();
 		imageDataB1.put(abyte0);
 		imageDataB1.position(0).limit(abyte0.length);
-		GL11.glTexImage2D(3553 /* GL_TEXTURE_2D */, 0, GL11._wGL_RGBA8 /* GL_RGBA */, j, k, 0, GL11._wGL_RGBA8 /* GL_RGBA */,
+		GL11.glTexImage2D(3553 /* GL_TEXTURE_2D */, 0, GL11._wGL_RGBA8 /* GL_RGBA */, j, k, 0, GL11.GL_RGBA /* GL_RGBA */,
 				5121 /* GL_UNSIGNED_BYTE */, imageDataB1);
-		GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	public void deleteTexture(int i) {
 		GL11.glDeleteTextures(i);
-	}
-
-	public int getTextureForDownloadableImage(String s, String s1) {
-		return getTexture("/mob/char.png");
-	}
-	
-	public void registerTextureFX(TextureFX texturefx) {
-		textureList.add(texturefx);
-		texturefx.animate();
-	}
-
-	private int averageColor(int i, int j) {
-		int k = (i & 0xff000000) >> 24 & 0xff;
-		int l = (j & 0xff000000) >> 24 & 0xff;
-		return ((k + l >> 1) << 24) + ((i & 0xfefefe) + (j & 0xfefefe) >> 1);
-		
 	}
 	
 	private EaglerImage readTextureImage(byte[] inputstream) throws IOException {
@@ -141,12 +115,8 @@ public class RenderEngine {
 		}
 	}
 
-	public static HashMap<String, Integer> textureMap;
-	private HashMap<Integer, EaglerImage> textureNameToImageMap;
 	private IntBuffer singleIntBuffer;
 	private ByteBuffer imageDataB1;
-	private ByteBuffer imageDataB2;
-	private java.util.List<TextureFX> textureList;
 	private GameSettings options;
 	private boolean textureBlending;
 }

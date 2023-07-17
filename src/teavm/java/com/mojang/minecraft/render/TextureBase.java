@@ -8,7 +8,7 @@ public class TextureBase {
 		//This overrides the default Java constructor insuring non-instability
 	}
 
-	public byte[] func_6481_a(String s) {
+	public static byte[] func_6481_a(String s) {
 		return GL11.loadResourceBytes(s);
 	}
 }

@@ -33,7 +33,7 @@ public final class Chunk {
       this.y = var3;
       this.z = var4;
       this.width = this.height = this.depth = 16;
-      MathHelper.sqrt((float)(this.width * this.width + this.height * this.height + this.depth * this.depth));
+      MathHelper.sqrt((float)(this.width + this.height + this.depth));
       this.baseListId = var6;
       this.setAllDirty();
    }
@@ -47,12 +47,10 @@ public final class Chunk {
       int var5 = this.y + this.height;
       int var6 = this.z + this.depth;
 
-      int var7;
-      for(var7 = 0; var7 < 2; ++var7) {
-         this.dirty[var7] = true;
-      }
+      this.dirty[1] = true;
+      this.dirty[2] = true;
 
-      for(var7 = 0; var7 < 2; ++var7) {
+      for(int var7 = 0; var7 < 2; ++var7) {
          boolean var8 = false;
          boolean var9 = false;
          GL11.glNewList(this.baseListId + var7, 4864);

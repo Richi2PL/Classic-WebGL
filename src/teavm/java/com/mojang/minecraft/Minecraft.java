@@ -24,9 +24,6 @@ import com.mojang.minecraft.player.InputHandlerImpl;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.*;
 import com.mojang.minecraft.render.Renderer;
-import com.mojang.minecraft.render.texture.TextureFX;
-import com.mojang.minecraft.render.texture.TextureLavaFX;
-import com.mojang.minecraft.render.texture.TextureWaterFX;
 import net.PeytonPlayz585.math.MathHelper;
 
 import net.lax1dude.eaglercraft.GLAllocation;
@@ -443,8 +440,6 @@ public final class Minecraft implements Runnable {
                               var74 = var116.yo + (var116.y - var116.yo) * var80;
                               var33 = var116.zo + (var116.z - var116.zo) * var80;
                               GL11.glTranslatef(-var69, -var74, -var33);
-                              //Frustrum var76 = FrustrumImpl.update();
-                              //Frustrum var100 = var76;
                               Frustrum var76 = new Frustrum();
                               if(field_22009_h != this.player) {
                             	  field_22009_h = player;
@@ -469,7 +464,7 @@ public final class Minecraft implements Runnable {
                               Collections.sort(var82.minecraft.levelRenderer.chunks, new ChunkDirtyDistanceComparator(var126));
                               var98 = var101.chunks.size() - 1;
                               int var105;
-                              if((var105 = var101.chunks.size()) > 3) {
+                              if((var105 = var101.chunks.size() / 2) > 3) {
                                  var105 = 3;
                               }
 
