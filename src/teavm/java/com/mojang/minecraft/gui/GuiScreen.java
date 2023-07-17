@@ -74,14 +74,20 @@ public class GuiScreen extends Screen {
 
    protected void onButtonClick(Button var1) {}
    
-   public void setWorldAndResolution(Minecraft minecraft, int i, int j) {
-		this.minecraft = minecraft;
-		fontRenderer = minecraft.fontRenderer;
-		width = i;
-		height = j;
-		buttons.clear();
-		onOpen();
-	}
+   public void setWorldAndResolution(Minecraft minecraft, int i, int j, GuiScreen gui) {
+	   if(gui != null) {
+		   gui.minecraft = minecraft;
+			gui.fontRenderer = minecraft.fontRenderer;
+			gui.width = i;
+			gui.height = j;
+			gui.buttons.clear();
+			gui.minecraft.setCurrentScreen(gui);
+	   }
+	   minecraft.hud = null;
+	   HUDScreen hud = new HUDScreen(minecraft, minecraft.width, minecraft.height);
+	   hud.render(minecraft.timer.delta, minecraft.currentScreen != null, GL11.mouseGetX() * minecraft.width * 240 / minecraft.height / minecraft.width, minecraft.height * 240 / minecraft.height - GL11.mouseGetY() * minecraft.height * 240 / minecraft.height / minecraft.height - 1);
+	   minecraft.hud = hud;
+   }
 
    public final void open(Minecraft var1, int var2, int var3) {
       this.minecraft = var1;

@@ -48,7 +48,7 @@ public final class Minecraft implements Runnable {
    public GameMode gamemode = new SurvivalGameMode(this);
    public int width;
    public int height;
-   private Timer timer = new Timer(20.0F);
+   public Timer timer = new Timer(20.0F);
    public Level level;
    public LevelRenderer levelRenderer;
    public Player player;
@@ -245,6 +245,7 @@ public final class Minecraft implements Runnable {
                   }
                   
                   if(this.width != GL11.parent.getClientWidth() || this.height != GL11.parent.getClientHeight()) {
+                	  GuiScreen gui = this.currentScreen;
                 	  this.width = GL11.parent.getClientWidth();
                 	  this.height = GL11.parent.getClientHeight();
                 	  GL11.canvas.setWidth(width);
@@ -254,7 +255,7 @@ public final class Minecraft implements Runnable {
               			ScaledResolution scaledresolution = new ScaledResolution(width, height);
               			int k = scaledresolution.getScaledWidth();
               			int l = scaledresolution.getScaledHeight();
-              			currentScreen.setWorldAndResolution(this, k, l);
+              			currentScreen.setWorldAndResolution(this, k, l, gui);
               		}
                   }
 
