@@ -59,7 +59,9 @@ public class RenderEngine {
 		singleIntBuffer.clear();
 		GLAllocation.generateTextureNames(singleIntBuffer);
 		int i = singleIntBuffer.get(0);
+		textureBlending = true;
 		setupTexture(bufferedimage, i);
+		textureBlending = false;
 		textureNameToImageMap.put(Integer.valueOf(i), bufferedimage);
 		return i;
 	}
