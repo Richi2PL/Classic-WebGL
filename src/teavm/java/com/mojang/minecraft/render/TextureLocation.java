@@ -40,5 +40,4 @@ public class TextureLocation {
 	}
 
 	private static final ArrayList<TextureLocation> locations = new ArrayList();
-
 }

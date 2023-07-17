@@ -141,7 +141,7 @@ public class RenderEngine {
 		}
 	}
 
-	private HashMap<String, Integer> textureMap;
+	public static HashMap<String, Integer> textureMap;
 	private HashMap<Integer, EaglerImage> textureNameToImageMap;
 	private IntBuffer singleIntBuffer;
 	private ByteBuffer imageDataB1;

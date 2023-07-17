@@ -6,6 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.minecraft.GameSettings;
 import com.mojang.minecraft.render.RenderEngine;
+import com.mojang.minecraft.render.TextureLocation;
+
 import net.lax1dude.eaglercraft.EaglerImage;
 import net.lax1dude.eaglercraft.GLAllocation;
 import net.lax1dude.eaglercraft.adapter.Tessellator;
@@ -15,7 +17,7 @@ public class FontRenderer {
 	public FontRenderer(GameSettings gamesettings, String s) {
 		RenderEngine r = new RenderEngine();
 		charWidth = new int[256];
-		fontTextureName = 0;
+		fontTextureName = null;
 		EaglerImage bufferedimage = GL11.loadPNG(GL11.loadResourceBytes(s));
 		int i = bufferedimage.w;
 		int j = bufferedimage.h;
@@ -49,7 +51,7 @@ public class FontRenderer {
 			charWidth[k] = j2 + 2;
 		}
 
-		fontTextureName = r.allocateAndSetupTexture(bufferedimage);
+		fontTextureName = s;
 		fontDisplayLists = GLAllocation.generateDisplayLists(288);
 		Tessellator tessellator = Tessellator.instance;
 		for (int i1 = 0; i1 < 256; i1++) {
@@ -116,7 +118,8 @@ public class FontRenderer {
 			k = (k & 0xfcfcfc) >> 2;
 			k += l;
 		}
-		GL11.glBindTexture(3553 /* GL_TEXTURE_2D */, fontTextureName);
+		//GL11.glBindTexture(3553 /* GL_TEXTURE_2D */, fontTextureName);
+		new TextureLocation(fontTextureName).bindTexture();
 		float f = (float) (k >> 16 & 0xff) / 255F;
 		float f1 = (float) (k >> 8 & 0xff) / 255F;
 		float f2 = (float) (k & 0xff) / 255F;
@@ -170,7 +173,7 @@ public class FontRenderer {
 	}
 
 	private int charWidth[];
-	public int fontTextureName;
+	public String fontTextureName;
 	private int fontDisplayLists;
 	private IntBuffer buffer;
 	

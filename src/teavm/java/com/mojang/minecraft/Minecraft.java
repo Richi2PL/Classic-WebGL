@@ -38,7 +38,10 @@ import java.awt.*;
 import java.io.*;
 import java.nio.IntBuffer;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public final class Minecraft implements Runnable {
 
@@ -622,8 +625,6 @@ public final class Minecraft implements Runnable {
                                  GL11.glColor4f(1.0F, 1.0F, 1.0F, (MathHelper.sin((float)System.currentTimeMillis() / 100.0F) * 0.2F + 0.4F) * 0.5F);
                                  if(var89.cracks > 0.0F) {
                                     GL11.glBlendFunc(774, 768);
-                                    var108 = new TextureLocation("/terrain.png").bindTexture();
-                                    GL11.glBindTexture(3553, var108);
                                     GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
                                     GL11.glPushMatrix();
                                     Block var10000 = (var114 = var89.level.getTile(var102.x, var102.y, var102.z)) > 0?Block.blocks[var114]:null;

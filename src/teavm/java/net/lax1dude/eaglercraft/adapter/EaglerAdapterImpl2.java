@@ -67,7 +67,6 @@ import net.lax1dude.eaglercraft.AssetRepository;
 import net.lax1dude.eaglercraft.Base64;
 import net.lax1dude.eaglercraft.Client;
 import net.lax1dude.eaglercraft.EaglerImage;
-import net.lax1dude.eaglercraft.EarlyLoadScreen;
 import net.lax1dude.eaglercraft.adapter.teavm.IndexedDBFilesystem;
 import net.lax1dude.eaglercraft.adapter.teavm.IndexedDBFilesystem.OpenState;
 import net.lax1dude.eaglercraft.adapter.teavm.WebGL2RenderingContext;

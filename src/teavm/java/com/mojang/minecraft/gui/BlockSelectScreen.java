@@ -39,7 +39,6 @@ public final class BlockSelectScreen extends GuiScreen {
       drawCenteredString(this.fontRenderer, "Select block", this.width / 2, 40, 16777215);
       Tessellator tessellator = Tessellator.instance;
       var2 = new TextureLocation("/terrain.png").bindTexture();
-      GL11.glBindTexture(3553, var2);
 
       for(var2 = 0; var2 < SessionData.allowedBlocks.size(); ++var2) {
          Block var4 = (Block)SessionData.allowedBlocks.get(var2);
