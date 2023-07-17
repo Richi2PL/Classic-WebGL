@@ -1092,8 +1092,19 @@ public class EaglerAdapterImpl2 {
 		return (p1 >= 0 && p1 < 256) ? LWJGLKeyNames[p1] : "null";
 	}
 	public static final void setFullscreen(boolean p1) {
-		win.alert("use F11 to enter fullscreen");
+		if(p1) {
+			fullscreen();
+		} else {
+			exitFullscreen();
+		}
 	}
+	
+	@JSBody(script = "if(!document.fullscreenElement){document.documentElement.requestFullscreen();}")
+	public static final native void fullscreen();
+	
+	@JSBody(script = "if(document.fullscreenElement){document.exitFullscreen();}")
+	public static final native void exitFullscreen();
+	
 	public static final boolean shouldShutdown() {
 		return false;
 	}

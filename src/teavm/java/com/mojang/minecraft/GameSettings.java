@@ -10,7 +10,7 @@ public final class GameSettings
 	{
 		bindings = new KeyBinding[] {forwardKey, leftKey, backKey, rightKey, jumpKey, buildKey, chatKey, toggleFogKey, saveLocationKey, loadLocationKey};
 
-		settingCount = 9;
+		settingCount = 10;
 
 		this.minecraft = minecraft;
 		
@@ -29,6 +29,7 @@ public final class GameSettings
 	public boolean anaglyph = false;
 	public boolean limitFramerate = false;
 	public boolean gamemode = false;
+	public boolean fullscreen = false;
 	public KeyBinding forwardKey = new KeyBinding("Forward", 17);
 	public KeyBinding leftKey = new KeyBinding("Left", 30);
 	public KeyBinding backKey = new KeyBinding("Back", 31);
@@ -114,6 +115,11 @@ public final class GameSettings
 				minecraft.gamemode = gamemode;
 			}
 		}
+		
+		if(setting == 9) {
+			fullscreen = !fullscreen;
+			GL11.setFullscreen(fullscreen);
+		}
 
 		save();
 	}
@@ -129,7 +135,8 @@ public final class GameSettings
 				: (id == 6 ? "3d anaglyph: " + (anaglyph ? "ON" : "OFF")
 				: (id == 7 ? "Limit framerate: " + (limitFramerate ? "ON" : "OFF")
 				: (id == 8 ? "Game Mode: " + (gamemode ? "Creative" : "Survival")
-				: ""))))))));
+				: (id == 9 ? "Fullscreen: " + (fullscreen ? "ON" : "OFF")
+				: "")))))))));
 	}
 
 	private void load()
