@@ -178,64 +178,55 @@ public class Arrow extends Entity
 
 	@Override
 	public void render(float unknown0)
-	{
+	{	
 		textureId = new TextureLocation("/item/arrows.png").bindTexture();
-
-		float brightness = level.getBrightness((int)x, (int)y, (int)z);
-
+		
 		GL11.glPushMatrix();
-		GL11.glColor4f(brightness, brightness, brightness, 1.0F);
 		GL11.glTranslatef(xo + (x - xo) * unknown0, this.yo + (this.y - this.yo) * unknown0 - this.heightOffset / 2.0F, this.zo + (this.z - this.zo) * unknown0);
 		GL11.glRotatef(yRotO + (yRot - yRotO) * unknown0 - 90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(xRotO + (xRot - xRotO) * unknown0, 0.0F, 0.0F, 1.0F);
 		GL11.glRotatef(45.0F, 1.0F, 0.0F, 0.0F);
+		Tessellator var10 = Tessellator.instance;
+		byte var11 = 0;
+		float fix = 0.002f;
+		float var12 = 0.0F + fix;
+		float var13 = 0.5F - fix;
+		float var14 = (float) (0 + var11 * 10) / 32.0F + fix;
+		float var15 = (float) (5 + var11 * 10) / 32.0F - fix;
+		float var16 = 0.0F + fix;
+		float var17 = 0.15625F - fix;
+		float var18 = (float) (5 + var11 * 10) / 32.0F + fix;
+		float var19 = (float) (10 + var11 * 10) / 32.0F - fix;
+		float var20 = 0.05625F + fix;
+		GL11.glEnable(GL11.GL_RESCALE_NORMAL);
+		GL11.glScalef(0.05625F, var20, var20);
+		GL11.glNormal3f(var20, 0.0F, 0.0F);
+		var10.startDrawingQuads();
+		var10.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) var16, (double) var18);
+		var10.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) var17, (double) var18);
+		var10.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) var17, (double) var19);
+		var10.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) var16, (double) var19);
+		var10.draw();
+		GL11.glNormal3f(-var20, 0.0F, 0.0F);
+		var10.startDrawingQuads();
+		var10.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) var16, (double) var18);
+		var10.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) var17, (double) var18);
+		var10.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) var17, (double) var19);
+		var10.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) var16, (double) var19);
+		var10.draw();
 
-		Tessellator tessellator = Tessellator.instance;
-
-		unknown0 = 0.5F;
-
-		float unknown1 = (float)(0 + type * 10) / 32.0F;
-		float unknown2 = (float)(5 + type * 10) / 32.0F;
-		float unknown3 = 0.15625F;
-
-		float unknown4 = (float)(5 + type * 10) / 32.0F;
-		float unknown5 = (float)(10 + type * 10) / 32.0F;
-		float unknown6 = 0.05625F;
-
-		GL11.glScalef(0.05625F, unknown6, unknown6);
-
-		GL11.glNormal3f(unknown6, 0.0F, 0.0F);
-
-		tessellator.startDrawing();
-		tessellator.addVertexWithUV(-7.0F, -2.0F, -2.0F, 0.0F, unknown4);
-		tessellator.addVertexWithUV(-7.0F, -2.0F, 2.0F, unknown3, unknown4);
-		tessellator.addVertexWithUV(-7.0F, 2.0F, 2.0F, unknown3, unknown5);
-		tessellator.addVertexWithUV(-7.0F, 2.0F, -2.0F, 0.0F, unknown5);
-		tessellator.draw();
-
-		GL11.glNormal3f(-unknown6, 0.0F, 0.0F);
-
-		tessellator.startDrawing();
-		tessellator.addVertexWithUV(-7.0F, 2.0F, -2.0F, 0.0F, unknown4);
-		tessellator.addVertexWithUV(-7.0F, 2.0F, 2.0F, unknown3, unknown4);
-		tessellator.addVertexWithUV(-7.0F, -2.0F, 2.0F, unknown3, unknown5);
-		tessellator.addVertexWithUV(-7.0F, -2.0F, -2.0F, 0.0F, unknown5);
-		tessellator.draw();
-
-		for(int unknown7 = 0; unknown7 < 4; unknown7++)
-		{
+		for (int var23 = 0; var23 < 4; ++var23) {
 			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-
-			GL11.glNormal3f(0.0F, -unknown6, 0.0F);
-
-			tessellator.addVertexWithUV(-8.0F, -2.0F, 0.0F, 0.0F, unknown1);
-			tessellator.addVertexWithUV(8.0F, -2.0F, 0.0F, unknown0, unknown1);
-			tessellator.addVertexWithUV(8.0F, 2.0F, 0.0F, unknown0, unknown2);
-			tessellator.addVertexWithUV(-8.0F, 2.0F, 0.0F, 0.0F, unknown2);
-			tessellator.draw();
+			GL11.glNormal3f(0.0F, 0.0F, -var20);
+			var10.startDrawingQuads();
+			var10.addVertexWithUV(-8.0D, -2.0D, 0.0D, (double) var12, (double) var14);
+			var10.addVertexWithUV(8.0D, -2.0D, 0.0D, (double) var13, (double) var14);
+			var10.addVertexWithUV(8.0D, 2.0D, 0.0D, (double) var13, (double) var15);
+			var10.addVertexWithUV(-8.0D, 2.0D, 0.0D, (double) var12, (double) var15);
+			var10.draw();
 		}
 
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_RESCALE_NORMAL);
 		GL11.glPopMatrix();
 	}
 
