@@ -244,13 +244,16 @@ public final class Minecraft implements Runnable {
                 	  this.ungrabMouse();
                   }
                   
-                  if(this.width != GL11.parent.getClientWidth() || this.height != GL11.parent.getClientHeight()) {
+                  if(this.width != GL11.parent.getClientWidth() || this.height != GL11.parent.getClientHeight() || settings.fullscreen && !GL11.isPointerLocked2()) {
                 	  GuiScreen gui = this.currentScreen;
                 	  this.width = GL11.parent.getClientWidth();
                 	  this.height = GL11.parent.getClientHeight();
                 	  GL11.canvas.setWidth(width);
                 	  GL11.canvas.setHeight(height);
                 	  GL11.updateDisplay();
+                	  if(settings.fullscreen && !GL11.isPointerLocked2()) {
+                		  settings.fullscreen = false;
+                	  }
                 	  if (currentScreen != null) {
               			ScaledResolution scaledresolution = new ScaledResolution(width, height);
               			int k = scaledresolution.getScaledWidth();
