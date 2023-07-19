@@ -17,7 +17,7 @@ public final class LevelRenderer {
 
    public Level level;
    public int listId;
-   public IntBuffer buffer = GLAllocation.createDirectIntBuffer(65536);
+   public IntBuffer buffer = GLAllocation.createDirectIntBuffer(4096);
    public List<Chunk> chunks = new ArrayList<Chunk>();
    private Chunk[] loadQueue;
    public Chunk[] chunkCache;
@@ -26,7 +26,7 @@ public final class LevelRenderer {
    private int zChunks;
    private int baseListId;
    public Minecraft minecraft;
-   private int[] chunkDataCache = new int[4096];
+   private int[] chunkDataCache = new int[1024];
    public int ticks = 0;
    private float lastLoadX = -9999.0F;
    private float lastLoadY = -9999.0F;
@@ -37,7 +37,7 @@ public final class LevelRenderer {
    public LevelRenderer(Minecraft var1) {
       this.minecraft = var1;
       this.listId = GL11.glGenLists(2);
-      this.baseListId = GL11.glGenLists(4096 << 6 << 1);
+      this.baseListId = GL11.glGenLists(4096);
    }
 
    public final void refresh() {

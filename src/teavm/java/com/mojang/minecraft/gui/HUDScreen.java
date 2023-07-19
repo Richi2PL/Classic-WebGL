@@ -146,7 +146,7 @@ public final class HUDScreen extends Screen {
          }
       }
 
-      var5.drawString("Minecraft Classic (Modified) Webport", 2, 2, 16777215);
+      var5.drawString("0.30 WebGL", 2, 2, 16777215);
       if(this.mc.settings.showFrameRate) {
          var5.drawString(this.mc.debug, 2, 12, 16777215);
       }
