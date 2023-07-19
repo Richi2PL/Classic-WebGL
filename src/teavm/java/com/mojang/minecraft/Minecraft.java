@@ -1229,6 +1229,8 @@ public final class Minecraft implements Runnable {
          this.level.tick();
          this.particleManager.tick();
       }
+      
+      this.player.arrows = 1;
 
    }
 

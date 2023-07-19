@@ -154,7 +154,7 @@ public final class HUDScreen extends Screen {
       if(this.mc.gamemode instanceof SurvivalGameMode) {
          String var24 = "Score: " + this.mc.player.getScore();
          var5.drawString(var24, this.width - var5.getStringWidth(var24) - 2, 2, 16777215);
-         var5.drawString("Arrows: " + this.mc.player.arrows, this.width / 2 + 8, this.height - 33, 16777215);
+         var5.drawString("Arrows: INFINITE", this.width / 2 + 8, this.height - 33, 16777215);
       }
 
       byte var25 = 10;
