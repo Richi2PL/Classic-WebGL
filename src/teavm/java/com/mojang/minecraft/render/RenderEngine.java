@@ -3,6 +3,7 @@ package com.mojang.minecraft.render;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.HashMap;
 
 import org.lwjgl.opengl.GL11;
 
@@ -15,7 +16,6 @@ import net.lax1dude.eaglercraft.GLAllocation;
 public class RenderEngine {
 
 	public RenderEngine() {
-//		textureMap = new HashMap<String, Integer>();
 //		textureNameToImageMap = new HashMap<Integer, EaglerImage>();
 		singleIntBuffer = GLAllocation.createDirectIntBuffer(1);
 		imageDataB1 = GLAllocation.createDirectByteBuffer(0x100000);
@@ -25,11 +25,10 @@ public class RenderEngine {
 	}
 
 	public int getTexture(String s) {
-//		TextureBase texturepackbase = new TextureBase();
-//		Integer integer = (Integer) textureMap.get(s);
-//		if (integer != null) {
-//			return integer.intValue();
-//		}
+		Integer integer = (Integer) textureMap.get(s);
+		if (integer != null) {
+			return integer.intValue();
+		}
 		try {
 			singleIntBuffer.clear();
 			GLAllocation.generateTextureNames(singleIntBuffer);
@@ -37,24 +36,13 @@ public class RenderEngine {
 			if(s.equals("/terrain.png") || s.contains("arrow") || s.contains("default")) {
 				textureBlending = true;
 			}
-			setupTexture(readTextureImage(TextureBase.func_6481_a(s)), i);
+			setupTexture(readTextureImage(GL11.loadResourceBytes(s)), i);
 			textureBlending = false;
-//			textureMap.put(s, Integer.valueOf(i));
+			textureMap.put(s, Integer.valueOf(i));
 			return i;
 		} catch (IOException ioexception) {
 			throw new RuntimeException("!!");
 		}
-	}
-	
-	public int allocateAndSetupTexture(EaglerImage bufferedimage) {
-		singleIntBuffer.clear();
-		GLAllocation.generateTextureNames(singleIntBuffer);
-		int i = singleIntBuffer.get(0);
-		textureBlending = true;
-		setupTexture(bufferedimage, i);
-		textureBlending = false;
-		//textureNameToImageMap.put(Integer.valueOf(i), bufferedimage);
-		return i;
 	}
 
 	public void setupTexture(EaglerImage bufferedimage, int i) {
@@ -115,6 +103,7 @@ public class RenderEngine {
 		}
 	}
 
+	public static HashMap<String, Integer> textureMap = new HashMap<String, Integer>();
 	private IntBuffer singleIntBuffer;
 	private ByteBuffer imageDataB1;
 	private GameSettings options;
