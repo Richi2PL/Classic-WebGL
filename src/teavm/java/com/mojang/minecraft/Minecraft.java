@@ -77,6 +77,7 @@ public final class Minecraft implements Runnable {
    private static Tessellator tessellator = Tessellator.instance;
    public static Minecraft minecraft;
    public Entity field_22009_h;
+   public int timeSinceLastSaved = 0;
 
 
    public Minecraft() {
@@ -167,15 +168,7 @@ public final class Minecraft implements Runnable {
          Item.initModels();
          Mob.modelCache = new ModelManager();
          GL11.glViewport(0, 0, this.width, this.height);
-         if(this.server != null && this.session != null) {
-            Level var85;
-            (var85 = new Level()).setData(8, 8, 8, new byte[512]);
-            this.setLevel(var85);
-         } else {
-            boolean var10 = false;
-            this.generateLevel(1);
-         }
-
+         this.generateLevel(1);
          this.particleManager = new ParticleManager(this.level);
          checkGLError("Post startup");
          this.hud = new HUDScreen(this, this.width, this.height);
@@ -187,7 +180,6 @@ public final class Minecraft implements Runnable {
                try {
 				Thread.sleep(100L);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             } else {
@@ -816,12 +808,12 @@ public final class Minecraft implements Runnable {
                                  GL11.glRotatef(-120.0F, 0.0F, 0.0F, 1.0F);
                                  GL11.glScalef(1.0F, 1.0F, 1.0F);
                                  var34 = 0.0625F;
-                                 ModelPart var127;
-                                 if(!(var127 = var112.minecraft.player.getModel().leftArm).hasList) {
-                                    var127.generateList(var34);
+                                 ModelPart var127 = var112.minecraft.player.getModel().leftArm;
+                                 if(!(var127 = var112.minecraft.player.getModel().leftArm).compiled) {
+                                    var127.render(var34);
                                  }
 
-                                 GL11.glCallList(var127.list);
+                                 GL11.glCallList(var127.displayList);
                               }
 
                               GL11.glDisable(2977);
@@ -859,17 +851,12 @@ public final class Minecraft implements Runnable {
                      try {
 						Thread.sleep(5L);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
                   }
 
-                  checkGLError("Post render");
-                  ++var15;
-               //} catch (Exception var58) {
-                  //this.setCurrentScreen(new ErrorScreen("Client error", "The game broke! [" + var58 + "]"));
-                  //var58.printStackTrace();
-               //}
+               checkGLError("Post render");
+               ++var15;
 
                while(System.currentTimeMillis() >= var13 + 1000L) {
                   this.debug = var15 + " fps, " + Chunk.chunkUpdates + " chunk updates";
@@ -1003,7 +990,7 @@ public final class Minecraft implements Runnable {
 //	  }
       HUDScreen var17 = this.hud;
       ++this.hud.ticks;
-
+      
       int var16;
       for(var16 = 0; var16 < var17.chat.size(); ++var16) {
          ++((ChatLine)var17.chat.get(var16)).time;
@@ -1235,20 +1222,10 @@ public final class Minecraft implements Runnable {
    }
 
    public final void generateLevel(int var1) {
-      String var2 = this.session != null?this.session.username:"anonymous";
+      String var2 = "PeytonPlayz585";
       Level var4 = (new LevelGenerator(this.progressBar)).generate(var2, 128 << var1, 128 << var1, 64);
       this.gamemode.prepareLevel(var4);
       this.setLevel(var4);
-   }
-
-   public final boolean loadOnlineLevel(String var1, int var2) {
-      Level var3;
-      if((var3 = this.levelIo.loadOnline(this.host, var1, var2)) == null) {
-         return false;
-      } else {
-         this.setLevel(var3);
-         return true;
-      }
    }
 
    public final void setLevel(Level var1) {

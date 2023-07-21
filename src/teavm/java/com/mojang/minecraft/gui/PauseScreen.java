@@ -1,5 +1,7 @@
 package com.mojang.minecraft.gui;
 
+import java.io.IOException;
+
 import com.mojang.minecraft.gui.Button;
 import com.mojang.minecraft.gui.GenerateLevelScreen;
 import com.mojang.minecraft.gui.GuiScreen;

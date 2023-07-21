@@ -15,7 +15,7 @@ import net.lax1dude.eaglercraft.Base64;
 public class LocalStorageManager {
 
 	public static NBTTagCompound gameSettingsStorage = null;
-	public static NBTTagCompound profileSettingsStorage = null;
+	public static NBTTagCompound levelSettingsStorage = null;
 	
 	public static void loadStorage() {
 		byte[] g = GL11.loadLocalStorage("g");
@@ -36,7 +36,7 @@ public class LocalStorageManager {
 			try {
 				NBTBase t = NBTBase.readTag(new DataInputStream(new ByteArrayInputStream(p)));
 				if(t != null && t instanceof NBTTagCompound) {
-					profileSettingsStorage = (NBTTagCompound)t;
+					levelSettingsStorage = (NBTTagCompound)t;
 				}
 			}catch(IOException e) {
 				;
@@ -44,7 +44,7 @@ public class LocalStorageManager {
 		}
 
 		if(gameSettingsStorage == null) gameSettingsStorage = new NBTTagCompound();
-		if(profileSettingsStorage == null) profileSettingsStorage = new NBTTagCompound();
+		if(levelSettingsStorage == null) levelSettingsStorage = new NBTTagCompound();
 		
 	}
 	
@@ -61,7 +61,7 @@ public class LocalStorageManager {
 	public static void saveStorageP() {
 		try {
 			ByteArrayOutputStream s = new ByteArrayOutputStream();
-			NBTBase.writeTag(profileSettingsStorage, new DataOutputStream(s));
+			NBTBase.writeTag(levelSettingsStorage, new DataOutputStream(s));
 			GL11.saveLocalStorage("p", s.toByteArray());
 		} catch (IOException e) {
 			;

@@ -1,7 +1,6 @@
 package com.mojang.minecraft.gui;
 
-import com.mojang.minecraft.gui.Button;
-import com.mojang.minecraft.gui.GuiScreen;
+import org.lwjgl.opengl.GL11;
 
 public final class GenerateLevelScreen extends GuiScreen {
 
@@ -24,9 +23,9 @@ public final class GenerateLevelScreen extends GuiScreen {
       if(var1.id == 3) {
          this.minecraft.setCurrentScreen(this.parent);
       } else {
-         this.minecraft.generateLevel(var1.id);
-         this.minecraft.setCurrentScreen((GuiScreen)null);
-         this.minecraft.grabMouse();
+    	  this.minecraft.generateLevel(var1.id);
+          this.minecraft.setCurrentScreen((GuiScreen)null);
+          this.minecraft.grabMouse();
       }
    }
 

@@ -65,6 +65,10 @@ public class NBTTagCompound extends NBTBase {
 	public void setByteArray(String s, byte abyte0[]) {
 		tagMap.put(s, (new NBTTagByteArray(abyte0)).setKey(s));
 	}
+	
+	public void setObject(String s, Object obj) {
+		tagMap.put(s, obj);
+	}
 
 	public void setCompoundTag(String s, NBTTagCompound nbttagcompound) {
 		tagMap.put(s, nbttagcompound.setKey(s));
@@ -160,6 +164,14 @@ public class NBTTagCompound extends NBTBase {
 
 	public boolean getBoolean(String s) {
 		return getByte(s) != 0;
+	}
+	
+	public Object getObject(String s) {
+		if(!tagMap.containsKey(s)) {
+			return null;
+		} else  {
+			return tagMap.get(s);
+		}
 	}
 
 	public String toString() {
