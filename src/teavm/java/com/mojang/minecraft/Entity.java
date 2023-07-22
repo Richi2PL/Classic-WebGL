@@ -52,6 +52,7 @@ public abstract class Entity implements Serializable {
    public boolean noPhysics = false;
    public float pushthrough = 0.0F;
    public boolean hovered = false;
+   private int aliveTime;
 
 
    public Entity(Level var1) {
@@ -131,6 +132,14 @@ public abstract class Entity implements Serializable {
    }
 
    public void tick() {
+	  if(!Minecraft.settings.mobSpawns) {
+		  this.remove();
+	  }
+	  this.aliveTime++;
+	  if(this.aliveTime >= 1200) {
+		  this.aliveTime = 0;
+		  this.remove();
+	  }
       this.walkDistO = this.walkDist;
       this.xo = this.x;
       this.yo = this.y;

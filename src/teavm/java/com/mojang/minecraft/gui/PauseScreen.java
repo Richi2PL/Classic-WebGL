@@ -7,6 +7,8 @@ import com.mojang.minecraft.gui.GenerateLevelScreen;
 import com.mojang.minecraft.gui.GuiScreen;
 import com.mojang.minecraft.gui.OptionsScreen;
 
+import net.PeytonPlayz585.music.MusicThread;
+
 public final class PauseScreen extends GuiScreen {
 
    public final void onOpen() {
@@ -40,6 +42,9 @@ public final class PauseScreen extends GuiScreen {
       }
 
       if(var1.id == 4) {
+    	 if(!minecraft.hasBeenInitialized) {
+    		 minecraft.hasBeenInitialized = true;
+    	 }
          this.minecraft.setCurrentScreen((GuiScreen)null);
          this.minecraft.grabMouse();
       }

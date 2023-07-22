@@ -1,5 +1,7 @@
 package com.mojang.minecraft.gamemode;
 
+import java.util.Random;
+
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.level.MobSpawner;
@@ -152,7 +154,6 @@ public final class SurvivalGameMode extends GameMode
 		{
 			spawner.spawn(area, spawner.level.player, null);
 		}
-
 	}
 
 	@Override

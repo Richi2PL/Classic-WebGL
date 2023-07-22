@@ -336,6 +336,8 @@ public class EaglerAdapterImpl2 {
 			e.printStackTrace();
 		}
 		
+		audioctx = AudioContext.create();
+		
 		mouseEvents.clear();
 		keyEvents.clear();
 	}
@@ -1464,6 +1466,7 @@ public class EaglerAdapterImpl2 {
 		}
 		return ret.buffer;
 	}
+
 	public static final int beginPlayback(String fileName, float x, float y, float z, float volume, float pitch) {
 		AudioBuffer b = getBufferFor(fileName);
 		if(b == null) return -1;

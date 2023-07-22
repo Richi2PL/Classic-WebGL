@@ -13,7 +13,7 @@ public final class GameSettings
 	{
 		bindings = new KeyBinding[] {forwardKey, leftKey, backKey, rightKey, jumpKey, buildKey, chatKey, toggleFogKey, saveLocationKey, loadLocationKey};
 
-		settingCount = 10;
+		settingCount = 11;
 
 		this.minecraft = minecraft;
 		
@@ -33,6 +33,7 @@ public final class GameSettings
 	public boolean limitFramerate = false;
 	public boolean gamemode = false;
 	public boolean fullscreen = false;
+	public boolean mobSpawns = false;
 	public KeyBinding forwardKey = new KeyBinding("Forward", 17);
 	public KeyBinding leftKey = new KeyBinding("Left", 30);
 	public KeyBinding backKey = new KeyBinding("Back", 31);
@@ -123,6 +124,11 @@ public final class GameSettings
 			fullscreen = !fullscreen;
 			GL11.setFullscreen(fullscreen);
 		}
+		
+		if(setting == 10) {
+			mobSpawns = !mobSpawns;
+			minecraft.gamemode.spawnMob();
+		}
 
 		save();
 	}
@@ -139,7 +145,8 @@ public final class GameSettings
 				: (id == 7 ? "Limit framerate: " + (limitFramerate ? "ON" : "OFF")
 				: (id == 8 ? "Game Mode: " + (gamemode ? "Creative" : "Survival")
 				: (id == 9 ? "Fullscreen: " + (fullscreen ? "ON" : "OFF")
-				: "")))))))));
+				: (id == 10 ? "Mob Spawning: " + (mobSpawns ? "ON" : "OFF")
+				: ""))))))))));
 	}
 
 	private void load()
@@ -179,6 +186,10 @@ public final class GameSettings
 				limitFramerate = settingsFile.getBoolean("limitFramerate");
 			}
 			
+			if(settingsFile.hasKey("mobSpawns")) {
+				mobSpawns = settingsFile.getBoolean("mobSpawns");
+			}
+			
 			for(int i = 0; i < bindings.length; ++i) {
 				String k = "key_" + bindings[i].name;
 				if(settingsFile.hasKey(k)) bindings[i].key = (int)settingsFile.getShort(k) & 0xFFFF;
@@ -197,6 +208,7 @@ public final class GameSettings
 		settingsFile.setBoolean("bobView", viewBobbing);
 		settingsFile.setBoolean("anaglyph3d", anaglyph);
 		settingsFile.setBoolean("limitFramerate", limitFramerate);
+		settingsFile.setBoolean("mobSpawns", mobSpawns);
 		
 		for(int i = 0; i < bindings.length; ++i) {
 			String k = "key_" + bindings[i].name;

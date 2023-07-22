@@ -16,11 +16,9 @@ import net.lax1dude.eaglercraft.GLAllocation;
 public class RenderEngine {
 
 	public RenderEngine() {
-//		textureNameToImageMap = new HashMap<Integer, EaglerImage>();
 		singleIntBuffer = GLAllocation.createDirectIntBuffer(1);
 		imageDataB1 = GLAllocation.createDirectByteBuffer(0x100000);
-//		imageDataB2 = GLAllocation.createDirectByteBuffer(0x100000);
-		textureBlending = false;
+		alpha = false;
 		options = Minecraft.settings;
 	}
 
@@ -34,10 +32,10 @@ public class RenderEngine {
 			GLAllocation.generateTextureNames(singleIntBuffer);
 			int i = singleIntBuffer.get(0);
 			if(s.equals("/terrain.png") || s.contains("arrow") || s.contains("default")) {
-				textureBlending = true;
+				alpha = true;
 			}
 			setupTexture(readTextureImage(GL11.loadResourceBytes(s)), i);
-			textureBlending = false;
+			alpha = false;
 			textureMap.put(s, Integer.valueOf(i));
 			return i;
 		} catch (IOException ioexception) {
@@ -46,11 +44,8 @@ public class RenderEngine {
 	}
 
 	public void setupTexture(EaglerImage bufferedimage, int i) {
-		if(textureBlending) {
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			//GL11.glDepthMask(false);
-			GL11.glAlphaFunc(GL11._wGL_LESS, 1.0F);
+		if(alpha) {
+			GL11.glAlphaFunc(516, 0.1F);
 		}
 		bindTexture(i);
 		GL11.glTexParameteri(3553 /* GL_TEXTURE_2D */, 10241 /* GL_TEXTURE_MIN_FILTER */, 9728 /* GL_NEAREST */);
@@ -82,7 +77,7 @@ public class RenderEngine {
 		imageDataB1.clear();
 		imageDataB1.put(abyte0);
 		imageDataB1.position(0).limit(abyte0.length);
-		GL11.glTexImage2D(3553 /* GL_TEXTURE_2D */, 0, GL11._wGL_RGBA8 /* GL_RGBA */, j, k, 0, GL11.GL_RGBA /* GL_RGBA */,
+		GL11.glTexImage2D(3553 /* GL_TEXTURE_2D */, 0, GL11.GL_RGBA /* GL_RGBA */, j, k, 0, GL11.GL_RGBA /* GL_RGBA */,
 				5121 /* GL_UNSIGNED_BYTE */, imageDataB1);
 	}
 
@@ -107,5 +102,5 @@ public class RenderEngine {
 	private IntBuffer singleIntBuffer;
 	private ByteBuffer imageDataB1;
 	private GameSettings options;
-	private boolean textureBlending;
+	private boolean alpha;
 }

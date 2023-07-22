@@ -25,7 +25,7 @@ import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.*;
 import com.mojang.minecraft.render.Renderer;
 import net.PeytonPlayz585.math.MathHelper;
-
+import net.PeytonPlayz585.music.MusicThread;
 import net.lax1dude.eaglercraft.GLAllocation;
 import net.lax1dude.eaglercraft.adapter.Tessellator;
 
@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Map.Entry;
 
 public final class Minecraft implements Runnable {
@@ -984,10 +985,17 @@ public final class Minecraft implements Runnable {
       }
    }
 
-   private void tick() {
-//	  if(!settings.gamemode) {
-//		  this.gamemode.spawnMob();
-//	  }
+   public static boolean hasBeenInitialized = false;
+   
+   public void tick() {
+	  if(!settings.gamemode && settings.mobSpawns) {
+		  this.gamemode.spawnMob();
+	  }
+	  
+	  if(hasBeenInitialized) {
+		  MusicThread.musicTick();
+	  }
+	  
       HUDScreen var17 = this.hud;
       ++this.hud.ticks;
       
@@ -1092,7 +1100,7 @@ public final class Minecraft implements Runnable {
                   }
 
                   GL11.getEventKey();
-                  if(GL11.getEventKey() == 63) {
+                  if(GL11.getEventKey() == 28) {
                      this.raining = !this.raining;
                   }
 

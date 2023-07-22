@@ -156,7 +156,7 @@ public class LiquidBlock extends Block {
    }
 
    public final int getRenderPass() {
-      return this.type == LiquidType.WATER?1:0;
+      return 0;
    }
 
 	@Override
