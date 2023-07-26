@@ -59,7 +59,7 @@ public final class ProgressBarDisplay {
             Tessellator tessellator = Tessellator.instance;
             int var7 = new TextureLocation("/dirt.png").bindTexture();
             float var10 = 32.0F;
-            tessellator.startDrawing();
+            tessellator.startDrawing(7);
             tessellator.setColorOpaque_I(4210752);
             tessellator.addVertexWithUV(0.0F, (float)var5, 0.0F, 0.0F, (float)var5 / var10);
             tessellator.addVertexWithUV((float)var4, (float)var5, 0.0F, (float)var4 / var10, (float)var5 / var10);
@@ -70,7 +70,7 @@ public final class ProgressBarDisplay {
                var7 = var4 / 2 - 50;
                int var8 = var5 / 2 + 16;
                GL11.glDisable(3553);
-               tessellator.startDrawing();
+               tessellator.startDrawing(7);
                tessellator.setColorOpaque_I(8421504);
                tessellator.addVertex((float)var7, (float)var8, 0.0F);
                tessellator.addVertex((float)var7, (float)(var8 + 2), 0.0F);

@@ -54,7 +54,7 @@ public final class Chunk {
          boolean var8 = false;
          boolean var9 = false;
          GL11.glNewList(this.baseListId + var7, 4864);
-         renderer.startDrawing();
+         renderer.startDrawing(7);
 
          for(int var10 = var1; var10 < var4; ++var10) {
             for(int var11 = var2; var11 < var5; ++var11) {

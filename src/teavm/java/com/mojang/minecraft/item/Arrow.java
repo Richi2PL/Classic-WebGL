@@ -201,14 +201,14 @@ public class Arrow extends Entity
 		GL11.glEnable(GL11.GL_RESCALE_NORMAL);
 		GL11.glScalef(0.05625F, var20, var20);
 		GL11.glNormal3f(var20, 0.0F, 0.0F);
-		var10.startDrawingQuads();
+		var10.startDrawing(7);
 		var10.addVertexWithUV(-7.0D, -2.0D, -2.0D, (double) var16, (double) var18);
 		var10.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) var17, (double) var18);
 		var10.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) var17, (double) var19);
 		var10.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) var16, (double) var19);
 		var10.draw();
 		GL11.glNormal3f(-var20, 0.0F, 0.0F);
-		var10.startDrawingQuads();
+		var10.startDrawing(7);
 		var10.addVertexWithUV(-7.0D, 2.0D, -2.0D, (double) var16, (double) var18);
 		var10.addVertexWithUV(-7.0D, 2.0D, 2.0D, (double) var17, (double) var18);
 		var10.addVertexWithUV(-7.0D, -2.0D, 2.0D, (double) var17, (double) var19);
@@ -218,7 +218,7 @@ public class Arrow extends Entity
 		for (int var23 = 0; var23 < 4; ++var23) {
 			GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glNormal3f(0.0F, 0.0F, -var20);
-			var10.startDrawingQuads();
+			var10.startDrawing(7);
 			var10.addVertexWithUV(-8.0D, -2.0D, 0.0D, (double) var12, (double) var14);
 			var10.addVertexWithUV(8.0D, -2.0D, 0.0D, (double) var13, (double) var14);
 			var10.addVertexWithUV(8.0D, 2.0D, 0.0D, (double) var13, (double) var15);

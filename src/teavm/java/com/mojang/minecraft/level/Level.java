@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import org.lwjgl.opengl.GL11;
+
 public class Level implements Serializable {
 
    public static final long serialVersionUID = 0L;
@@ -976,5 +978,31 @@ public class Level implements Serializable {
 
    public void removeAllNonCreativeModeEntities() {
       this.blockMap.removeAllNonCreativeModeEntities();
+   }
+
+   public void playSound(String name, float x, float y, float z, float f, float g) {
+	   if(name == "grass" || name == "cloth") {
+		   Random rand = new Random();
+		   int randNum = rand.nextInt((4 - 1) + 1) + 1;
+		   if(randNum == 3) {
+			   randNum = rand.nextInt((4 - 1) + 1) + 1;
+		   }
+		   if(randNum == 3) {
+			   randNum = rand.nextInt((4 - 1) + 1) + 1;
+		   }
+		   GL11.beginPlayback("sounds/blocks/grass" + randNum + ".mp3");
+	   } else if(name == "wood") {
+		   Random rand = new Random();
+		   int randNum = rand.nextInt((4 - 1) + 1) + 1;
+		   GL11.beginPlayback("sounds/blocks/wood" + randNum + ".mp3");
+	   } else if(name == "gravel") {
+		   Random rand = new Random();
+		   int randNum = rand.nextInt((4 - 1) + 1) + 1;
+		   GL11.beginPlayback("sounds/blocks/gravel" + randNum + ".mp3");
+	   } else if(name == "metal" || name == "stone") {
+		   Random rand = new Random();
+		   int randNum = rand.nextInt((4 - 1) + 1) + 1;
+		   GL11.beginPlayback("sounds/blocks/stone" + randNum + ".mp3");
+	   }
    }
 }

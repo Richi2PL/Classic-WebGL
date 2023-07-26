@@ -19,7 +19,7 @@ public class FixedFunctionShader {
 	}
 
 	public static final int COLOR = 1;
-	public static final int NORMAL = 2;
+	//public static final int NORMAL = 2;
 	public static final int TEXTURE0 = 4;
 	public static final int LIGHTING = 8;
 	public static final int FOG = 16;
@@ -39,9 +39,9 @@ public class FixedFunctionShader {
 			if ((i & COLOR) == COLOR) {
 				CC_a_color = true;
 			}
-			if ((i & NORMAL) == NORMAL) {
-				CC_a_normal = true;
-			}
+//			if ((i & NORMAL) == NORMAL) {
+//				CC_a_normal = true;
+//			}
 			if ((i & TEXTURE0) == TEXTURE0) {
 				CC_a_texture0 = true;
 			}

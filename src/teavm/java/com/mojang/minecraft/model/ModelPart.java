@@ -97,7 +97,7 @@ public final class ModelPart {
 				Tessellator var4 = Tessellator.instance;
 
 				for(int var5 = 0; var5 < var2.quads.length; ++var5) {
-					var4.startDrawingQuads();
+					var4.startDrawing(7);
 					TexturedQuad var10000 = var2.quads[var5];
 					float var8 = var3;
 					TexturedQuad var6 = var10000;

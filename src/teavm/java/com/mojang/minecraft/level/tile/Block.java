@@ -446,7 +446,7 @@ public class Block
 
 	public void renderPreview() {
 		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawing();
+		tessellator.startDrawing(7);
 
 		for(int var2 = 0; var2 < 6; ++var2) {
 			if(var2 == 0) {
@@ -704,10 +704,10 @@ public class Block
 		BLACK_WOOL = (new Block(34, 77)).setData(Tile$SoundType.cloth, 1.0F, 1.0F, 0.8F);
 		GRAY_WOOL = (new Block(35, 78)).setData(Tile$SoundType.cloth, 1.0F, 1.0F, 0.8F);
 		WHITE_WOOL = (new Block(36, 79)).setData(Tile$SoundType.cloth, 1.0F, 1.0F, 0.8F);
-		DANDELION = (new FlowerBlock(37, 13)).setData(Tile$SoundType.none, 0.7F, 1.0F, 0.0F);
-		ROSE = (new FlowerBlock(38, 12)).setData(Tile$SoundType.none, 0.7F, 1.0F, 0.0F);
-		BROWN_MUSHROOM = (new MushroomBlock(39, 29)).setData(Tile$SoundType.none, 0.7F, 1.0F, 0.0F);
-		RED_MUSHROOM = (new MushroomBlock(40, 28)).setData(Tile$SoundType.none, 0.7F, 1.0F, 0.0F);
+		DANDELION = (new FlowerBlock(37, 13)).setData(Tile$SoundType.grass, 0.7F, 1.0F, 0.0F);
+		ROSE = (new FlowerBlock(38, 12)).setData(Tile$SoundType.grass, 0.7F, 1.0F, 0.0F);
+		BROWN_MUSHROOM = (new MushroomBlock(39, 29)).setData(Tile$SoundType.grass, 0.7F, 1.0F, 0.0F);
+		RED_MUSHROOM = (new MushroomBlock(40, 28)).setData(Tile$SoundType.grass, 0.7F, 1.0F, 0.0F);
 		var10000 = (new MetalBlock(41, 40)).setData(Tile$SoundType.metal, 0.7F, 1.0F, 3.0F);
 		var0 = false;
 		var1 = var10000;

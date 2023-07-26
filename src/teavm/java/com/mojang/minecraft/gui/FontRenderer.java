@@ -56,7 +56,7 @@ public class FontRenderer {
 		Tessellator tessellator = Tessellator.instance;
 		for (int i1 = 0; i1 < 256; i1++) {
 			GL11.glNewList(fontDisplayLists + i1, 4864 /* GL_COMPILE */);
-			tessellator.startDrawingQuads();
+			tessellator.startDrawing(7);
 			int l1 = (i1 % 16) * 8;
 			int k2 = (i1 / 16) * 8;
 			float f = 7.99F;

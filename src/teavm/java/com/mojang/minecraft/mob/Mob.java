@@ -1,10 +1,12 @@
 package com.mojang.minecraft.mob;
 
 import com.mojang.minecraft.Entity;
+import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.mob.ai.AI;
 import com.mojang.minecraft.mob.ai.BasicAI;
 import com.mojang.minecraft.model.ModelManager;
+import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.RenderEngine;
 import com.mojang.minecraft.render.TextureLocation;
 
@@ -70,8 +72,15 @@ public class Mob extends Entity {
       return !this.removed;
    }
 
+   private int prevHealth = this.health;
    public final void tick() {
       super.tick();
+      if(this instanceof Player) {
+    	  if(this.health < this.prevHealth && Minecraft.settings.sound) {
+    		  GL11.beginPlayback("sounds/player/oof.mp3");
+    	  }
+      }
+      this.prevHealth = this.health;
       this.oTilt = this.tilt;
       if(this.attackTime > 0) {
          --this.attackTime;

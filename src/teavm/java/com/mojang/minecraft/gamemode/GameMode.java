@@ -1,5 +1,9 @@
 package com.mojang.minecraft.gamemode;
 
+import java.util.Random;
+
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.level.tile.Block;
@@ -45,6 +49,11 @@ public class GameMode
 		Block block = Block.blocks[level.getTile(x, y, z)];
 
 		boolean success = level.netSetTile(x, y, z, 0);
+		
+		if(block.stepsound != Tile$SoundType.none && minecraft.settings.sound)
+		{
+			level.playSound(block.stepsound.name, (float)x, (float)y, (float)z, (block.stepsound.getVolume() + 1.0F) / 2.0F,block.stepsound.getPitch());
+		}
 
 		if(block != null && success)
 		{

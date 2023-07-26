@@ -23,9 +23,9 @@ public class ChunkDistanceComparator implements Comparator
 		{
 			return 0;
 		} else if(sqDist > otherSqDist) {
-			return -1;
-		} else {
 			return 1;
+		} else {
+			return -1;
 		}
 	}
 

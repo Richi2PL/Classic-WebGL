@@ -68,7 +68,7 @@ public class FlowerBlock extends Block {
 
    public final void renderPreview() {
 	  tessellator.setNormal(0.0F, 1.0F, 0.0F);
-      tessellator.startDrawing();
+      tessellator.startDrawing(7);
       this.render(0.0F, 0.4F, -0.3F);
       tessellator.draw();
    }

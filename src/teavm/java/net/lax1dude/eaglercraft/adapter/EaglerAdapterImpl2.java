@@ -1205,14 +1205,14 @@ public class EaglerAdapterImpl2 {
 		NONE, FAILED, BLOCKED, FAILED_POSSIBLY_LOCKED, LOCKED, NOW_LOCKED;
 	}
 
-	private static final Set<String> rateLimitedAddresses = new HashSet();
-	private static final Set<String> blockedAddresses = new HashSet();
+	private static final Set<String> rateLimitedAddresses = new HashSet<String>();
+	private static final Set<String> blockedAddresses = new HashSet<String>();
 	
 	private static WebSocket sock = null;
 	private static boolean sockIsConnecting = false;
 	private static boolean sockIsConnected = false;
 	private static boolean sockIsAlive = false;
-	private static LinkedList<byte[]> readPackets = new LinkedList();
+	private static LinkedList<byte[]> readPackets = new LinkedList<byte[]>();
 	private static RateLimit rateLimitStatus = null;
 	private static String currentSockURI = null;
 	
@@ -1466,13 +1466,27 @@ public class EaglerAdapterImpl2 {
 		}
 		return ret.buffer;
 	}
+	
+	public static void beginPlayback(String fileName) {
+		AudioBuffer b = getBufferFor(fileName);
+		if(b == null) return;
+		AudioBufferSourceNode s = audioctx.createBufferSource();
+		s.setBuffer(b);
+		PannerNode p = audioctx.createPanner();
+		GainNode g = audioctx.createGain();
+		g.getGain().setValue(1.0f);
+		s.connect(g);
+		g.connect(p);
+		p.connect(audioctx.getDestination());
+		s.start(0.0d, playbackOffsetDelay);
+	}
 
-	public static final int beginPlayback(String fileName, float x, float y, float z, float volume, float pitch) {
+	public static final int beginPlayback(String fileName, float x, float y, float z, float volume) {
 		AudioBuffer b = getBufferFor(fileName);
 		if(b == null) return -1;
 		AudioBufferSourceNode s = audioctx.createBufferSource();
 		s.setBuffer(b);
-		s.getPlaybackRate().setValue(pitch);
+		//s.getPlaybackRate().setValue(pitch);
 		PannerNode p = audioctx.createPanner();
 		p.setPosition(x, y, z);
 		p.setMaxDistance(volume * 16f + 0.1f);

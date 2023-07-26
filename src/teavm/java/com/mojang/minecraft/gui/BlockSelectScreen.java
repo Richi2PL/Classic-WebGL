@@ -56,7 +56,7 @@ public final class BlockSelectScreen extends GuiScreen {
 
          GL11.glTranslatef(-1.5F, 0.5F, 0.5F);
          GL11.glScalef(-1.0F, -1.0F, -1.0F);
-         tessellator.startDrawing();
+         tessellator.startDrawing(7);
          var4.renderFullbright();
          tessellator.draw();
          GL11.glPopMatrix();

@@ -135,7 +135,7 @@ public final class HUDScreen extends Screen {
             GL11.glTranslatef(-1.5F, 0.5F, 0.5F);
             GL11.glScalef(-1.0F, -1.0F, -1.0F);
             new TextureLocation("/terrain.png").bindTexture();
-            tessellator.startDrawing();
+            tessellator.startDrawing(7);
             Block.blocks[var15].renderFullbright();
             tessellator.draw();
             GL11.glPopMatrix();

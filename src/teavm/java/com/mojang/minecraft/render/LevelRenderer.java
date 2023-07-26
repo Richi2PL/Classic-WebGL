@@ -88,7 +88,7 @@ public final class LevelRenderer {
       }
 
       int var6 = 2048 / var5;
-      var11.startDrawing();
+      var11.startDrawing(7);
 
       int var7;
       for(var7 = -var5 * var6; var7 < var9.level.width + var5 * var6; var7 += var5) {
@@ -107,7 +107,7 @@ public final class LevelRenderer {
 
       var11.draw();
       GL11.glColor3f(0.8F, 0.8F, 0.8F);
-      var11.startDrawing();
+      var11.startDrawing(7);
 
       for(var7 = 0; var7 < var9.level.width; var7 += var5) {
          var11.addVertexWithUV((float)var7, 0.0F, 0.0F, 0.0F, 0.0F);
@@ -151,7 +151,7 @@ public final class LevelRenderer {
       }
 
       var5 = 2048 / var4;
-      var11.startDrawing();
+      var11.startDrawing(7);
 
       for(var6 = -var4 * var5; var6 < var9.level.width + var4 * var5; var6 += var4) {
          for(var7 = -var4 * var5; var7 < var9.level.height + var4 * var5; var7 += var4) {

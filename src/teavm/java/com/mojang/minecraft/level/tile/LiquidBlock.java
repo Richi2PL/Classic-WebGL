@@ -155,10 +155,6 @@ public class LiquidBlock extends Block {
       return 0;
    }
 
-   public final int getRenderPass() {
-      return 0;
-   }
-
 	@Override
 	public AABB getCollisionBox(int x, int y, int z)
 	{
