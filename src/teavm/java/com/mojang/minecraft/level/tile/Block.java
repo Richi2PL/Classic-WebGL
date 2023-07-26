@@ -596,42 +596,42 @@ public class Block
 		float var10;
 		if(this.canRenderSide(var1, var2, var3 - 1, var4, 0)) {
 			var10 = this.getBrightness(var1, var2, var3 - 1, var4);
-			tessellator.setColorOpaque_F(var7 * var10, var7 * var10, var7 * var10);
+			tessellator.setColorRGBA_F(var7, var7, var7, var7);
 			this.renderInside(var2, var3, var4, 0);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2, var3 + 1, var4, 1)) {
 			var10 = this.getBrightness(var1, var2, var3 + 1, var4);
-			tessellator.setColorOpaque_F(var10 * 1.0F, var10 * 1.0F, var10 * 1.0F);
+			tessellator.setColorRGBA_F(var10 * 1.0F, var10 * 1.0F, var10 * 1.0F, var10 * 1.0F);
 			this.renderInside(var2, var3, var4, 1);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2, var3, var4 - 1, 2)) {
 			var10 = this.getBrightness(var1, var2, var3, var4 - 1);
-			tessellator.setColorOpaque_F(var8 * var10, var8 * var10, var8 * var10);
+			tessellator.setColorRGBA_F(var8 * var10, var8 * var10, var8 * var10, var9 * 10);
 			this.renderInside(var2, var3, var4, 2);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2, var3, var4 + 1, 3)) {
 			var10 = this.getBrightness(var1, var2, var3, var4 + 1);
-			tessellator.setColorOpaque_F(var8 * var10, var8 * var10, var8 * var10);
+			tessellator.setColorRGBA_F(var8 * var10, var8 * var10, var8 * var10, var8 * var10);
 			this.renderInside(var2, var3, var4, 3);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2 - 1, var3, var4, 4)) {
 			var10 = this.getBrightness(var1, var2 - 1, var3, var4);
-			tessellator.setColorOpaque_F(var9 * var10, var9 * var10, var9 * var10);
+			tessellator.setColorRGBA_F(var9 * var10, var9 * var10, var9 * var10, var9 * var10);
 			this.renderInside(var2, var3, var4, 4);
 			var6 = true;
 		}
 
 		if(this.canRenderSide(var1, var2 + 1, var3, var4, 5)) {
 			var10 = this.getBrightness(var1, var2 + 1, var3, var4);
-			tessellator.setColorOpaque_F(var9 * var10, var9 * var10, var9 * var10);
+			tessellator.setColorRGBA_F(var9 * var10, var9 * var10, var9 * var10, var9 * var10);
 			this.renderInside(var2, var3, var4, 5);
 			var6 = true;
 		}
