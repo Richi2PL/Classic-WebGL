@@ -19,7 +19,7 @@ jobs:
         distribution: 'adopt'
         java-version: '17'
     - name: Compile EPK
-      run: bash lax1dude/epkcompiler/run_unix.sh
+      run: java -jar lax1dude/epkcompiler/CompilePackage.jar "../../resources" "../../js/resources.mc"
     - name: Export data
       uses: actions/upload-artifact@v3
       with:
