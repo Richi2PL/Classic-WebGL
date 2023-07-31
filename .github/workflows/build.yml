@@ -13,3 +13,12 @@ jobs:
       uses: gradle/gradle-build-action@v2
     - name: Run build with Gradle Wrapper
       run: ./gradlew teavm
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.12.0
+    - name: Compile EPK
+      run: bash lax1dude/epkcompiler/run_unix.sh
+    - name: Export data
+      uses: actions/upload-artifact@v3
+      with:
+          name: web
+          path: js/*
