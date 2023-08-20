@@ -5,7 +5,7 @@
 ## Project Removal
 This project is just for fun, if it has to be taken down for any legal reasons email me at PeytonPlayz585@gmail.com
 
-## Related Projects (That are better)
+## Use this instead, it's better...
 [Minecraft Indev WebGL](https://github.com/PeytonPlayz595/Minecraft-Indev-WebGL)
 
 ## How to play?
