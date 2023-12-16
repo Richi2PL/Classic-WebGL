@@ -35,6 +35,11 @@ public class Tessellator {
 	 * Whether the current draw object for this tessellator has texture coordinates.
 	 */
 	private boolean hasTexture = false;
+	
+	/**
+	 * Whether the current draw object for this tessellator has normal values.
+	 */
+	private boolean hasNormals = false;
 
 	/** The index into the raw buffer to be used for the next data. */
 	private int rawBufferIndex = 0;
@@ -63,6 +68,9 @@ public class Tessellator {
 	 * An offset to be applied along the z-axis for all vertices in this draw call.
 	 */
 	private double zOffset;
+	
+	/** The normal to be applied to the face being drawn. */
+	private int normal;
 
 	/** The static instance of the Tessellator. */
 	public static final Tessellator instance = new Tessellator(525000);
@@ -105,9 +113,9 @@ public class Tessellator {
 					GL11.glEnableVertexAttrib(GL11.GL_COLOR_ARRAY);
 				}
 
-//     			if (this.hasNormals) {
-//					GL11.glEnableVertexAttrib(GL11.GL_NORMAL_ARRAY);
-//				}
+     			if (this.hasNormals) {
+					GL11.glEnableVertexAttrib(GL11.GL_NORMAL_ARRAY);
+				}
 				
 				GL11.glDrawArrays(drawMode, 0, this.vertexCount, Int32Array.create(intBuffer.getBuffer(), 0, this.vertexCount * 7));
 				
@@ -119,9 +127,9 @@ public class Tessellator {
 					GL11.glDisableVertexAttrib(GL11.GL_COLOR_ARRAY);
 				}
 
-//				if (this.hasNormals) {
-//					GL11.glDisableVertexAttrib(GL11.GL_NORMAL_ARRAY);
-//			    }
+				if (this.hasNormals) {
+					GL11.glDisableVertexAttrib(GL11.GL_NORMAL_ARRAY);
+			    }
 			}
 
 			int var1 = this.rawBufferIndex * 4;
@@ -145,12 +153,10 @@ public class Tessellator {
 	 * mode).
 	 */
 	public void startDrawing(int drawMode) {
-//		if (this.isDrawing) {
-//			this.draw();
-//		}
 		this.drawMode = drawMode;
 		this.isDrawing = true;
 		this.reset();
+		this.hasNormals = false;
 		this.hasColor = false;
 		this.hasTexture = false;
 		this.isColorDisabled = false;
@@ -263,6 +269,10 @@ public class Tessellator {
 		if (this.hasColor) {
 			intBuffer0.set(bufferIndex + 5, this.color);
 		}
+		
+		if (this.hasNormals) {
+			intBuffer0.set(bufferIndex + 6, this.normal);
+		}
 
 		this.rawBufferIndex += 7;
 	}
@@ -300,6 +310,12 @@ public class Tessellator {
 	 * Sets the normal for the current draw call.
 	 */
 	public void setNormal(float par1, float par2, float par3) {
+		this.hasNormals = true;
+		float len = (float) Math.sqrt(par1 * par1 + par2 * par2 + par3 * par3);
+		int var4 = (int)((par1 / len) * 125.0F) + 125;
+		int var5 = (int)((par2 / len) * 125.0F) + 125;
+		int var6 = (int)((par3 / len) * 125.0F) + 125;
+		this.normal = var4 & 255 | (var5 & 255) << 8 | (var6 & 255) << 16;
 		GL11.glNormal3f(par1, par2, par3);
 	}
 

@@ -77,22 +77,22 @@ public final class Renderer {
    }
 
    public final void setLighting(boolean var1) {
-      if(!var1) {
-         GL11.glDisable(2896);
-         GL11.glDisable(16384);
-      } else {
-         GL11.glEnable(2896);
-         GL11.glEnable(16384);
-         GL11.glEnable(2903);
-         GL11.glColorMaterial(1032, 5634);
-         float var4 = 0.7F;
-         float var2 = 0.3F;
-         Vec3D var3 = (new Vec3D(0.0F, -1.0F, 0.5F)).normalize();
-         GL11.glLight(16384, 4611, this.createBuffer(var3.x, var3.y, var3.z, 0.0F));
-         GL11.glLight(16384, 4609, this.createBuffer(var2, var2, var2, 1.0F));
-         GL11.glLight(16384, 4608, this.createBuffer(0.0F, 0.0F, 0.0F, 1.0F));
-         GL11.glLightModel(2899, this.createBuffer(var4, var4, var4, 1.0F));
-      }
+	   if(!var1) {
+		   GL11.glDisable(2896);
+		   GL11.glDisable(16384);
+	   } else {
+	       GL11.glEnable(2896);
+	       GL11.glEnable(16384);
+	       GL11.glEnable(2903);
+	       GL11.glColorMaterial(1032, 5634);
+	       float var4 = 0.7F;
+	       float var2 = 0.3F;
+	       Vec3D var3 = (new Vec3D(0.0F, -1.0F, 0.5F)).normalize();
+	       GL11.glLight(16384, 4611, this.createBuffer(var3.x, var3.y, var3.z, 0.0F));
+	       GL11.glLight(16384, 4609, this.createBuffer(var2, var2, var2, 1.0F));
+	       GL11.glLight(16384, 4608, this.createBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+           GL11.glLightModel(2899, this.createBuffer(var4, var4, var4, 1.0F));
+	   }
    }
 
    public final void enableGuiMode() {

@@ -146,9 +146,12 @@ public final class HUDScreen extends Screen {
          }
       }
 
-      var5.drawString("0.30 WebGL", 2, 2, 16777215);
+      byte[] text = new byte[] {48, 46, 51, 48, 32, 67, 108, 97, 115, 115, 105, 99};
+      byte[] text1 = new byte[] {40, 77, 97, 100, 101, 32, 98, 121, 32, 80, 101, 121, 116, 111, 110, 80, 108, 97, 121, 122, 53, 56, 53, 41};
+      var5.drawString(new String(text), 2, 2, 16777215);
+      var5.drawString(new String(text1), 2, 12, 16777215);
       if(this.mc.settings.showFrameRate) {
-         var5.drawString(this.mc.debug, 2, 12, 16777215);
+         var5.drawString(this.mc.debug, 2, 22, 16777215);
       }
 
       if(this.mc.gamemode instanceof SurvivalGameMode) {

@@ -3,6 +3,7 @@ package com.mojang.minecraft.mob;
 import com.mojang.minecraft.Entity;
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.level.Level;
+import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.mob.ai.AI;
 import com.mojang.minecraft.mob.ai.BasicAI;
 import com.mojang.minecraft.model.ModelManager;
@@ -73,11 +74,27 @@ public class Mob extends Entity {
    }
 
    private int prevHealth = this.health;
+   private int prevX = (int)this.x;
+   private int prevZ = (int)this.z;
+   private int ticks = 0;
+   private int prevSoundPlayed = 0;
+   
    public final void tick() {
       super.tick();
+      ticks++;
       if(this instanceof Player) {
     	  if(this.health < this.prevHealth && Minecraft.settings.sound) {
     		  GL11.beginPlayback("sounds/player/oof.mp3");
+    	  }
+    	  if((prevX != (int)this.x || prevZ != (int)this.z) && this.onGround && ticks > (prevSoundPlayed + 8) && (!this.isInWater() || !this.isUnderWater())) {
+    		  int var19 = this.level.getTile((int)this.x, (int)(this.y - 0.2F - this.heightOffset), (int)this.z);
+    		  Block block = Block.blocks[var19];
+    		  if(block != null) {
+    			  Minecraft.getMinecraft().level.playSound(block.stepsound.name, 0.1F);
+    			  prevSoundPlayed = ticks;
+    		  }
+    		  prevX = (int)this.x;
+    		  prevZ = (int)this.z;
     	  }
       }
       this.prevHealth = this.health;

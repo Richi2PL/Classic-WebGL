@@ -52,7 +52,7 @@ public class GameMode
 		
 		if(block.stepsound != Tile$SoundType.none && minecraft.settings.sound)
 		{
-			level.playSound(block.stepsound.name, (float)x, (float)y, (float)z, (block.stepsound.getVolume() + 1.0F) / 2.0F,block.stepsound.getPitch());
+			level.playSound(block.stepsound.name);
 		}
 
 		if(block != null && success)

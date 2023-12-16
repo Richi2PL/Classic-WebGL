@@ -2,6 +2,8 @@ package com.mojang.minecraft.render;
 
 import java.util.ArrayList;
 
+import com.mojang.minecraft.Minecraft;
+
 public class TextureLocation {
 
 	private String path;
@@ -31,11 +33,13 @@ public class TextureLocation {
 	}
 	
 	public int bindTexture() {
+		Minecraft.getMinecraft().renderer.setLighting(true);
 		RenderEngine r = new RenderEngine();
 		int i = getTexturePointer();
 		if(i != -1) {
 			r.bindTexture(i);
 		}
+		Minecraft.getMinecraft().renderer.setLighting(false);
 		return i;
 	}
 

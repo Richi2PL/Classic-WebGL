@@ -120,7 +120,7 @@ public class EaglerAdapterGL30 extends EaglerAdapterImpl2 {
 	private static DisplayList compilingDisplayList = null;
 
 	private static boolean enableColorArray = false;
-	//private static boolean enableNormalArray = false;
+	private static boolean enableNormalArray = false;
 	private static boolean enableTex0Array = false;
 
 	private static float colorR = 1.0f;
@@ -745,9 +745,9 @@ public class EaglerAdapterGL30 extends EaglerAdapterImpl2 {
 		case GL_COLOR_ARRAY:
 			enableColorArray = true;
 			break;
-//		case GL_NORMAL_ARRAY:
-//			enableNormalArray = true;
-//			break;
+		case GL_NORMAL_ARRAY:
+			enableNormalArray = true;
+			break;
 		case GL_TEXTURE_COORD_ARRAY:
 			enableTex0Array = true;
 			break;
@@ -761,9 +761,9 @@ public class EaglerAdapterGL30 extends EaglerAdapterImpl2 {
 		case GL_COLOR_ARRAY:
 			enableColorArray = false;
 			break;
-//		case GL_NORMAL_ARRAY:
-//			enableNormalArray = false;
-//			break;
+		case GL_NORMAL_ARRAY:
+			enableNormalArray = false;
+			break;
 		case GL_TEXTURE_COORD_ARRAY:
 			enableTex0Array = false;
 			break;
@@ -775,7 +775,7 @@ public class EaglerAdapterGL30 extends EaglerAdapterImpl2 {
 	private static final int getShaderModeFlag0() {
 		int mode = 0;
 		mode = (mode | (enableColorArray ? FixedFunctionShader.COLOR : 0));
-		//mode = (mode | (enableNormalArray ? FixedFunctionShader.NORMAL : 0));
+		mode = (mode | (enableNormalArray ? FixedFunctionShader.NORMAL : 0));
 		mode = (mode | (enableTex0Array ? FixedFunctionShader.TEXTURE0 : 0));
 		return mode;
 	}
@@ -792,7 +792,7 @@ public class EaglerAdapterGL30 extends EaglerAdapterImpl2 {
 	private static final int getShaderModeFlag() {
 		int mode = 0;
 		mode = (mode | (enableColorArray ? FixedFunctionShader.COLOR : 0));
-		//mode = (mode | (enableNormalArray ? FixedFunctionShader.NORMAL : 0));
+		mode = (mode | (enableNormalArray ? FixedFunctionShader.NORMAL : 0));
 		mode = (mode | (enableTex0Array ? FixedFunctionShader.TEXTURE0 : 0));
 		mode = (mode | ((enableColorMaterial && enableLighting) ? FixedFunctionShader.LIGHTING : 0));
 		mode = (mode | (fogEnabled ? FixedFunctionShader.FOG : 0));

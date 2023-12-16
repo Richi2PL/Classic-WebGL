@@ -1,6 +1,7 @@
 package com.mojang.minecraft.player;
 
 import com.mojang.minecraft.Entity;
+import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.mob.Mob;
 import com.mojang.minecraft.model.HumanoidModel;

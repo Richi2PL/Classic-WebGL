@@ -32,6 +32,9 @@ out vec4 v_position;
 #ifdef CC_a_color
 out vec4 v_color;
 #endif
+#ifdef CC_a_normal
+out vec4 v_normal;
+#endif
 #ifdef CC_a_texture0
 out vec2 v_texture0;
 #endif
@@ -43,6 +46,9 @@ void main(){
 #endif
 #ifdef CC_a_color
 	v_color = a_color;
+#endif
+#ifdef CC_a_normal
+	v_normal = a_normal;
 #endif
 #ifdef CC_a_texture0
 	v_texture0 = a_texture0;

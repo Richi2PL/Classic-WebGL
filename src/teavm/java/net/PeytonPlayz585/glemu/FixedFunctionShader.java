@@ -19,7 +19,7 @@ public class FixedFunctionShader {
 	}
 
 	public static final int COLOR = 1;
-	//public static final int NORMAL = 2;
+	public static final int NORMAL = 2;
 	public static final int TEXTURE0 = 4;
 	public static final int LIGHTING = 8;
 	public static final int FOG = 16;
@@ -30,7 +30,7 @@ public class FixedFunctionShader {
 		FixedFunctionShader s = instances[i];
 		if (s == null) {
 			boolean CC_a_color = false;
-//			boolean CC_a_normal = false;
+			boolean CC_a_normal = false;
 			boolean CC_a_texture0 = false;
 			boolean CC_lighting = false;
 			boolean CC_fog = false;
@@ -39,9 +39,9 @@ public class FixedFunctionShader {
 			if ((i & COLOR) == COLOR) {
 				CC_a_color = true;
 			}
-//			if ((i & NORMAL) == NORMAL) {
-//				CC_a_normal = true;
-//			}
+			if ((i & NORMAL) == NORMAL) {
+				CC_a_normal = true;
+			}
 			if ((i & TEXTURE0) == TEXTURE0) {
 				CC_a_texture0 = true;
 			}
@@ -57,7 +57,7 @@ public class FixedFunctionShader {
 			if ((i & UNIT0) == UNIT0) {
 				CC_unit0 = true;
 			}
-			s = new FixedFunctionShader(i, CC_a_color, CC_a_texture0, CC_lighting, CC_fog, CC_alphatest, CC_unit0);
+			s = new FixedFunctionShader(i, CC_a_color, CC_a_normal, CC_a_texture0, CC_lighting, CC_fog, CC_alphatest, CC_unit0);
 			instances[i] = s;
 		}
 		return s;
@@ -66,7 +66,7 @@ public class FixedFunctionShader {
 	private static String shaderSource = null;
 
 	private final boolean enable_color;
-//	private final boolean enable_normal;
+	private final boolean enable_normal;
 	private final boolean enable_texture0;
 	private final boolean enable_lighting;
 	private final boolean enable_fog;
@@ -106,10 +106,10 @@ public class FixedFunctionShader {
 	public final BufferGL genericBuffer;
 	public boolean bufferIsInitialized = false;
 
-	private FixedFunctionShader(int j, boolean CC_a_color, boolean CC_a_texture0,
+	private FixedFunctionShader(int j, boolean CC_a_color, boolean CC_a_normal, boolean CC_a_texture0,
 			boolean CC_lighting, boolean CC_fog, boolean CC_alphatest, boolean CC_unit0) {
 		enable_color = CC_a_color;
-//		enable_normal = CC_a_normal;
+		enable_normal = CC_a_normal;
 		enable_texture0 = CC_a_texture0;
 		enable_lighting = CC_lighting;
 		enable_fog = CC_fog;
@@ -123,8 +123,8 @@ public class FixedFunctionShader {
 		String source = "";
 		if (enable_color)
 			source += "\n#define CC_a_color\n";
-		//if (enable_normal)
-			//source += "#define CC_a_normal\n";
+		if (enable_normal)
+			source += "#define CC_a_normal\n";
 		if (enable_texture0)
 			source += "#define CC_a_texture0\n";
 		if (enable_lighting)
@@ -175,12 +175,12 @@ public class FixedFunctionShader {
 		} else {
 			a_color = -1;
 		}
-		//if (enable_normal) {
-			//a_normal = i++;
-			//_wglBindAttributeLocation(globject, a_normal, "a_normal");
-		//} else {
-		a_normal = -1;
-		//}
+		if (enable_normal) {
+			a_normal = i++;
+			_wglBindAttributeLocation(globject, a_normal, "a_normal");
+		} else {
+			a_normal = -1;
+		}
 
 		attributeIndexesToEnable = i;
 
@@ -206,7 +206,6 @@ public class FixedFunctionShader {
 
 		if (enable_lighting) {
 			u_normalUniform = _wglGetUniformLocation(globject, "normalUniform");
-			// u_invertNormals = _wglGetUniformLocation(globject, "invertNormals");
 			u_light0Pos = _wglGetUniformLocation(globject, "light0Pos");
 			u_light1Pos = _wglGetUniformLocation(globject, "light1Pos");
 		}
@@ -246,10 +245,10 @@ public class FixedFunctionShader {
 			_wglEnableVertexAttribArray(a_color);
 			_wglVertexAttribPointer(a_color, 4, _wGL_UNSIGNED_BYTE, true, 28, 20);
 		}
-		//if (enable_normal) {
-			//_wglEnableVertexAttribArray(a_normal);
-			//_wglVertexAttribPointer(a_normal, 4, _wGL_UNSIGNED_BYTE, true, 28, 24);
-		//}
+		if (enable_normal) {
+			_wglEnableVertexAttribArray(a_normal);
+			_wglVertexAttribPointer(a_normal, 4, _wGL_UNSIGNED_BYTE, true, 28, 24);
+		}
 	}
 
 	public void useProgram() {
