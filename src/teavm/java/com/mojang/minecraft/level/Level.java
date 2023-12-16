@@ -990,19 +990,19 @@ public class Level implements Serializable {
 		   if(randNum == 3) {
 			   randNum = rand.nextInt((4 - 1) + 1) + 1;
 		   }
-		   GL11.beginPlayback("sounds/blocks/grass" + randNum + ".mp3");
+		   GL11.beginPlayback("sounds/blocks/grass" + randNum + ".mp3", 0.1F);
 	   } else if(name == "wood") {
 		   Random rand = new Random();
 		   int randNum = rand.nextInt((4 - 1) + 1) + 1;
-		   GL11.beginPlayback("sounds/blocks/wood" + randNum + ".mp3");
+		   GL11.beginPlayback("sounds/blocks/wood" + randNum + ".mp3", 1.0F);
 	   } else if(name == "gravel") {
 		   Random rand = new Random();
 		   int randNum = rand.nextInt((4 - 1) + 1) + 1;
-		   GL11.beginPlayback("sounds/blocks/gravel" + randNum + ".mp3");
+		   GL11.beginPlayback("sounds/blocks/gravel" + randNum + ".mp3", 0.6F);
 	   } else if(name == "metal" || name == "stone") {
 		   Random rand = new Random();
 		   int randNum = rand.nextInt((4 - 1) + 1) + 1;
-		   GL11.beginPlayback("sounds/blocks/stone" + randNum + ".mp3");
+		   GL11.beginPlayback("sounds/blocks/stone" + randNum + ".mp3", 1.0F);
 	   }
    }
    
