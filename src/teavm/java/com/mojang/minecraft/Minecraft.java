@@ -24,6 +24,8 @@ import com.mojang.minecraft.player.InputHandlerImpl;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.*;
 import com.mojang.minecraft.render.Renderer;
+
+import net.PeytonPlayz585.level.LevelUtils;
 import net.PeytonPlayz585.math.MathHelper;
 import net.PeytonPlayz585.music.MusicThread;
 import net.lax1dude.eaglercraft.GLAllocation;
@@ -170,7 +172,12 @@ public final class Minecraft implements Runnable {
          Item.initModels();
          Mob.modelCache = new ModelManager();
          GL11.glViewport(0, 0, this.width, this.height);
-         this.generateLevel(1);
+         Level level1 = new LevelUtils().load();
+         if(level1 == null) {
+        	 this.generateLevel(1);
+         } else {
+        	 this.setLevel(level1, true);
+         }
          this.particleManager = new ParticleManager(this.level);
          checkGLError("Post startup");
          this.hud = new HUDScreen(this, this.width, this.height);
@@ -1017,12 +1024,17 @@ public final class Minecraft implements Runnable {
    
    public void tick() {
 	   
+	   HUDScreen var17 = this.hud;
+	   ++this.hud.ticks;
+	   
 	  //Skid-prevention
 	  if(this.level != null && this.levelLoaded) {
 		  if(!new String(hud.byte1).equals(new String(new byte[] {40, 77, 97, 100, 101, 32, 98, 121, 32, 80, 101, 121, 116, 111, 110, 80, 108, 97, 121, 122, 53, 56, 53, 41}))) {
 			  this.setCurrentScreen(new ErrorScreen(">:)", "You fucking skid"));
 	  	  }
 	  }
+	  
+	  this.levelSave();
 	  
 	  if(!settings.gamemode && settings.mobSpawns) {
 		  this.gamemode.spawnMob();
@@ -1031,9 +1043,6 @@ public final class Minecraft implements Runnable {
 	  if(hasBeenInitialized) {
 		  MusicThread.musicTick();
 	  }
-	  
-      HUDScreen var17 = this.hud;
-      ++this.hud.ticks;
       
       int var16;
       for(var16 = 0; var16 < var17.chat.size(); ++var16) {
@@ -1041,18 +1050,6 @@ public final class Minecraft implements Runnable {
       }
 
       new TextureLocation("/terrain.png").bindTexture();
-      
-      //TODO: Write a system for block animations
-
-//      for(var16 = 0; var16 < var19.animations.size(); ++var16) {
-//         TextureFX var3;
-//         (var3 = (TextureFX)var19.animations.get(var16)).anaglyph = var19.settings.anaglyph;
-//         var3.animate();
-//         var19.textureBuffer.clear();
-//         var19.textureBuffer.put(var3.textureData);
-//         var19.textureBuffer.position(0).limit(var3.textureData.length);
-//         GL11.glTexSubImage2D(3553, 0, var3.textureId % 16 << 4, var3.textureId / 16 << 4, 16, 16, 6408, 5121, var19.textureBuffer);
-//      }
 
       int var4;
       int var8;
@@ -1264,35 +1261,52 @@ public final class Minecraft implements Runnable {
       this.player.arrows = 1;
 
    }
+   
+   public int ticksUntilSave = 6000;
+
+	private void levelSave() {
+		if(this.level == null) {
+			ticksUntilSave = this.hud.ticks + 6000;
+		}
+		
+		if(this.hud.ticks >= this.ticksUntilSave) {
+			new LevelUtils().save();
+			ticksUntilSave = this.hud.ticks + 6000;
+		}
+	}
 
    public final void generateLevel(int var1) {
       String var2 = "PeytonPlayz585";
       Level var4 = (new LevelGenerator(this.progressBar)).generate(var2, 128 << var1, 128 << var1, 64);
       this.gamemode.prepareLevel(var4);
-      this.setLevel(var4);
+      this.setLevel(var4, false);
    }
 
-   public final void setLevel(Level var1) {
+   public final void setLevel(Level var1, boolean b) {
       this.level = var1;
       if(var1 != null) {
          var1.initTransient();
          this.gamemode.apply(var1);
          var1.font = this.fontRenderer;
          var1.rendererContext$5cd64a7f = this;
-         this.player = (Player)var1.findSubclassOf(Player.class);
-      }
-
-      if(this.player == null) {
-         this.player = new Player(var1);
-         this.player.resetPos();
-         this.gamemode.preparePlayer(this.player);
-         if(var1 != null) {
-            var1.player = this.player;
+         if(b) {
+        	 this.player = new LevelUtils().loadPlayer(var1);
+         } else {
+        	 this.player = (Player)var1.findSubclassOf(Player.class);
          }
       }
+      
+      if(this.player == null) {
+          this.player = new Player(var1);
+          this.player.resetPos();
+          this.gamemode.preparePlayer(this.player);
+          if(var1 != null) {
+             var1.player = this.player;
+          }
+       }
 
       if(this.player != null) {
-         this.player.input = new InputHandlerImpl(this.settings);
+         this.player.input = new InputHandlerImpl(settings);
          this.gamemode.apply(this.player);
       }
 

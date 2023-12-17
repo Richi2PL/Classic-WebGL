@@ -12,6 +12,10 @@ import com.mojang.minecraft.render.RenderEngine;
 import com.mojang.minecraft.render.TextureLocation;
 
 import net.PeytonPlayz585.math.MathHelper;
+import net.PeytonPlayz595.nbt.NBTTagCompound;
+import net.PeytonPlayz595.nbt.NBTTagFloat;
+import net.PeytonPlayz595.nbt.NBTTagList;
+
 import org.lwjgl.opengl.GL11;
 
 public class Mob extends Entity {

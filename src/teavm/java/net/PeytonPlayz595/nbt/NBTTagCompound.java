@@ -182,7 +182,7 @@ public class NBTTagCompound extends NBTBase {
 		return tagMap.size() == 0;
 	}
 
-	private Map tagMap;
+	public Map tagMap;
 
 	public NBTBase getTag(String s) {
 		return (NBTBase) tagMap.get(s);

@@ -7,6 +7,7 @@ import com.mojang.minecraft.gui.GenerateLevelScreen;
 import com.mojang.minecraft.gui.GuiScreen;
 import com.mojang.minecraft.gui.OptionsScreen;
 
+import net.PeytonPlayz585.level.LevelUtils;
 import net.PeytonPlayz585.music.MusicThread;
 
 public final class PauseScreen extends GuiScreen {
@@ -20,6 +21,7 @@ public final class PauseScreen extends GuiScreen {
       this.buttons.add(new Button(4, this.width / 2 - 100, this.height / 4 + 120, "Back to game"));
       ((Button)this.buttons.get(2)).active = false;
       ((Button)this.buttons.get(3)).active = false;
+      new LevelUtils().save();
    }
 
    protected final void onButtonClick(Button var1) {
@@ -45,6 +47,7 @@ public final class PauseScreen extends GuiScreen {
     	 if(!minecraft.hasBeenInitialized) {
     		 minecraft.hasBeenInitialized = true;
     	 }
+    	 new LevelUtils().save();
          this.minecraft.setCurrentScreen((GuiScreen)null);
          this.minecraft.grabMouse();
       }

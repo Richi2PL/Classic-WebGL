@@ -8,6 +8,8 @@ import com.mojang.minecraft.level.tile.Tile$SoundType;
 import com.mojang.minecraft.model.Vec3D;
 import com.mojang.minecraft.phys.AABB;
 import net.PeytonPlayz585.math.MathHelper;
+import net.PeytonPlayz595.nbt.NBTTagCompound;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
