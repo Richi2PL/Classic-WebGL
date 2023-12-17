@@ -1,5 +1,6 @@
 package com.mojang.minecraft.level.tile;
 
+import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.MovingObjectPosition;
 import com.mojang.minecraft.item.Item;
 import com.mojang.minecraft.level.Level;
@@ -8,10 +9,13 @@ import com.mojang.minecraft.model.Vec3D;
 import com.mojang.minecraft.particle.ParticleManager;
 import com.mojang.minecraft.particle.TerrainParticle;
 import com.mojang.minecraft.phys.AABB;
+import com.mojang.minecraft.render.TextureLocation;
 
 import net.lax1dude.eaglercraft.adapter.Tessellator;
 
 import java.util.Random;
+
+import org.lwjgl.opengl.GL11;
 
 public class Block
 {
@@ -300,7 +304,6 @@ public class Block
 			tessellator.addVertexWithUV(var14, var11, var12, var8, var9);
 			tessellator.addVertexWithUV(var14, var11, var13, var7, var9);
 		}
-
 	}
 
 	public AABB getSelectionBox(int x, int y, int z)

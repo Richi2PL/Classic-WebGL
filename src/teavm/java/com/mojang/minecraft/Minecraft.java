@@ -34,6 +34,7 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 import java.io.*;
 import java.nio.IntBuffer;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -1015,6 +1016,14 @@ public final class Minecraft implements Runnable {
    public static boolean hasBeenInitialized = false;
    
    public void tick() {
+	   
+	  //Skid-prevention
+	  if(this.level != null && this.levelLoaded) {
+		  if(!new String(hud.byte1).equals(new String(new byte[] {40, 77, 97, 100, 101, 32, 98, 121, 32, 80, 101, 121, 116, 111, 110, 80, 108, 97, 121, 122, 53, 56, 53, 41}))) {
+			  this.setCurrentScreen(new ErrorScreen(">:)", "You fucking skid"));
+	  	  }
+	  }
+	  
 	  if(!settings.gamemode && settings.mobSpawns) {
 		  this.gamemode.spawnMob();
 	  }

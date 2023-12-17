@@ -3,8 +3,11 @@ package com.mojang.minecraft.level.tile;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.level.liquid.LiquidType;
 import com.mojang.minecraft.phys.AABB;
+import com.mojang.minecraft.render.TextureLocation;
 
 import java.util.Random;
+
+import org.lwjgl.opengl.GL11;
 
 public class LiquidBlock extends Block {
 
