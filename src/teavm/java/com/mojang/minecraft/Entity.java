@@ -54,7 +54,7 @@ public abstract class Entity implements Serializable {
    public boolean noPhysics = false;
    public float pushthrough = 0.0F;
    public boolean hovered = false;
-   private int aliveTime;
+   public int aliveTime;
 
 
    public Entity(Level var1) {

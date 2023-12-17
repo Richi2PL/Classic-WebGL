@@ -1,5 +1,6 @@
 package net.lax1dude.eaglercraft;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -13,6 +14,7 @@ import org.teavm.jso.dom.html.HTMLElement;
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.SessionData;
 
+import net.PeytonPlayz585.level.LevelStorageManager;
 import net.PeytonPlayz585.storage.LocalStorageManager;
 import net.lax1dude.eaglercraft.adapter.EaglerAdapterImpl2;
 
@@ -48,6 +50,11 @@ public class Client {
     	System.out.println(" -------- starting minecraft -------- ");
     	instance = new Minecraft();
     	LocalStorageManager.loadStorage();
+    	try {
+			LevelStorageManager.loadLevelData();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     	run1();
     }
     

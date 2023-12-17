@@ -36,7 +36,7 @@ public class IndexedDBFilesystem {
 	private static IDBDatabase db = null;
 
 	public static final OpenState initialize() {
-		DatabaseOpen dbo = AsyncHandlers.openDB("_net_lax1dude_eaglercraft_beta_IndexedDBFilesystem_1_3");
+		DatabaseOpen dbo = AsyncHandlers.openDB("_net_PeytonPlayz585_ClassicCraft_IndexedDBFilesystem_1_3");
 		if(dbo == null) {
 			err = "Unknown Error";
 			return OpenState.ERROR;

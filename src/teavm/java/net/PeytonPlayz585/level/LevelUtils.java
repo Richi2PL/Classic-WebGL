@@ -15,20 +15,62 @@ import net.PeytonPlayz595.nbt.*;
 
 public class LevelUtils {
 	
-	public final Player loadPlayer(Level level) {
+	public static float x,y,z,rotY,rotX;
+	
+	public final Player loadPlayer(Player player) {
 		NBTTagCompound var13 = LevelStorageManager.levelStorage;
 		NBTTagCompound var2 = var13.getCompoundTag("Player");
-		Player player = new Player(level);
 		
-		player.x = (float)var2.getInteger("player-x");
-		player.y = (float)var2.getInteger("player-y");
-		player.z = (float)var2.getInteger("player-z");
-		
-		player.xRot = var2.getFloat("player-xRot");
-		player.yRot = var2.getFloat("player-yRot");
-		
-		player.health = var2.getInteger("player-health");
-		player.airSupply = var2.getInteger("player-air");
+		player.rot = var2.getFloat("rot");
+		player.timeOffs = var2.getFloat("timeOffs");
+		player.speed = var2.getFloat("speed");
+		player.rotA = var2.getFloat("rotA");
+		player.rotOffs = var2.getFloat("rotOffs");
+		player.deathScore = var2.getInteger("deathScore");
+		player.renderOffset = var2.getFloat("renderOffset");
+		player.health = var2.getInteger("health");
+		player.lastHealth = var2.getInteger("lastHealth");
+		player.airSupply = var2.getInteger("airSupply");
+		player.hurtTime = var2.getInteger("hurtTime");
+		player.hurtDuration = var2.getInteger("hurtDuration");
+		player.hurtDir = var2.getFloat("hurtDir");
+		player.deathTime = var2.getInteger("deathTime");
+		player.attackTime = var2.getInteger("attackTime");
+		player.oTilt = var2.getFloat("oTilt");
+		player.tilt = var2.getFloat("tilt");
+		player.dead = var2.getBoolean("dead");
+		player.xo = var2.getFloat("xo");
+		player.yo = var2.getFloat("yo");
+		player.zo = var2.getFloat("zo");
+		x = var2.getFloat("x");
+		y = var2.getFloat("y");
+		z = var2.getFloat("z");
+		player.x = x;
+		player.y = y;
+		player.z = z;
+		player.xd = var2.getFloat("xd");
+		player.yd = var2.getFloat("yd");
+		player.zd = var2.getFloat("zd");
+		rotY = var2.getFloat("yRot");
+		rotX = var2.getFloat("xRot");
+		player.xRot = rotX;
+		player.yRot = rotY;
+		player.yRotO = var2.getFloat("yRotO");
+		player.xRotO = var2.getFloat("xRotO");
+		player.onGround = var2.getBoolean("onGround");
+		player.horizontalCollision = var2.getBoolean("horizontalCollision");
+		player.collision = var2.getBoolean("collision");
+		player.slide = var2.getBoolean("slide");
+		player.fallDistance = var2.getFloat("fallDistance");
+		player.xOld = var2.getFloat("xOld");
+		player.yOld = var2.getFloat("yOld");
+		player.zOld = var2.getFloat("zOld");
+		player.noPhysics = var2.getBoolean("noPhysics");
+		player.pushthrough = var2.getFloat("pushthrough");
+		player.hovered = var2.getBoolean("hovered");
+		player.aliveTime = var2.getInteger("aliveTime");
+		player.score = var2.getInteger("score");
+		player.prevHealth = var2.getInteger("prevHealth");
 		
 		player.inventory = new Inventory();
 		for(int i = 0; i < 9; i++) {
@@ -40,6 +82,9 @@ public class LevelUtils {
 	
 	public final Level load() {
 		NBTTagCompound var13 = LevelStorageManager.levelStorage;
+		if(var13 == null) {
+			return null;
+		}
 		NBTTagCompound var2 = var13.getCompoundTag("About");
 		NBTTagCompound var3 = var13.getCompoundTag("Map");
 		NBTTagCompound var4 = var13.getCompoundTag("Environment");
@@ -93,20 +138,57 @@ public class LevelUtils {
 		var15.setLong("CreatedOn", var1.createTime);
 		
 		NBTTagCompound var6 = new NBTTagCompound();
-		Mob player = Minecraft.getMinecraft().player;
-		var6.setInteger("player-x", (int)player.x);
-		var6.setInteger("player-y", (int)player.y);
-		var6.setInteger("player-z", (int)player.z);
+		Player player = Minecraft.getMinecraft().player;
 		
-		var6.setFloat("player-xRot", player.xRot);
-		var6.setFloat("player-yRot", player.yRot);
+		var6.setFloat("rot", player.rot);
+		var6.setFloat("timeOffs", player.timeOffs);
+		var6.setFloat("speed", player.speed);
+		var6.setFloat("rotA", player.rotA);
+		var6.setFloat("rotOffs", player.rotOffs);
+		var6.setInteger("deathScore", player.deathScore);
+		var6.setFloat("renderOffset", player.renderOffset);
+		var6.setInteger("health", player.health);
+		var6.setInteger("lastHealth", player.lastHealth);
+		var6.setInteger("airSupply", player.airSupply);
+		var6.setInteger("hurtTime", player.hurtTime);
+		var6.setInteger("hurtDuration", player.hurtDuration);
+		var6.setFloat("hurtDir", player.hurtDir);
+		var6.setInteger("deathTime", player.deathTime);
+		var6.setInteger("attackTime", player.attackTime);
+		var6.setFloat("oTilt", player.oTilt);
+		var6.setFloat("tilt", player.tilt);
+		var6.setBoolean("dead", player.dead);
+		var6.setFloat("xo", player.xo);
+		var6.setFloat("yo", player.yo);
+		var6.setFloat("zo", player.zo);
+		var6.setFloat("x", player.x);
+		var6.setFloat("y", player.y);
+		var6.setFloat("z", player.z);
+		var6.setFloat("xd", player.xd);
+		var6.setFloat("yd", player.yd);
+		var6.setFloat("zd", player.zd);
+		var6.setFloat("yRot", player.yRot);
+		var6.setFloat("xRot", player.xRot);
+		var6.setFloat("yRotO", player.yRotO);
+		var6.setFloat("xRotO", player.xRotO);
+		var6.setBoolean("onGround", player.onGround);
+		var6.setBoolean("horizontalCollision", player.horizontalCollision);
+		var6.setBoolean("collision", player.collision);
+		var6.setBoolean("slide", player.slide);
+		var6.setFloat("fallDistance", player.fallDistance);
+		var6.setFloat("xOld", player.xOld);
+		var6.setFloat("yOld", player.yOld);
+		var6.setFloat("zOld", player.zOld);
+		var6.setBoolean("noPhysics", player.noPhysics);
+		var6.setFloat("pushthrough", player.pushthrough);
+		var6.setBoolean("hovered", player.hovered);
+		var6.setInteger("aliveTime", player.aliveTime);
+		var6.setInteger("score", player.score);
+		var6.setInteger("prevHealth", player.prevHealth);
 		
-		var6.setInteger("player-health", player.health);
-		var6.setInteger("player-air", player.airSupply);
 		for(int i = 0; i < 9; i++) {
-			Player player1 = (Player)player;
-			var6.setInteger("player-inv-" + i, player1.inventory.slots[i]);
-			var6.setInteger("player-inv-" + i + "-size", player1.inventory.count[i]);
+			var6.setInteger("player-inv-" + i, player.inventory.slots[i]);
+			var6.setInteger("player-inv-" + i + "-size", player.inventory.count[i]);
 		}
 		
 		NBTTagCompound var18 = new NBTTagCompound();

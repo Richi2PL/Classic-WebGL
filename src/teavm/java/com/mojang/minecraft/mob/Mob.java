@@ -42,7 +42,7 @@ public class Mob extends Entity {
    public float rotOffs = 0.0F;
    public String modelName = null;
    protected float bobStrength = 1.0F;
-   protected int deathScore = 0;
+   public int deathScore = 0;
    public float renderOffset = 0.0F;
    public int health = 20;
    public int lastHealth;
@@ -55,7 +55,7 @@ public class Mob extends Entity {
    public int attackTime = 0;
    public float oTilt;
    public float tilt;
-   protected boolean dead = false;
+   public boolean dead = false;
    public AI ai;
 
 
@@ -77,7 +77,7 @@ public class Mob extends Entity {
       return !this.removed;
    }
 
-   private int prevHealth = this.health;
+   public int prevHealth = this.health;
    private int prevX = (int)this.x;
    private int prevZ = (int)this.z;
    private int ticks = 0;

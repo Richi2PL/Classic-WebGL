@@ -1026,12 +1026,18 @@ public final class Minecraft implements Runnable {
 	   
 	   HUDScreen var17 = this.hud;
 	   ++this.hud.ticks;
-	   
-	  //Skid-prevention
+	  
 	  if(this.level != null && this.levelLoaded) {
+		  //Skid-prevention
 		  if(!new String(hud.byte1).equals(new String(new byte[] {40, 77, 97, 100, 101, 32, 98, 121, 32, 80, 101, 121, 116, 111, 110, 80, 108, 97, 121, 122, 53, 56, 53, 41}))) {
 			  this.setCurrentScreen(new ErrorScreen(">:)", "You fucking skid"));
 	  	  }
+		  
+		  if(b) {
+			  player.setPos(LevelUtils.x, LevelUtils.y, LevelUtils.z);
+			  player.setRot(LevelUtils.rotY, LevelUtils.rotX);
+			  b = false;
+		  }
 	  }
 	  
 	  this.levelSave();
@@ -1282,6 +1288,8 @@ public final class Minecraft implements Runnable {
       this.setLevel(var4, false);
    }
 
+   public boolean b = false;
+   
    public final void setLevel(Level var1, boolean b) {
       this.level = var1;
       if(var1 != null) {
@@ -1289,11 +1297,7 @@ public final class Minecraft implements Runnable {
          this.gamemode.apply(var1);
          var1.font = this.fontRenderer;
          var1.rendererContext$5cd64a7f = this;
-         if(b) {
-        	 this.player = new LevelUtils().loadPlayer(var1);
-         } else {
-        	 this.player = (Player)var1.findSubclassOf(Player.class);
-         }
+         this.player = (Player)var1.findSubclassOf(Player.class);
       }
       
       if(this.player == null) {
@@ -1307,6 +1311,10 @@ public final class Minecraft implements Runnable {
 
       if(this.player != null) {
          this.player.input = new InputHandlerImpl(settings);
+         if(b) {
+        	 this.b = true;
+        	 new LevelUtils().loadPlayer(player);
+         }
          this.gamemode.apply(this.player);
       }
 
