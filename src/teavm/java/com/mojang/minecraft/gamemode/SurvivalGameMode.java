@@ -31,6 +31,8 @@ public final class SurvivalGameMode extends GameMode
 
 		spawner = new MobSpawner(level);
 	}
+	
+	int prevHit = 0;
 
 	@Override
 	public void hitBlock(int x, int y, int z, int side)
@@ -50,6 +52,10 @@ public final class SurvivalGameMode extends GameMode
 				block.spawnBlockParticles(minecraft.level, x, y, z, side, minecraft.particleManager);
 
 				hits++;
+				if(hits > (prevHit + 3)) {
+					Minecraft.getMinecraft().level.playSound(block.stepsound.name, 0.1F);
+					prevHit = hits;
+				}
 
 				if(hits == hardness + 1)
 				{
@@ -64,6 +70,7 @@ public final class SurvivalGameMode extends GameMode
 			// TODO: I think if I don't set hits to 0 you can continue breaking from where you left off.
 
 			hits = 0;
+			prevHit = hits;
 			hitX = x;
 			hitY = y;
 			hitZ = z;

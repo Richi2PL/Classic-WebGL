@@ -399,6 +399,7 @@ public class Block
 
 	public void onPlace(Level level, int x, int y, int z)
 	{
+		Minecraft.getMinecraft().level.playSound(stepsound.name, 0.1F);
 	}
 
 	public int getTickDelay()
