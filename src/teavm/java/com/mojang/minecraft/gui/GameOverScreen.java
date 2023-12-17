@@ -4,6 +4,9 @@ import com.mojang.minecraft.gui.Button;
 import com.mojang.minecraft.gui.GenerateLevelScreen;
 import com.mojang.minecraft.gui.GuiScreen;
 import com.mojang.minecraft.gui.OptionsScreen;
+
+import net.PeytonPlayz585.level.LevelUtils;
+
 import org.lwjgl.opengl.GL11;
 
 public final class GameOverScreen extends GuiScreen {
@@ -15,7 +18,7 @@ public final class GameOverScreen extends GuiScreen {
       if(this.minecraft.session == null) {
          ((Button)this.buttons.get(2)).active = false;
       }
-
+      new LevelUtils().save();
    }
 
    protected final void onButtonClick(Button var1) {

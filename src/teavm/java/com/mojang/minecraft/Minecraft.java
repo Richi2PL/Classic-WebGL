@@ -1268,16 +1268,16 @@ public final class Minecraft implements Runnable {
 
    }
    
-   public int ticksUntilSave = 6000;
+   public int ticksUntilSave = 600;
 
 	private void levelSave() {
 		if(this.level == null) {
-			ticksUntilSave = this.hud.ticks + 6000;
+			ticksUntilSave = this.hud.ticks + 600;
 		}
 		
 		if(this.hud.ticks >= this.ticksUntilSave) {
 			new LevelUtils().save();
-			ticksUntilSave = this.hud.ticks + 6000;
+			ticksUntilSave = this.hud.ticks + 600;
 		}
 	}
 

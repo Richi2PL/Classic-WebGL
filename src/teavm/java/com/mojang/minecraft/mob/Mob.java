@@ -11,6 +11,7 @@ import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.RenderEngine;
 import com.mojang.minecraft.render.TextureLocation;
 
+import net.PeytonPlayz585.level.LevelUtils;
 import net.PeytonPlayz585.math.MathHelper;
 import net.PeytonPlayz595.nbt.NBTTagCompound;
 import net.PeytonPlayz595.nbt.NBTTagFloat;
@@ -413,6 +414,7 @@ public class Mob extends Entity {
          }
 
          this.dead = true;
+         new LevelUtils().save();
       }
    }
 
