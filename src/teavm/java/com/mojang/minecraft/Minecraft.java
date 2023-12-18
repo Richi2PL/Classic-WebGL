@@ -80,7 +80,6 @@ public final class Minecraft implements Runnable {
    public boolean raining;
    private static Tessellator tessellator = Tessellator.instance;
    public static Minecraft minecraft;
-   public Entity field_22009_h;
    public int timeSinceLastSaved = 0;
 
 
@@ -441,24 +440,13 @@ public final class Minecraft implements Runnable {
                               var74 = var116.yo + (var116.y - var116.yo) * var80;
                               var33 = var116.zo + (var116.z - var116.zo) * var80;
                               GL11.glTranslatef(-var69, -var74, -var33);
-                              Frustrum var76 = new Frustrum();
-                              if(field_22009_h != this.player) {
-                            	  field_22009_h = player;
-                            	  float f = this.timer.elapsedTicks;
-                            	  double d = field_22009_h.x + (field_22009_h.x - field_22009_h.x) * (double) f;
-                          		  double d1 = field_22009_h.y + (field_22009_h.y - field_22009_h.y) * (double) f;
-                          		  double d2 = field_22009_h.z + (field_22009_h.z - field_22009_h.z) * (double) f;
-                            	  ClippingHelperImplementation.getInstance();
-                            	  Frustrum frustrum = new Frustrum();
-                            	  frustrum.setPosition(d, d1, d2);
-                            	  var76 = frustrum;
-                            	  System.out.println("yee");
-                              }
+                              Frustrum var76 = FrustrumImpl.update();
+                              Frustrum var100 = var76;
                               LevelRenderer var101 = var82.minecraft.levelRenderer;
 
                               int var98;
                               for(var98 = 0; var98 < var101.chunkCache.length; ++var98) {
-                                 var101.chunkCache[var98].clip(var76);
+                                 var101.chunkCache[var98].clip(var100);
                               }
 
                               var101 = var82.minecraft.levelRenderer;

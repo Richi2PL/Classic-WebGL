@@ -1,29 +1,21 @@
 package com.mojang.minecraft.render;
 
+
 public class Frustrum {
 
-	public Frustrum() {
-		clippingHelper = ClippingHelperImplementation.getInstance();
-	}
+   public float[][] frustrum = new float[16][16];
+   public float[] projection = new float[16];
+   public float[] modelview = new float[16];
+   public float[] clipping = new float[16];
 
-	public void setPosition(double d, double d1, double d2) {
-		xPosition = d;
-		yPosition = d1;
-		zPosition = d2;
-	}
 
-	public boolean isBoxInFrustrum(double d, double d1, double d2, double d3, double d4, double d5) {
-		return clippingHelper.isBoxInFrustum(d - xPosition, d1 - yPosition, d2 - zPosition, d3 - xPosition,
-				d4 - yPosition, d5 - zPosition);
-	}
+   public final boolean isBoxInFrustrum(float var1, float var2, float var3, float var4, float var5, float var6) {
+      for(int var7 = 0; var7 < 6; ++var7) {
+         if(this.frustrum[var7][0] * var1 + this.frustrum[var7][1] * var2 + this.frustrum[var7][2] * var3 + this.frustrum[var7][3] <= 0.0F && this.frustrum[var7][0] * var4 + this.frustrum[var7][1] * var2 + this.frustrum[var7][2] * var3 + this.frustrum[var7][3] <= 0.0F && this.frustrum[var7][0] * var1 + this.frustrum[var7][1] * var5 + this.frustrum[var7][2] * var3 + this.frustrum[var7][3] <= 0.0F && this.frustrum[var7][0] * var4 + this.frustrum[var7][1] * var5 + this.frustrum[var7][2] * var3 + this.frustrum[var7][3] <= 0.0F && this.frustrum[var7][0] * var1 + this.frustrum[var7][1] * var2 + this.frustrum[var7][2] * var6 + this.frustrum[var7][3] <= 0.0F && this.frustrum[var7][0] * var4 + this.frustrum[var7][1] * var2 + this.frustrum[var7][2] * var6 + this.frustrum[var7][3] <= 0.0F && this.frustrum[var7][0] * var1 + this.frustrum[var7][1] * var5 + this.frustrum[var7][2] * var6 + this.frustrum[var7][3] <= 0.0F && this.frustrum[var7][0] * var4 + this.frustrum[var7][1] * var5 + this.frustrum[var7][2] * var6 + this.frustrum[var7][3] <= 0.0F) {
+            return false;
+         }
+      }
 
-//	public boolean isBoundingBoxInFrustum(AxisAlignedBB axisalignedbb) {
-//		return isBoxInFrustum(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX,
-//				axisalignedbb.maxY, axisalignedbb.maxZ);
-//	}
-
-	public ClippingHelper clippingHelper;
-	private double xPosition;
-	private double yPosition;
-	private double zPosition;
+      return true;
+   }
 }

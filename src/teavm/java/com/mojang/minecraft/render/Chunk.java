@@ -1,10 +1,10 @@
 package com.mojang.minecraft.render;
 
-import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.level.tile.Block;
 import com.mojang.minecraft.player.Player;
 import com.mojang.minecraft.render.Frustrum;
+
 import net.PeytonPlayz585.math.MathHelper;
 import net.lax1dude.eaglercraft.adapter.Tessellator;
 
@@ -33,7 +33,7 @@ public final class Chunk {
       this.y = var3;
       this.z = var4;
       this.width = this.height = this.depth = 16;
-      MathHelper.sqrt((float)(this.width + this.height + this.depth));
+      MathHelper.sqrt((float)(this.width * this.width + this.height * this.height + this.depth * this.depth));
       this.baseListId = var6;
       this.setAllDirty();
    }
@@ -47,10 +47,12 @@ public final class Chunk {
       int var5 = this.y + this.height;
       int var6 = this.z + this.depth;
 
-      this.dirty[1] = true;
-      this.dirty[2] = true;
+      int var7;
+      for(var7 = 0; var7 < 2; ++var7) {
+         this.dirty[var7] = true;
+      }
 
-      for(int var7 = 0; var7 < 2; ++var7) {
+      for(var7 = 0; var7 < 2; ++var7) {
          boolean var8 = false;
          boolean var9 = false;
          GL11.glNewList(this.baseListId + var7, 4864);
