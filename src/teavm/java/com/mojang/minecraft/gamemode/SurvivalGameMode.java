@@ -62,6 +62,7 @@ public final class SurvivalGameMode extends GameMode
 					breakBlock(x, y, z);
 
 					hits = 0;
+					prevHit = hits;
 					hitDelay = 5;
 				}
 
@@ -107,6 +108,7 @@ public final class SurvivalGameMode extends GameMode
 	public void resetHits()
 	{
 		this.hits = 0;
+		prevHit = hits;
 		this.hitDelay = 0;
 	}
 
