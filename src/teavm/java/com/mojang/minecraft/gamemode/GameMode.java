@@ -50,13 +50,19 @@ public class GameMode
 
 		boolean success = level.netSetTile(x, y, z, 0);
 		
-		if(block.stepsound != Tile$SoundType.none && minecraft.settings.sound)
-		{
-			level.playSound(block.stepsound.name);
-		}
-
 		if(block != null && success)
 		{
+			
+			if(Minecraft.getMinecraft().isOnline())
+			{
+				Minecraft.getMinecraft().networkManager.sendBlockChange(x, y, z, 0, Minecraft.getMinecraft().player.inventory.getSelected());
+			}
+			
+			if(block.stepsound != Tile$SoundType.none && minecraft.settings.sound)
+			{
+				level.playSound(block.stepsound.name);
+			}
+			
 			block.spawnBreakParticles(level, x, y, z, minecraft.particleManager);
 		}
 

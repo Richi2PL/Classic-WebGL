@@ -118,7 +118,6 @@ public class FontRenderer {
 			k = (k & 0xfcfcfc) >> 2;
 			k += l;
 		}
-		//GL11.glBindTexture(3553 /* GL_TEXTURE_2D */, fontTextureName);
 		new TextureLocation(fontTextureName).bindTexture();
 		float f = (float) (k >> 16 & 0xff) / 255F;
 		float f1 = (float) (k >> 8 & 0xff) / 255F;
@@ -137,8 +136,6 @@ public class FontRenderer {
 					j1 = 15;
 				}
 				continue;
-				//EaglerAdapter.glCallList(fontDisplayLists + 256 + j1 + (flag ? 16 : 0));
-				//EaglerAdapter.glTranslatef(charWidth[256 + j1 + (flag ? 16 : 0)] * 0.5f, 0.0F, 0.0F);
 			}
 
 			if (i1 < s.length()) {
@@ -170,6 +167,21 @@ public class FontRenderer {
 		}
 
 		return i;
+	}
+	
+	public static String stripColor(String var0) {
+		char[] var3 = var0.toCharArray();
+		String var1 = "";
+
+		for(int var2 = 0; var2 < var3.length; ++var2) {
+			if(var3[var2] == 38) {
+				++var2;
+			} else {
+				var1 = var1 + var3[var2];
+			}
+		}
+
+		return var1;
 	}
 
 	private int charWidth[];

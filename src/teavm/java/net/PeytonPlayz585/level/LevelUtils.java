@@ -108,6 +108,11 @@ public class LevelUtils {
 	}
 	
 	public void save() {
+		
+		if(Minecraft.getMinecraft().networkManager != null) {
+			return;
+		}
+		
 		Level var1 = Minecraft.getMinecraft().level;
 		NBTTagCompound var3 = new NBTTagCompound();
 		

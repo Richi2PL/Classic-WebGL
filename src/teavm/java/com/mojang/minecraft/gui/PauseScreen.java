@@ -21,6 +21,13 @@ public final class PauseScreen extends GuiScreen {
       this.buttons.add(new Button(4, this.width / 2 - 100, this.height / 4 + 120, "Back to game"));
       ((Button)this.buttons.get(2)).active = false;
       ((Button)this.buttons.get(3)).active = false;
+      
+      if(this.minecraft.networkManager != null) {
+    	  ((Button)this.buttons.get(1)).active = false;
+          ((Button)this.buttons.get(2)).active = false;
+          ((Button)this.buttons.get(3)).active = false;
+      }
+      
       new LevelUtils().save();
    }
 
