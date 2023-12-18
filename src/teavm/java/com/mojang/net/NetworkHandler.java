@@ -39,7 +39,7 @@ public final class NetworkHandler {
 		   } else {
 			   address = "ws://" + address;
 		   }
-	   } else {
+	   } else if(address.contains("://") && !(address.contains("wss://") || address.contains("ws://"))) {
 		   Minecraft.getMinecraft().setCurrentScreen(new ErrorScreen(":(", "Invalid URI protocol!"));
 	   }
 	   
