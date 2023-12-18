@@ -2,51 +2,51 @@ package com.mojang.net;
 
 import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.gamemode.CreativeGameMode;
+import com.mojang.minecraft.gui.ErrorScreen;
 import com.mojang.minecraft.net.NetworkManager;
 import com.mojang.minecraft.net.PacketType;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketException;
 import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
 import java.util.Arrays;
+
+import org.lwjgl.opengl.GL11;
+import org.teavm.jso.JSBody;
 
 public final class NetworkHandler {
 
-   public volatile boolean connected;
-   public SocketChannel channel;
    public ByteBuffer in = ByteBuffer.allocate(1048576);
    public ByteBuffer out = ByteBuffer.allocate(1048576);
    public NetworkManager netManager;
-   private Socket sock;
    private boolean unused = false;
    private byte[] stringBytes = new byte[64];
 
 
-   public NetworkHandler(String var1, int var2) {
+   public NetworkHandler(String var1) {
 	   Minecraft.getMinecraft().gamemode = new CreativeGameMode(Minecraft.getMinecraft());
-	   try
-	   {
-		   channel = SocketChannel.open();
-		   this.channel.connect(new InetSocketAddress(var1, var2));
-		   this.channel.configureBlocking(false);
-		   System.currentTimeMillis();
-		   this.sock = this.channel.socket();
-		   this.connected = true;
-		   this.in.clear();
-		   this.out.clear();
-		   this.sock.setTcpNoDelay(true);
-		   this.sock.setTrafficClass(24);
-		   this.sock.setKeepAlive(false);
-		   this.sock.setReuseAddress(false);
-		   this.sock.setSoTimeout(100);
-		   this.sock.getInetAddress().toString();
-	   } catch (SocketException e) {
-		   e.printStackTrace();
-	   } catch (IOException e) {
-		   e.printStackTrace();
+	   String address = var1;
+	   if(address.endsWith("/")) {
+		   address = address.substring(0, address.length() - 1);
+	   }
+	   
+	   if(address.startsWith("ws://") && isSSLPage()) {
+		   address.replace("ws://", "wss://");
+	   } else if(address.startsWith("wss://") && !isSSLPage()) {
+		   address.replace("wss://", "ws://");
+	   } else if(!address.contains("://")) {
+		   if(isSSLPage()) {
+			   address = "wss://" + address;
+		   } else {
+			   address = "ws://" + address;
+		   }
+	   } else {
+		   Minecraft.getMinecraft().setCurrentScreen(new ErrorScreen(":(", "Invalid URI protocol!"));
+	   }
+	   
+	   if(!GL11.startConnection(address)) {
+		   if(!GL11.startConnection(address)) {
+			   Minecraft.getMinecraft().setCurrentScreen(new ErrorScreen(address, "Failed to connect to server!"));
+		   }
 	   }
    }
 
@@ -54,27 +54,22 @@ public final class NetworkHandler {
       try {
          if(this.out.position() > 0) {
             this.out.flip();
-            this.channel.write(this.out);
+            this.write(this.out);
             this.out.compact();
          }
       } catch (Exception var2) {
          ;
       }
 
-      this.connected = false;
-
       try {
-         this.channel.close();
+    	 GL11.endConnection();
       } catch (Exception var1) {
          ;
       }
-
-      this.sock = null;
-      this.channel = null;
    }
 
    public final void send(PacketType var1, Object ... var2) {
-      if(this.connected) {
+      if(GL11.connectionOpen()) {
          this.out.put(var1.opcode);
 
          for(int var3 = 0; var3 < var2.length; ++var3) {
@@ -82,7 +77,7 @@ public final class NetworkHandler {
             Object var4 = var2[var3];
             Class<?> var5 = var10001;
             NetworkHandler var6 = this;
-            if(this.connected) {
+            if(GL11.connectionOpen()) {
                try {
                   if(var5 == Long.TYPE) {
                      var6.out.putLong(((Long)var4).longValue());
@@ -134,7 +129,7 @@ public final class NetworkHandler {
    }
 
    public Object readObject(Class var1) {
-      if(!this.connected) {
+      if(!GL11.connectionOpen()) {
          return null;
       } else {
          try {
@@ -165,5 +160,55 @@ public final class NetworkHandler {
             return null;
          }
       }
+   }
+   
+   public void read(ByteBuffer buf) {
+       int bytesRead = 0;
+       while (bytesRead < buf.capacity()) {
+           if (!GL11.receivedBuffers.isEmpty()) {
+               ByteBuffer receivedBuffer = GL11.receivedBuffers.peek();
+               int remainingBytes = buf.capacity() - bytesRead;
+               int bytesToRead = Math.min(receivedBuffer.remaining(), remainingBytes);
+               receivedBuffer.get(buf.array(), bytesRead, bytesToRead);
+               bytesRead += bytesToRead;
+
+               if (receivedBuffer.remaining() == 0) {
+                   GL11.receivedBuffers.poll();
+               }
+           } else {
+               break;
+           }
+       }
+   }
+   
+    private static ByteBuffer writeBuffer;
+
+	public void write(ByteBuffer buf) {
+		if (writeBuffer == null) {
+			writeBuffer = ByteBuffer.allocate(buf.capacity());
+		}
+
+		int bytesToWrite = Math.min(buf.remaining(), writeBuffer.remaining());
+		writeBuffer.put(buf.array(), buf.position(), bytesToWrite);
+		buf.position(buf.position() + bytesToWrite);
+
+		if (writeBuffer.remaining() == 0 || buf.remaining() == 0) {
+			writeBuffer.flip();
+			byte[] data = new byte[writeBuffer.remaining()];
+			writeBuffer.get(data);
+			GL11.writePacket(data);
+			writeBuffer.clear();
+		}
+
+		if (buf.remaining() > 0) {
+			write(buf);
+		}
+	}
+   
+   @JSBody(params = { }, script = "return window.location.href;")
+   private static native String getLocationString();
+	
+   public static final boolean isSSLPage() {
+	   return getLocationString().startsWith("https");
    }
 }

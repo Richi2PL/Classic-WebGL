@@ -9,9 +9,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 public class NetworkManager
 {
-	public NetworkManager(Minecraft minecraft, String server, int port, String username, String key)
+	public NetworkManager(Minecraft minecraft, String server, String username, String key)
 	{
 		minecraft.online = true;
 
@@ -19,7 +21,7 @@ public class NetworkManager
 
 		players = new HashMap<Byte, NetworkPlayer>();
 
-		new ServerConnectThread(this, server, port, username, key, minecraft).start();
+		new ServerConnectThread(this, server, username, key, minecraft).start();
 	}
 
 	public ByteArrayOutputStream levelData;
@@ -51,7 +53,7 @@ public class NetworkManager
 
 	public boolean isConnected()
 	{
-		return netHandler != null && netHandler.connected;
+		return netHandler != null && GL11.connectionOpen();
 	}
 
 	public List getPlayers()

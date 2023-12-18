@@ -71,7 +71,6 @@ public final class Minecraft implements Runnable {
    public MovingObjectPosition selected;
    public static GameSettings settings;
    public String server;
-   public int port;
    volatile boolean running;
    public String debug;
    public boolean hasMouse;
@@ -92,7 +91,6 @@ public final class Minecraft implements Runnable {
       new HumanoidModel(0.0F);
       this.selected = null;
       this.server = null;
-      this.port = 0;
       this.running = false;
       this.debug = "";
       this.hasMouse = false;
@@ -186,7 +184,7 @@ public final class Minecraft implements Runnable {
          checkGLError("Post startup");
          this.hud = new HUDScreen(this, this.width, this.height);
          if(this.server != null) {
-        	 this.networkManager = new NetworkManager(this, this.server, this.port, this.session.username, this.session.mppass);
+        	 this.networkManager = new NetworkManager(this, this.server, this.session.username, this.session.mppass);
          }
 
       long var13 = System.currentTimeMillis();
@@ -1070,10 +1068,10 @@ public final class Minecraft implements Runnable {
             NetworkManager var20 = this.networkManager;
             if(this.networkManager.successful) {
                NetworkHandler var18 = var20.netHandler;
-               if(var20.netHandler.connected) {
+               if(GL11.connectionOpen()) {
                   try {
                      NetworkHandler var22 = var20.netHandler;
-                     var20.netHandler.channel.read(var22.in);
+                     var20.netHandler.read(var22.in);
                      var4 = 0;
 
                      while(var22.in.position() > 0 && var4++ != 100) {
@@ -1266,7 +1264,7 @@ public final class Minecraft implements Runnable {
                            }
                         }
 
-                        if(!var22.connected) {
+                        if(!GL11.connectionOpen()) {
                            break;
                         }
 
@@ -1275,7 +1273,7 @@ public final class Minecraft implements Runnable {
 
                      if(var22.out.position() > 0) {
                         var22.out.flip();
-                        var22.channel.write(var22.out);
+                        var22.write(var22.out);
                         var22.out.compact();
                      }
                   } catch (Exception var15) {

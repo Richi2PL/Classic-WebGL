@@ -1212,9 +1212,9 @@ public class EaglerAdapterImpl2 {
 	private static boolean sockIsConnecting = false;
 	private static boolean sockIsConnected = false;
 	private static boolean sockIsAlive = false;
-	private static LinkedList<byte[]> readPackets = new LinkedList<byte[]>();
 	private static RateLimit rateLimitStatus = null;
 	private static String currentSockURI = null;
+	public static java.util.Queue<ByteBuffer> receivedBuffers = new java.util.ArrayDeque<ByteBuffer>();
 	
 	public static final RateLimit getRateLimitStatus() {
 		RateLimit l = rateLimitStatus;
@@ -1261,7 +1261,7 @@ public class EaglerAdapterImpl2 {
 				sockIsConnecting = false;
 				sockIsAlive = false;
 				sockIsConnected = true;
-				readPackets.clear();
+				receivedBuffers.clear();
 				cb.complete("okay");
 			}
 		});
@@ -1323,7 +1323,8 @@ public class EaglerAdapterImpl2 {
 				for(int i = 0; i < b.length; ++i) {
 					b[i] = (byte) (a.get(i) & 0xFF);
 				}
-				readPackets.add(b);
+				ByteBuffer buffer = ByteBuffer.wrap(b);
+		        receivedBuffers.add(buffer);
 			}
 		});
 	}
@@ -1351,13 +1352,6 @@ public class EaglerAdapterImpl2 {
 			Uint8Array arr = Uint8Array.create(packet.length);
 			arr.set(packet);
 			nativeBinarySend(sock, arr.getBuffer());
-		}
-	}
-	public static final byte[] readPacket() {
-		if(!readPackets.isEmpty()) {
-			return readPackets.remove(0);
-		}else {
-			return null;
 		}
 	}
 	public static final byte[] loadLocalStorage(String key) {
