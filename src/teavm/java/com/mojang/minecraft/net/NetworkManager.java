@@ -21,7 +21,7 @@ public class NetworkManager
 
 		players = new HashMap<Byte, NetworkPlayer>();
 
-		new ServerConnectThread(this, server, username, key, minecraft).start();
+		new ServerConnect(this, server, username, key, minecraft).connect();
 	}
 
 	public ByteArrayOutputStream levelData;
@@ -53,7 +53,7 @@ public class NetworkManager
 
 	public boolean isConnected()
 	{
-		return netHandler != null && GL11.connectionOpen();
+		return netHandler != null && netHandler.channel.connectionOpen();
 	}
 
 	public List getPlayers()

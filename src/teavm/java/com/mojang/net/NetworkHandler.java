@@ -6,6 +6,8 @@ import com.mojang.minecraft.gui.ErrorScreen;
 import com.mojang.minecraft.net.NetworkManager;
 import com.mojang.minecraft.net.PacketType;
 
+import net.PeytonPlayz585.websocket.WebSocketChannel;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -20,6 +22,7 @@ public final class NetworkHandler {
    public NetworkManager netManager;
    private boolean unused = false;
    private byte[] stringBytes = new byte[64];
+   public WebSocketChannel channel;
 
 
    public NetworkHandler(String var1) {
@@ -43,18 +46,14 @@ public final class NetworkHandler {
 		   Minecraft.getMinecraft().setCurrentScreen(new ErrorScreen(":(", "Invalid URI protocol!"));
 	   }
 	   
-	   if(!GL11.startConnection(address)) {
-		   if(!GL11.startConnection(address)) {
-			   Minecraft.getMinecraft().setCurrentScreen(new ErrorScreen(address, "Failed to connect to server!"));
-		   }
-	   }
+	   channel = new WebSocketChannel(address);
    }
 
    public final void close() {
       try {
          if(this.out.position() > 0) {
             this.out.flip();
-            this.write(this.out);
+            this.channel.write(this.out);
             this.out.compact();
          }
       } catch (Exception var2) {
@@ -62,14 +61,14 @@ public final class NetworkHandler {
       }
 
       try {
-    	 GL11.endConnection();
+    	  channel.endConnection();
       } catch (Exception var1) {
          ;
       }
    }
 
    public final void send(PacketType var1, Object ... var2) {
-      if(GL11.connectionOpen()) {
+      if(channel.connectionOpen()) {
          this.out.put(var1.opcode);
 
          for(int var3 = 0; var3 < var2.length; ++var3) {
@@ -77,7 +76,7 @@ public final class NetworkHandler {
             Object var4 = var2[var3];
             Class<?> var5 = var10001;
             NetworkHandler var6 = this;
-            if(GL11.connectionOpen()) {
+            if(channel.connectionOpen()) {
                try {
                   if(var5 == Long.TYPE) {
                      var6.out.putLong(((Long)var4).longValue());
@@ -129,7 +128,7 @@ public final class NetworkHandler {
    }
 
    public Object readObject(Class var1) {
-      if(!GL11.connectionOpen()) {
+      if(!channel.connectionOpen()) {
          return null;
       } else {
          try {
@@ -161,49 +160,6 @@ public final class NetworkHandler {
          }
       }
    }
-   
-   public void read(ByteBuffer buf) {
-       int bytesRead = 0;
-       while (bytesRead < buf.capacity()) {
-           if (!GL11.receivedBuffers.isEmpty()) {
-               ByteBuffer receivedBuffer = GL11.receivedBuffers.peek();
-               int remainingBytes = buf.capacity() - bytesRead;
-               int bytesToRead = Math.min(receivedBuffer.remaining(), remainingBytes);
-               receivedBuffer.get(buf.array(), bytesRead, bytesToRead);
-               bytesRead += bytesToRead;
-
-               if (receivedBuffer.remaining() == 0) {
-                   GL11.receivedBuffers.poll();
-               }
-           } else {
-               break;
-           }
-       }
-   }
-   
-    private static ByteBuffer writeBuffer;
-
-	public void write(ByteBuffer buf) {
-		if (writeBuffer == null) {
-			writeBuffer = ByteBuffer.allocate(buf.capacity());
-		}
-
-		int bytesToWrite = Math.min(buf.remaining(), writeBuffer.remaining());
-		writeBuffer.put(buf.array(), buf.position(), bytesToWrite);
-		buf.position(buf.position() + bytesToWrite);
-
-		if (writeBuffer.remaining() == 0 || buf.remaining() == 0) {
-			writeBuffer.flip();
-			byte[] data = new byte[writeBuffer.remaining()];
-			writeBuffer.get(data);
-			GL11.writePacket(data);
-			writeBuffer.clear();
-		}
-
-		if (buf.remaining() > 0) {
-			write(buf);
-		}
-	}
    
    @JSBody(params = { }, script = "return window.location.href;")
    private static native String getLocationString();

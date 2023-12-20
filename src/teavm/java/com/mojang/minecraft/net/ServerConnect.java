@@ -4,9 +4,9 @@ import com.mojang.minecraft.Minecraft;
 import com.mojang.minecraft.gui.ErrorScreen;
 import com.mojang.net.NetworkHandler;
 
-public class ServerConnectThread extends Thread
+public class ServerConnect
 {
-	public ServerConnectThread(NetworkManager networkManager, String server, String username, String key, Minecraft minecraft) {
+	public ServerConnect(NetworkManager networkManager, String server, String username, String key, Minecraft minecraft) {
 		super();
 
 		netManager = networkManager;
@@ -19,8 +19,7 @@ public class ServerConnectThread extends Thread
 		this.minecraft = minecraft;
 	}
 
-	@Override
-	public void run()
+	public void connect()
 	{
 		try {
 			netManager.netHandler = new NetworkHandler(server);

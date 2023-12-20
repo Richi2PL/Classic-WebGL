@@ -33,13 +33,16 @@ public final class HUDScreen extends Screen {
       this.width = var2 * 240 / var3;
       this.height = var3 * 240 / var3;
       
-      if(firstTimeLaunch) {
+      if(firstTimeLaunch && Minecraft.getMinecraft().level != null) {
     	  mc.setCurrentScreen(new PauseScreen());
     	  firstTimeLaunch = false;
       }
    }
 
    public final void render(float var1, boolean var2, int var3, int var4) {
+	  if(Minecraft.getMinecraft().level == null) {
+		  return;
+	  }
       FontRenderer var5 = this.mc.fontRenderer;
       this.mc.renderer.enableGuiMode();
       new TextureLocation("/gui/gui.png").bindTexture();

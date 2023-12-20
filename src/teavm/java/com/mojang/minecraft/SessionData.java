@@ -10,8 +10,6 @@ public final class SessionData {
    public String username;
    public String sessionId;
    public String mppass;
-   public boolean haspaid;
-
 
    public SessionData(String var1, String var2) {
       this.username = var1;

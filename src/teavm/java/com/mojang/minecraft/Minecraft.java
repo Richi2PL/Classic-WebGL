@@ -7,7 +7,6 @@ import com.mojang.minecraft.gui.*;
 import com.mojang.minecraft.item.Arrow;
 import com.mojang.minecraft.item.Item;
 import com.mojang.minecraft.level.Level;
-import com.mojang.minecraft.level.LevelIO;
 import com.mojang.minecraft.level.generator.LevelGenerator;
 import com.mojang.minecraft.level.liquid.LiquidType;
 import com.mojang.minecraft.level.tile.Block;
@@ -41,8 +40,9 @@ import java.io.*;
 import java.nio.IntBuffer;
 import java.util.Collections;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 
-public final class Minecraft implements Runnable {
+public final class Minecraft {
 
    public GameMode gamemode = new SurvivalGameMode(this);
    public int width;
@@ -60,7 +60,6 @@ public final class Minecraft implements Runnable {
    public GuiScreen currentScreen = null;
    public ProgressBarDisplay progressBar = new ProgressBarDisplay(this);
    public Renderer renderer = new Renderer(this);
-   public LevelIO levelIo;
    private int ticks;
    private int blockHitTime;
    public String levelName;
@@ -82,7 +81,6 @@ public final class Minecraft implements Runnable {
 
 
    public Minecraft() {
-      this.levelIo = new LevelIO(this.progressBar);
       this.ticks = 0;
       this.blockHitTime = 0;
       this.levelName = null;
@@ -96,7 +94,6 @@ public final class Minecraft implements Runnable {
       this.hasMouse = false;
       this.lastClick = 0;
       this.raining = false;
-      new SleepForeverThread(this);
       this.width = GL11.getCanvasWidth();
       this.height = GL11.getCanvasHeight();
    }
@@ -107,14 +104,16 @@ public final class Minecraft implements Runnable {
             this.currentScreen.onClose();
          }
 
-         if(var1 == null && this.player.health <= 0) {
+         if(var1 == null && level != null && player != null && this.player.health <= 0) {
             var1 = new GameOverScreen();
          }
 
          this.currentScreen = (GuiScreen)var1;
          if(var1 != null) {
             if(this.hasMouse) {
-               this.player.releaseAllKeys();
+               if(level != null) {
+            	   this.player.releaseAllKeys();
+               }
                this.hasMouse = false;
                GL11.mouseSetGrabbed(false);
             }
@@ -168,18 +167,7 @@ public final class Minecraft implements Runnable {
          Item.initModels();
          Mob.modelCache = new ModelManager();
          GL11.glViewport(0, 0, this.width, this.height);
-         if(this.server != null) {
-        	 Level var85;
-        	 (var85 = new Level()).setData(8, 8, 8, new byte[512]);
-             this.setLevel(var85, false);
-         } else {
-        	 Level level1 = new LevelUtils().load();
-        	 if(level1 == null) {
-        		 this.generateLevel(1);
-        	 } else {
-        		 this.setLevel(level1, true);
-        	 }
-         }
+         this.setCurrentScreen(new MainMenu());
          this.particleManager = new ParticleManager(this.level);
          checkGLError("Post startup");
          this.hud = new HUDScreen(this, this.width, this.height);
@@ -899,7 +887,7 @@ public final class Minecraft implements Runnable {
    }
 
    public final void grabMouse() {
-	   if(!GL11.isFocused()) {
+	   if(!GL11.isFocused() || level == null) {
 		   return;
 	   }
 	   if (GL11.isPointerLocked2()) {
@@ -924,7 +912,7 @@ public final class Minecraft implements Runnable {
    }
 
    public final void pause() {
-      if(this.currentScreen == null) {
+      if(this.currentScreen == null && level != null) {
          this.setCurrentScreen(new PauseScreen());
       }
    }
@@ -1068,10 +1056,10 @@ public final class Minecraft implements Runnable {
             NetworkManager var20 = this.networkManager;
             if(this.networkManager.successful) {
                NetworkHandler var18 = var20.netHandler;
-               if(GL11.connectionOpen()) {
+               if(var18.channel.connectionOpen()) {
                   try {
                      NetworkHandler var22 = var20.netHandler;
-                     var20.netHandler.read(var22.in);
+                     var20.netHandler.channel.read(var22.in);
                      var4 = 0;
 
                      while(var22.in.position() > 0 && var4++ != 100) {
@@ -1115,8 +1103,18 @@ public final class Minecraft implements Runnable {
                               } catch (IOException var14) {
                                  var14.printStackTrace();
                               }
-
-                              byte[] var51 = LevelIO.decompress(new ByteArrayInputStream(var42.levelData.toByteArray()));
+                              
+                              byte[] var51;
+                              try {
+                            	  DataInputStream var3;
+                            	  byte[] var1 = new byte[(var3 = new DataInputStream(new GZIPInputStream(new ByteArrayInputStream(var42.levelData.toByteArray())))).readInt()];
+                            	  var3.readFully(var1);
+                            	  var3.close();
+                            	  var51 = var1;
+                              } catch (Exception var2) {
+                            	  throw new RuntimeException(var2);
+                              }
+                              
                               var42.levelData = null;
                               short var55 = ((Short)var7[0]).shortValue();
                               short var63 = ((Short)var7[1]).shortValue();
@@ -1264,7 +1262,7 @@ public final class Minecraft implements Runnable {
                            }
                         }
 
-                        if(!GL11.connectionOpen()) {
+                        if(!var22.channel.connectionOpen()) {
                            break;
                         }
 
@@ -1273,7 +1271,7 @@ public final class Minecraft implements Runnable {
 
                      if(var22.out.position() > 0) {
                         var22.out.flip();
-                        var22.write(var22.out);
+                        var22.channel.write(var22.out);
                         var22.out.compact();
                      }
                   } catch (Exception var15) {
@@ -1352,7 +1350,7 @@ public final class Minecraft implements Runnable {
          }
 
          while(GL11.keysNext()) {
-            this.player.setKey(GL11.getEventKey(), GL11.getEventKeyState());
+        	this.player.setKey(GL11.getEventKey(), GL11.getEventKeyState());
             if(GL11.getEventKeyState()) {
                if(this.currentScreen != null) {
                   this.currentScreen.keyboardEvent();
@@ -1507,7 +1505,9 @@ public final class Minecraft implements Runnable {
          this.particleManager.tick();
       }
       
-      this.player.arrows = 1;
+      if(player != null) {
+    	  this.player.arrows = 1;
+      }
 
    }
    
@@ -1515,12 +1515,12 @@ public final class Minecraft implements Runnable {
 
 	private void levelSave() {
 		if(this.level == null) {
-			ticksUntilSave = this.hud.ticks + 600;
+			ticksUntilSave = this.ticks + 600;
 		}
 		
-		if(this.hud.ticks >= this.ticksUntilSave) {
+		if(this.ticks >= this.ticksUntilSave) {
 			new LevelUtils().save();
-			ticksUntilSave = this.hud.ticks + 600;
+			ticksUntilSave = this.ticks + 600;
 		}
 	}
 	

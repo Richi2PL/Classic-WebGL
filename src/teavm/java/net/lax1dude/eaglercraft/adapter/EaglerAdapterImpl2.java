@@ -1201,61 +1201,6 @@ public class EaglerAdapterImpl2 {
 	@JSBody(params = { "name", "cvs" }, script = "var a=document.createElement(\"a\");a.href=cvs.toDataURL(\"image/png\");a.download=name;a.click();")
 	private static native void saveScreenshot(String name, HTMLCanvasElement cvs);
 	
-	private static WebSocket webSocket;
-    private static boolean isConnected = false;
-    public static java.util.Queue<ByteBuffer> receivedBuffers = new java.util.ArrayDeque<ByteBuffer>();
-	
-	public static boolean startConnection(String serverUrl) {
-        webSocket = WebSocket.create(serverUrl);
-
-        webSocket.onOpen(new EventListener<MessageEvent>() {
-            @Override
-            public void handleEvent(MessageEvent evt) {
-                isConnected = true;
-            }
-        });
-        
-        webSocket.onMessage(new EventListener<MessageEvent>() {
-			@Override
-			public void handleEvent(MessageEvent evt) {
-				Uint8Array a = Uint8Array.create(evt.getDataAsArray());
-				byte[] b = new byte[a.getByteLength()];
-				for(int i = 0; i < b.length; ++i) {
-					b[i] = (byte) (a.get(i) & 0xFF);
-				}
-				ByteBuffer buffer = ByteBuffer.wrap(b);
-		        receivedBuffers.add(buffer);
-			}
-		});
-
-        webSocket.onClose(new EventListener<CloseEvent>() {
-            @Override
-            public void handleEvent(CloseEvent event) {
-                isConnected = false;
-            }
-        });
-
-        return isConnected;
-    }
-	
-	public static void endConnection() {
-		webSocket.close();
-	}
-	
-	public static final boolean connectionOpen() {
-		return isConnected;
-	}
-	
-	@JSBody(params = { "sock", "buffer" }, script = "sock.send(buffer);")
-	private static native void nativeBinarySend(WebSocket sock, ArrayBuffer buffer);
-	public static final void writePacket(byte[] packet) {
-		if(webSocket != null && isConnected) {
-			Uint8Array arr = Uint8Array.create(packet.length);
-			arr.set(packet);
-			nativeBinarySend(webSocket, arr.getBuffer());
-		}
-	}
-	
 	public static final byte[] loadLocalStorage(String key) {
 		String s = win.getLocalStorage().getItem("_eaglercraft_beta."+key);
 		if(s != null) {
