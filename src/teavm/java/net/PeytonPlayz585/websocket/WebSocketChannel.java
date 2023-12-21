@@ -15,30 +15,34 @@ import java.util.Queue;
 
 public class WebSocketChannel {
     private final WebSocket socket;
-    private final Queue<MessageEvent> messageQueue;
-    private final ByteBuffer readBuffer;
-    private boolean reading;
     private boolean isConnected = false;
+    private Queue<byte[]> byteQueue;
 
     public WebSocketChannel(String url) {
         socket = WebSocket.create(url);
-        messageQueue = new LinkedList<>();
-        readBuffer = ByteBuffer.allocate(4096);
-        reading = false;
+        byteQueue = new LinkedList<byte[]>();
 
         socket.onMessage(event -> {
-            isConnected = true;
-            messageQueue.offer(event);
+            ArrayBuffer arrayBuffer = event.getData().cast();
+            Int8Array int8Array = Int8Array.create(arrayBuffer);
+            ByteBuffer byteBuffer = ByteBuffer.allocate(int8Array.getLength());
+            for (int i = 0; i < int8Array.getLength(); i++) {
+                byteBuffer.put(i, (byte) int8Array.get(i));
+            }
+            
+            byte[] data = new byte[byteBuffer.remaining()];
+            byteBuffer.get(data);
+            byteQueue.offer(data);
         });
 
         socket.onOpen(event -> {
             isConnected = true;
-            messageQueue.clear();
+            byteQueue.clear();
         });
 
         socket.onClose((event) -> {
             isConnected = false;
-            messageQueue.clear();
+            byteQueue.clear();
         });
 
         socket.onError((event) -> {
@@ -47,49 +51,44 @@ public class WebSocketChannel {
         });
     }
 
-    public void read(ByteBuffer buffer) {
-        if (reading || messageQueue.isEmpty()) {
-            return;
+    public int read(ByteBuffer dst) {
+		int bytesRead = 0;
+		int remaining = dst.remaining();
+        int position = 0;
+ 
+        while (remaining > 0 && !byteQueue.isEmpty()) {
+            byte[] currentByteArray = byteQueue.peek();
+            int currentPosition = position % currentByteArray.length;
+            dst.put(currentByteArray[currentPosition]);
+            bytesRead++;
+            position++;
+            remaining--;
+ 
+            if (currentPosition == currentByteArray.length - 1) {
+                byteQueue.poll();
+            }
         }
-        MessageEvent event = messageQueue.peek();
-        readData(buffer, event);
-        if (!event.isBubbles() && !event.isCancelable()) {
-            messageQueue.poll();
-        }
-    }
-
-    private void readData(ByteBuffer buffer, MessageEvent event) {
-        DataView data = DataView.create(event.getDataAsArray());
-        int length = Math.min(buffer.remaining(), data.getByteLength());
-        for (int i = 0; i < length; i++) {
-            buffer.put((byte) data.getInt8(i));
-        }
-        if (reading) {
-            return;
-        }
-        if (buffer.hasRemaining()) {
-            readBuffer.clear();
-            readBuffer.put(buffer);
-            reading = true;
-        } else {
-            buffer.flip();
-        }
+ 
+        return bytesRead;
     }
     
     @JSBody(params = { "sock", "buffer" }, script = "sock.send(buffer);")
 	private static native void nativeBinarySend(WebSocket sock, ArrayBuffer buffer);
-
-    public void write(ByteBuffer buffer) {
-        if (socket.getReadyState() == 3) {
-            return;
+ 
+    public int write(ByteBuffer src) {
+        int bytesWritten = src.remaining();
+ 
+        if (bytesWritten > 0) {
+            byte[] newByteArray = new byte[bytesWritten];
+            src.get(newByteArray);
+            Int8Array array = Int8Array.create(newByteArray.length);
+            for (int i = 0; i < newByteArray.length; i++) {
+                array.set(i, newByteArray[i]);
+            }
+            nativeBinarySend(socket, array.getBuffer());
         }
-        byte[] data = new byte[buffer.remaining()];
-        buffer.get(data);
-        Int8Array array = Int8Array.create(data.length);
-        for (int i = 0; i < data.length; i++) {
-            array.set(i, data[i]);
-        }
-        nativeBinarySend(socket, array.getBuffer());
+ 
+        return bytesWritten;
     }
 
     public boolean connectionOpen() {

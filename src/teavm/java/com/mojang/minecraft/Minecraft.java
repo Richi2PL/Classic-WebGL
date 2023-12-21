@@ -69,7 +69,6 @@ public final class Minecraft {
    public NetworkManager networkManager;
    public MovingObjectPosition selected;
    public static GameSettings settings;
-   public String server;
    volatile boolean running;
    public String debug;
    public boolean hasMouse;
@@ -88,7 +87,6 @@ public final class Minecraft {
       this.online = false;
       new HumanoidModel(0.0F);
       this.selected = null;
-      this.server = null;
       this.running = false;
       this.debug = "";
       this.hasMouse = false;
@@ -171,9 +169,6 @@ public final class Minecraft {
          this.particleManager = new ParticleManager(this.level);
          checkGLError("Post startup");
          this.hud = new HUDScreen(this, this.width, this.height);
-         if(this.server != null) {
-        	 this.networkManager = new NetworkManager(this, this.server, this.session.username, this.session.mppass);
-         }
 
       long var13 = System.currentTimeMillis();
       int var15 = 0;
