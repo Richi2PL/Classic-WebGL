@@ -70,7 +70,7 @@ public class MultiplayerMenu extends GuiScreen {
 			if(var2 == 14 && this.server.length() > 0) {
 				this.server = this.server.substring(0, this.server.length() - 1);
 			}
-			if("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:-_\'*!\\\"#%/()=+?[]{}<>@|$;".indexOf(var1) >= 0 && this.server.length() < 32) {
+			if("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:-_\'*!\\\"#%/()=+?[]{}<>@|$;".indexOf(var1) >= 0 && this.server.length() < 64) {
 				this.server = this.server + var1;
 			}
 			if(server.length() > 0 && username.length() > 0) {
@@ -82,7 +82,7 @@ public class MultiplayerMenu extends GuiScreen {
 			if(var2 == 14 && this.username.length() > 0) {
 				this.username = this.username.substring(0, this.username.length() - 1);
 			}
-			if("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:-_\'*!\\\"#%/()=+?[]{}<>@|$;".indexOf(var1) >= 0 && this.username.length() < 32) {
+			if("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.:-_\'*!\\\"#%/()=+?[]{}<>@|$;".indexOf(var1) >= 0 && this.username.length() < 64) {
 				this.username = this.username + var1;
 			}
 			if(server.length() > 0 && username.length() > 0) {
