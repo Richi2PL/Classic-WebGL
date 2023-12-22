@@ -16,11 +16,11 @@ import java.util.Queue;
 public class WebSocketChannel {
     private final WebSocket socket;
     private boolean isConnected = false;
-    private Queue<byte[]> byteQueue;
+    private Queue<ByteBuffer> bufferQueue;
 
     public WebSocketChannel(String url) {
         socket = WebSocket.create(url);
-        byteQueue = new LinkedList<byte[]>();
+        bufferQueue = new LinkedList<ByteBuffer>();
 
         socket.onMessage(event -> {
             ArrayBuffer arrayBuffer = event.getData().cast();
@@ -29,20 +29,17 @@ public class WebSocketChannel {
             for (int i = 0; i < int8Array.getLength(); i++) {
                 byteBuffer.put(i, (byte) int8Array.get(i));
             }
-            
-            byte[] data = new byte[byteBuffer.remaining()];
-            byteBuffer.get(data);
-            byteQueue.offer(data);
+            bufferQueue.offer(byteBuffer);
         });
 
         socket.onOpen(event -> {
             isConnected = true;
-            byteQueue.clear();
+            bufferQueue.clear();
         });
 
         socket.onClose((event) -> {
             isConnected = false;
-            byteQueue.clear();
+            bufferQueue.clear();
         });
 
         socket.onError((event) -> {
@@ -51,25 +48,23 @@ public class WebSocketChannel {
         });
     }
 
-    public int read(ByteBuffer dst) {
-		int bytesRead = 0;
-		int remaining = dst.remaining();
-        int position = 0;
- 
-        while (remaining > 0 && !byteQueue.isEmpty()) {
-            byte[] currentByteArray = byteQueue.peek();
-            int currentPosition = position % currentByteArray.length;
-            dst.put(currentByteArray[currentPosition]);
-            bytesRead++;
-            position++;
-            remaining--;
- 
-            if (currentPosition == currentByteArray.length - 1) {
-                byteQueue.poll();
+    public int read(ByteBuffer destination) {
+    	int totalBytesWritten = 0;
+        
+        while (!bufferQueue.isEmpty()) {
+            ByteBuffer sourceBuffer = bufferQueue.poll();
+            int remaining = sourceBuffer.remaining();
+            int spaceRemaining = destination.remaining();
+            
+            if (spaceRemaining < remaining) {
+                break;
             }
+            
+            destination.put(sourceBuffer);
+            totalBytesWritten += remaining;
         }
- 
-        return bytesRead;
+        
+        return totalBytesWritten;
     }
     
     @JSBody(params = { "sock", "buffer" }, script = "sock.send(buffer);")
