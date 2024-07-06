@@ -1,15 +1,15 @@
-# 0.30 WebGL
+# Classic WebGL
 
-0.30 WebGL is a full WebGL port of a modded version of Minecraft Classic 0.30 Survival Test I made. 0.30 WebGL can be played on low-end devices like Chromebooks and can be played in the web browser.
+Classic WebGL is a full WebGL port of a modded version of Minecraft Classic 0.30 Survival Test by PeytonPlayz595. 0.30 WebGL can be played on low-end devices like Chromebooks and can be played in the web browser.
 
 ## Project Removal
 This project is just for fun, if it has to be taken down for any legal reasons email me at PeytonPlayz585@gmail.com
 
 ## Use this instead, it's better...
-[Minecraft Indev WebGL](https://github.com/PeytonPlayz595/Minecraft-Indev-WebGL)
+[Minecraft Indev WebGL](https://github.com/PeytonPlayz595/Minecraft-Indev-WebGL) and [Minceraft I NotMine](https://github.com/Richi2PL/Minceraft-I-NotMine)
 
 ## How to play?
-You can play the game in the web browser using [this link](https://minecraft-classic-forever.peytonplayz595.repl.co/). If that doesn't work than try [this](https://peytonplayz595.github.io/0.30-WebGL/js/). If it still doesn't work open an issue [here](https://github.com/PeytonPlayz595/0.30-WebGL/issues).
+You can play the game in the web browser using [this](https://peytonplayz595.github.io/0.30-WebGL/js/). If it doesn't work open an issue [here](https://github.com/PeytonPlayz595/0.30-WebGL/issues).
 Reasons why it may not work could be your browser doesn't support [WebGL 2.0](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API), [Mouse Lock](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API), or [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API) or it could also be some driver issue causing it not to load.
 
 ## Contributing
@@ -38,5 +38,3 @@ Pros:
 Cons:
 - The game has some bugs and may not work as expected
 - It is a pirated version of the game and will most likely be taken down due to a DMCA
-
-## Screenshots
