@@ -3,7 +3,7 @@
 Classic WebGL is a full WebGL port of a modded version of Minecraft Classic 0.30 Survival Test by PeytonPlayz595. 0.30 WebGL can be played on low-end devices like Chromebooks and can be played in the web browser.
 
 ## Project Removal
-This project is just for fun, if it has to be taken down for any legal reasons email me at PeytonPlayz585@gmail.com
+This project is just for fun, if it has to be taken down for any legal reasons email at PeytonPlayz585@gmail.com
 
 ## Use this instead, it's better...
 [Minecraft Indev WebGL](https://github.com/PeytonPlayz595/Minecraft-Indev-WebGL) and [Minceraft I NotMine](https://github.com/Richi2PL/Minceraft-I-NotMine)
